@@ -12,9 +12,21 @@ just a demo
 
 ```json
 {
+  "@babel/cli": "^7.12.10",
+  "@babel/core": "^7.12.10",
+  "@babel/plugin-proposal-class-properties": "^7.12.1", // webpack 打包class注解支持
+  "@babel/plugin-proposal-decorators": "^7.12.12", // webpack 打包function 注解支持
+  "@babel/plugin-transform-runtime": "^7.12.10",
+  "@babel/polyfill": "^7.12.1",
+  "@babel/preset-env": "^7.12.11",
+  "@babel/preset-react": "^7.12.10",
+  "@babel/runtime": "^7.12.5",
+  "babel-loader": "^8.2.2",
+  "babel-polyfill": "^6.26.0",
   "clean-webpack-plugin": "^3.0.0", // 清理dest打包文件
-  "css-loader": "^5.0.1",
-  "eslint-config-prettier": "^7.2.0", //
+  "css-loader": "^5.0.1", // webpack 对css支持，配合 style-loader 或者 mini-css-extract-plugin 使用
+  "eslint-config-prettier": "^7.2.0", // 支持 eslint 继承 prettier 配置支持
+  "file-loader": "^6.2.0", // webpack对静态资源的支持，webpack5中将【淘汰】
   "html-webpack-plugin": "^4.5.1", // webpack 编辑 index.html
   "less-loader": "^7.3.0", // webpack 打包支持对 less 支持
   "mini-css-extract-plugin": "^1.3.5", // webpack 压缩css代码插件，生产、堡垒和测试环境参数要求，则压缩，替换style-loader
@@ -22,8 +34,13 @@ just a demo
   "style-loader": "^2.0.0", // webpack 非压缩css时，作为css的第一个处理loader
   "ts-loader": "^8.0.14", // webpack 打包对ts支持
   "typescript": "^4.1.3", // webpack 打包对ts支持
+  "uglifyjs-webpack-plugin": "^2.2.0",
+  "url-loader": "^4.1.1", // webpack 打包对文件支持，webpack5中将【淘汰】
   "webpack": "^5.19.0", //
-  "webpack-cli": "^4.4.0" // webpack 命令行工具
+  "webpack-bundle-analyzer": "^4.4.0", // webpack 的分析工具
+  "webpack-cli": "^4.4.0", // webpack 命令行工具
+  "webpack-dev-server": "^3.11.2", // 开发环境的server启动
+  "webpack-merge": "^5.7.3" // 用于 webpack 打包配置合并
 }
 ```
 

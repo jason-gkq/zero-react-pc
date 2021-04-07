@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@assets/*": ["assets/*"],
+      "@src/*": ["src/*"],
+      "@components": ["common/components"],
+      "@components/*": ["common/components/*"],
+      "@utils": ["common/utils"],
+      "@utils/*": ["common/utils/*"],
+      "@menus/*": ["common/menus/*"],
+      "@locales/*": ["common/locales/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "dest"]
+}

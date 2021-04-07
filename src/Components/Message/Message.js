@@ -11,6 +11,6 @@ const Message = (props) => {
 };
 
 Message.propTypes = {
-  message: PropTypes.string
+  message: PropTypes.string,
 };
 export default Message;

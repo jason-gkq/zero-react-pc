@@ -11,7 +11,7 @@ setAxiosBase(); //打包时chunk名称，默认为数字，不利于定位分析
 
 /* webpackChunkName: "login" */
 const AppPage = lazy(async () => await import(/* webpackChunkName: 'app' */ './app/index.js'));
-console.log('aaaaaaaa', process.env);
+
 const App = (
 	<Provider store={store}>
 		<ReactIntlProvider>

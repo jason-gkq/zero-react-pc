@@ -6,16 +6,16 @@
     "paths": {
       "@assets/*": ["assets/*"],
       "@src/*": ["src/*"],
-      "@common": ["Common"],
-      "@common/*": ["Common/*"],
-      "@components": ["Common/components"],
-      "@components/*": ["Common/components/*"],
-      "@utils": ["Common/utils"],
-      "@utils/*": ["Common/utils/*"],
-      "@redux": ["Common/redux"],
-      "@redux/*": ["Common/redux/*"],
-      "@menus/*": ["Common/menus/*"],
-      "@locales/*": ["Common/locales/*"]
+      "@common": ["common"],
+      "@common/*": ["common/*"],
+      "@components": ["common/components"],
+      "@components/*": ["common/components/*"],
+      "@utils": ["common/utils"],
+      "@utils/*": ["common/utils/*"],
+      "@redux": ["common/redux"],
+      "@redux/*": ["common/redux/*"],
+      "@menus/*": ["common/menus/*"],
+      "@locales/*": ["common/locales/*"]
     }
   },
   "exclude": ["node_modules", "dist", "dest"]

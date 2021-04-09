@@ -1,27 +1,31 @@
-import React, { Component } from "react";
-// import { hot } from "react-hot-loader";
-import Message from "./Components/Message/Message.js";
-// import "normalize.css";
-import "./App.css";
-import armyKnife from "./swiss-army-knife.svg";
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '@redux/store';
+import ReactIntlProvider from '@components/react-intl/ReactIntlProvider';
+import { setAxiosBase } from '@utils/handleAxios';
+import 'antd/dist/antd.less';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="main-header">
-          <div className="main-header__svg-container">
-            <img className="main-header__img" src={armyKnife} />
-          </div>
-          <h1 className="main-header__title"> Hello, World!adf </h1>
-        </header>
-        <section className="container">
-          <Message message="Welcome to the react-starter. Start hacking away!" />
-        </section>
-      </div>
-    );
-  }
-}
+// 设置axios拦截器
+setAxiosBase(); //打包时chunk名称，默认为数字，不利于定位分析打包文件  // const LoginPage = lazy(() => import(/* webpackChunkName: 'login' */'./pages/login'))
 
-// export default hot(module)(App);
+/* webpackChunkName: "login" */
+const AppPage = lazy(async () => await import(/* webpackChunkName: 'app' */ './app/index.js'));
+console.log('aaaaaaaa', process.env);
+const App = (
+	<Provider store={store}>
+		<ReactIntlProvider>
+			<BrowserRouter>
+				<Suspense fallback={<div>Loading...</div>}>
+					<Switch>
+						{/* <Route path='/login' component={LoginPage} /> */}
+						<Route path="/app" component={AppPage} />
+						<Redirect to="/app" />
+					</Switch>
+				</Suspense>
+			</BrowserRouter>
+		</ReactIntlProvider>
+	</Provider>
+);
+
 export default App;

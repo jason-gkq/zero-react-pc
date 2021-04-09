@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
-	"homepage": "/lcbtest/",
+	"homepage": "/app/",
 	"scripts": {
 		"start": "zero-react-scripts start env=local",
 		"build:dev": "zero-react-scripts build env=dev",
@@ -22,20 +22,22 @@
 		"url": "https://github.com/jason-gkq/zero-react-pc/issues"
 	},
 	"devDependencies": {
-		"prettier": "^2.2.1",
-		"zero-react-scripts": "^0.2.0"
+		"prettier": "^2.2.1"
 	},
-	"sideEffects": [
-		"*.css"
-	],
+	"sideEffects": ["*.css"],
 	"dependencies": {
+		"ant-virtual-table": "^0.1.11",
+		"antd": "^4.15.0",
+		"axios": "^0.21.1",
+		"bizcharts": "^4.1.9",
+		"intl": "^1.2.5",
 		"lodash": "^4.17.15",
-		"react": "^17.0.1",
-		"react-copy-to-clipboard": "~5.0.1",
-		"react-dom": "^17.0.1",
-		"react-hot-loader": "^4.12.18",
-		"react-redux": "~7.2.2",
-		"react-router-dom": "5.2.0",
+		"react-intl": "^5.15.7",
+		"xlsx": "^0.16.9",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-redux": "~7.2.3",
+		"react-router-dom": "^5.2.0",
 		"react-router-redux": "~4.0.5",
 		"redux": "~4.0.5",
 		"redux-actions": "~2.6.5",
@@ -44,18 +46,11 @@
 		"redux-saga": "^1.1.3",
 		"redux-thunk": "~2.3.0",
 		"require": "^2.4.20",
-		"reselect": "^4.0.0"
+		"reselect": "^4.0.0",
+		"zero-react-scripts": "0.2.2-beta.4"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"production": [">0.2%", "not dead", "not op_mini all"],
+		"development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
 	}
 }

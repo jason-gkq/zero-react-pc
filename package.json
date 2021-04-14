@@ -24,10 +24,6 @@
   "devDependencies": {
     "prettier": "^2.2.1"
   },
-  "sideEffects": [
-    "**/*.less",
-    "**/*.css"
-  ],
   "dependencies": {
     "ant-virtual-table": "^0.1.11",
     "antd": "^4.15.0",

@@ -123,7 +123,7 @@ class AppPage extends PureComponent {
       existRoute,
       menuList,
     };
-    console.log(routes, redirects);
+
     return (
       <Layout className={styles.app}>
         <Sider {...siderProps} />

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "/app/",
+  "homepage": "/lcbtest/",
   "scripts": {
     "start": "zero-react-scripts start env=local",
     "build:dev": "zero-react-scripts build env=dev",
@@ -24,6 +24,10 @@
   "devDependencies": {
     "prettier": "^2.2.1"
   },
+  "sideEffects": [
+    "**/*.less",
+    "**/*.css"
+  ],
   "dependencies": {
     "ant-virtual-table": "^0.1.11",
     "antd": "^4.15.0",
@@ -45,7 +49,7 @@
     "redux-thunk": "~2.3.0",
     "require": "^2.4.20",
     "reselect": "^4.0.0",
-    "zero-react-scripts": "0.2.4"
+    "zero-react-scripts": "0.2.3"
   },
   "browserslist": {
     "production": [

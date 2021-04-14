@@ -1,5 +1,5 @@
-import { showMessageError } from './handleError'
-import XLSX from 'xlsx'
+import { showMessageError } from "./handleError";
+// import XLSX from 'xlsx'
 
 /**
  * 模拟点击a标签，访问url下载文件
@@ -7,12 +7,12 @@ import XLSX from 'xlsx'
  * @param {string} filename - 待下载的文件名称
  */
 export function downloadFileByUrl(url, filename) {
-  let a = document.createElement("A")
+  let a = document.createElement("A");
   // rel属性旨在修复部分windows chrome69平台下，页面会跳转到下载地址的问题
-  a.setAttribute('rel', 'noreferrer')
-  a.href = url
-  a.download = filename
-  a.click()
+  a.setAttribute("rel", "noreferrer");
+  a.href = url;
+  a.download = filename;
+  a.click();
 }
 
 /**
@@ -22,29 +22,29 @@ export function downloadFileByUrl(url, filename) {
  */
 export function downloadFile(url, params, msg) {
   axios({
-    method: 'get',
+    method: "get",
     url: url,
     params: params,
     timeout: 60000,
-    responseType: 'blob'
+    responseType: "blob",
   })
-  .then(response => {
-    if (response.status !== 200) return
+    .then((response) => {
+      if (response.status !== 200) return;
 
-    let blob = new Blob([response.data]);
-    let disposition = response.headers['content-disposition']
-    let [,filename, excelBoolean] = disposition.split(';')
-    // let [,flag] = excelBoolean.split('=')
-    // 转译以URL形式编码的文件名
-    filename = decodeURI(filename.split('=')[1])
-    let a = document.createElement("A")
-    a.href = window.URL.createObjectURL(blob)
-    a.download = filename
-    a.click()
-  })
-  .catch(err => {
-    showMessageError(msg, err)
-  })
+      let blob = new Blob([response.data]);
+      let disposition = response.headers["content-disposition"];
+      let [, filename, excelBoolean] = disposition.split(";");
+      // let [,flag] = excelBoolean.split('=')
+      // 转译以URL形式编码的文件名
+      filename = decodeURI(filename.split("=")[1]);
+      let a = document.createElement("A");
+      a.href = window.URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    })
+    .catch((err) => {
+      showMessageError(msg, err);
+    });
 }
 
 /**
@@ -58,13 +58,13 @@ export function downloadFile(url, params, msg) {
 export const outputXlsxFile = (data, wscols, xlsxName) => {
   try {
     /* convert state to workbook */
-    const ws = XLSX.utils.aoa_to_sheet(data)
-    ws['!cols'] = wscols
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, xlsxName)
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws["!cols"] = wscols;
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, xlsxName);
     /* generate file and send to client */
-    XLSX.writeFile(wb, xlsxName + ".xlsx")
-  } catch(e) {
-    throw e
+    XLSX.writeFile(wb, xlsxName + ".xlsx");
+  } catch (e) {
+    throw e;
   }
-}
+};

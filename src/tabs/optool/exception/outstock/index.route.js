@@ -1,13 +1,15 @@
-import React from 'react'
+import React from "react";
 
 const route = {
-  name: '缺货率处理',
-  transKey: 'Processe Out of stock',
+  name: "缺货率处理",
+  transKey: "Processe Out of stock",
   routeProps: {
-    path: '/app/optool/exceptionHandle/outstock',
-    component: React.lazy(() => import(/* webpackChunkName: 'outstock' */'./index')),
+    path: "/lcbtest/optool/exceptionHandle/outstock",
+    component: React.lazy(() =>
+      import(/* webpackChunkName: 'outstock' */ "./index")
+    ),
   },
-  permKey: 'srm.route_eh_outstock',
-}
+  permKey: "srm.route_eh_outstock",
+};
 
-export default route
+export default route;

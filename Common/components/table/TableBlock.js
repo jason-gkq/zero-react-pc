@@ -1,13 +1,12 @@
-import React, { PureComponent, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Pagination, Table } from 'antd'
-import styles from './TableBlock.less'
+import React, { PureComponent, Fragment } from "react";
+import PropTypes from "prop-types";
+import { Pagination, Table } from "antd";
+import * as styles from "./TableBlock.less";
 
 /**
  * 对table组件和分页进行封装
  */
 class TableBlock extends PureComponent {
-
   state = {
     /**table默认值，与原生API属性字段保持一致 */
     tableDefaultProps: {
@@ -16,7 +15,7 @@ class TableBlock extends PureComponent {
       /**table头 */
       columns: [],
       /**table每行key值，默认为id */
-      rowKey: 'id',
+      rowKey: "id",
       /**table加载状态 */
       loading: false,
     },
@@ -29,61 +28,70 @@ class TableBlock extends PureComponent {
       /**分页每页页数 */
       pageSize: 10,
     },
-  }
+  };
 
   onShowSizeChange = (cur_page, page_size) => {
-    const { searchCB } = this.props
-    searchCB({ 
+    const { searchCB } = this.props;
+    searchCB({
       current: 1,
-      pageSize: page_size 
-    })
-  }
+      pageSize: page_size,
+    });
+  };
 
   onPageChange = (page) => {
-    const { searchCB, paginationProps } = this.props
-    const { pageSize } = paginationProps
-    searchCB({ 
+    const { searchCB, paginationProps } = this.props;
+    const { pageSize } = paginationProps;
+    searchCB({
       current: page,
       pageSize,
-    })
-  }
+    });
+  };
 
   render() {
-    const { tableDefaultProps, paginationDefaultProps } = this.state
-    const { tableProps, paginationProps, showTopBlock, leftTopNode, 
-      showBottomBlock, leftBottomNode } = this.props
-    const newTableProps = { ...tableDefaultProps, ...tableProps }
-    const newPaginationProps = { ...paginationDefaultProps, ...paginationProps }
-    
+    const { tableDefaultProps, paginationDefaultProps } = this.state;
+    const {
+      tableProps,
+      paginationProps,
+      showTopBlock,
+      leftTopNode,
+      showBottomBlock,
+      leftBottomNode,
+    } = this.props;
+    const newTableProps = { ...tableDefaultProps, ...tableProps };
+    const newPaginationProps = {
+      ...paginationDefaultProps,
+      ...paginationProps,
+    };
+
     return (
       <Fragment>
-        {
-          showTopBlock ?
+        {showTopBlock ? (
           <div className={styles.between}>
-            <div>{ leftTopNode }</div>
-            <Pagination 
+            <div>{leftTopNode}</div>
+            <Pagination
               showSizeChanger
-              showTotal={total => `共 ${total} 条`} 
+              showTotal={(total) => `共 ${total} 条`}
               onShowSizeChange={this.onShowSizeChange}
               onChange={this.onPageChange}
-              { ...paginationProps } />
-          </div> : null
-        }
-        <Table bordered pagination={false} { ...newTableProps } />
-        {
-          showBottomBlock ?
+              {...paginationProps}
+            />
+          </div>
+        ) : null}
+        <Table bordered pagination={false} {...newTableProps} />
+        {showBottomBlock ? (
           <div className={styles.between}>
-            <div>{ leftBottomNode }</div>
-            <Pagination 
+            <div>{leftBottomNode}</div>
+            <Pagination
               showSizeChanger
-              showTotal={total => `共 ${total} 条`}
+              showTotal={(total) => `共 ${total} 条`}
               onShowSizeChange={this.onShowSizeChange}
               onChange={this.onPageChange}
-              { ...newPaginationProps } />
-          </div> : null
-        }
+              {...newPaginationProps}
+            />
+          </div>
+        ) : null}
       </Fragment>
-    )
+    );
   }
 }
 
@@ -91,7 +99,7 @@ TableBlock.propTypes = {
   tableProps: PropTypes.object.isRequired,
   paginationProps: PropTypes.object.isRequired,
   searchCB: PropTypes.func.isRequired,
-}
+};
 
 TableBlock.defaultProps = {
   /**table原生属性 */
@@ -108,7 +116,6 @@ TableBlock.defaultProps = {
   showBottomBlock: false,
   /**下分页-左下侧显示内容 */
   leftBottomNode: null,
-}
+};
 
-export default TableBlock
-
+export default TableBlock;

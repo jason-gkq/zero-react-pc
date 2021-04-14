@@ -7,78 +7,78 @@
  */
 export const menus = [
   {
-    name: '首页', 
-    transKey: 'Home', 
-    path: '/app', 
-    icon: 'home', 
-    permKey: true, 
-    children: []
-  },
-  { 
-    name: '系统配置', 
-    transKey: 'System Configuration', 
-    path: '/app/system', 
-    icon: 'laptop', 
-    permKey: 'menu.system', 
-    children: [] 
+    name: "首页",
+    transKey: "Home",
+    path: "/lcbtest",
+    icon: "home",
+    permKey: true,
+    children: [],
   },
   {
-    name: '用户管理', 
-    transKey: 'User Management', 
-    path: '/app/users', 
-    icon: 'user', 
-    permKey: 'menu.users', 
-    children: [
-      { 
-        name: '用户管理', 
-        transKey: 'User Management', 
-        path: '/app/users/userManage', 
-        permKey: 'menu.userManage', 
-        children: [] 
-      },
-      { 
-        name: '角色管理', 
-        transKey: 'Role Management', 
-        path: '/app/users/roleManage', 
-        permKey: 'menu.roleManage', 
-        children: [] 
-      },
-    ]
-  },
-  { 
-    name: 'Example页', 
-    transKey: 'Example Page', 
-    path: '/app/example', 
-    icon: 'laptop', 
-    permKey: 'srm.route_example', 
-    children: [] 
-  },
-  { 
-    name: '虚拟表格', 
-    path: '/app/vtable', 
-    icon: 'table', 
-    permKey: true, 
-    children: [] 
-  },
-  { 
-    name: '数据转换', 
-    path: '/app/exchange', 
-    icon: 'box-plot', 
-    permKey: true, 
-    children: [] 
+    name: "系统配置",
+    transKey: "System Configuration",
+    path: "/lcbtest/system",
+    icon: "laptop",
+    permKey: "menu.system",
+    children: [],
   },
   {
-    name: '运营工具', 
-    path: '/app/optool', 
-    icon: 'tool', 
-    permKey: 'srm.route_optool', 
+    name: "用户管理",
+    transKey: "User Management",
+    path: "/lcbtest/users",
+    icon: "user",
+    permKey: "menu.users",
     children: [
-      { 
-        name: '异常处理', 
-        path: '/app/optool/exceptionHandle', 
-        permKey: 'srm.route_exception-handle', 
-        children: [] 
+      {
+        name: "用户管理",
+        transKey: "User Management",
+        path: "/lcbtest/users/userManage",
+        permKey: "menu.userManage",
+        children: [],
       },
-    ]
+      {
+        name: "角色管理",
+        transKey: "Role Management",
+        path: "/lcbtest/users/roleManage",
+        permKey: "menu.roleManage",
+        children: [],
+      },
+    ],
   },
-]
+  {
+    name: "Example页",
+    transKey: "Example Page",
+    path: "/lcbtest/example",
+    icon: "laptop",
+    permKey: "srm.route_example",
+    children: [],
+  },
+  {
+    name: "虚拟表格",
+    path: "/lcbtest/vtable",
+    icon: "table",
+    permKey: true,
+    children: [],
+  },
+  {
+    name: "数据转换",
+    path: "/lcbtest/exchange",
+    icon: "box-plot",
+    permKey: true,
+    children: [],
+  },
+  {
+    name: "运营工具",
+    path: "/lcbtest/optool",
+    icon: "tool",
+    permKey: "srm.route_optool",
+    children: [
+      {
+        name: "异常处理",
+        path: "/lcbtest/optool/exceptionHandle",
+        permKey: "srm.route_exception-handle",
+        children: [],
+      },
+    ],
+  },
+];

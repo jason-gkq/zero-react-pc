@@ -1,12 +1,14 @@
-import React from 'react'
+import React from "react";
 
 const route = {
-  name: '角色管理',
+  name: "角色管理",
   routeProps: {
-    path: '/app/users/roleManage',
-    component: React.lazy(() => import(/* webpackChunkName: 'rolemanage' */'./index')),
+    path: "/lcbtest/users/roleManage",
+    component: React.lazy(() =>
+      import(/* webpackChunkName: 'rolemanage' */ "./index")
+    ),
   },
-  permKey: 'menu.roleManage',
-}
+  permKey: "menu.roleManage",
+};
 
-export default route
+export default route;

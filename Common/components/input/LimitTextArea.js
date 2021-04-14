@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Input } from 'antd'
-import styles from './LimitTextArea.less'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Input } from "antd";
+import * as styles from "./LimitTextArea.less";
 
-const { TextArea } = Input
+const { TextArea } = Input;
 
 /***
  * 显示最大输入字符数
@@ -11,51 +11,51 @@ const { TextArea } = Input
  */
 class LimitTextArea extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      val: ''
-    }
+      val: "",
+    };
   }
 
   /** form组件中，该函数会被getFieldDecorator的回调trigger覆盖 */
   handleChange = (e) => {
-    const val = e.target.value
+    const val = e.target.value;
     this.setState({
-      val
-    })
-  }
+      val,
+    });
+  };
 
-  render () {
-    const { sep, maxLength, value, ...restProps } = this.props
-    const max = maxLength > 0 ? maxLength : 200
+  render() {
+    const { sep, maxLength, value, ...restProps } = this.props;
+    const max = maxLength > 0 ? maxLength : 200;
     /** form组件中，value有值 */
-    const arr = (value || this.state.val).split(sep)
-    const len = arr.length > max ? max : arr.length
+    const arr = (value || this.state.val).split(sep);
+    const len = arr.length > max ? max : arr.length;
     /**截取最大字符串 */
-    const val = arr.slice(0, len).join(sep)
-    const n = val ? len : 0
-    const suffix = `${n}/${max}`
+    const val = arr.slice(0, len).join(sep);
+    const n = val ? len : 0;
+    const suffix = `${n}/${max}`;
 
     return (
       <div className={styles.block}>
-        <TextArea 
-          onChange={ e => this.handleChange(e) } 
+        <TextArea
+          onChange={(e) => this.handleChange(e)}
           value={val}
-          { ...restProps }
-          />
+          {...restProps}
+        />
         <span className={styles.counter}>{suffix}</span>
       </div>
-    )
+    );
   }
 }
 
 LimitTextArea.propTypes = {
-  sep: PropTypes.oneOf(['', '\n', ','])
-}
+  sep: PropTypes.oneOf(["", "\n", ","]),
+};
 
 LimitTextArea.defaultProps = {
   /** 分割符 */
-  sep: ''
-}
+  sep: "",
+};
 
-export default LimitTextArea
+export default LimitTextArea;

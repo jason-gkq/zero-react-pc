@@ -1,13 +1,15 @@
-import React from 'react'
+import React from "react";
 
 const route = {
-  name: '系统配置',
-  transKey: 'System Configuration',
+  name: "系统配置",
+  transKey: "System Configuration",
   routeProps: {
-    path: '/app/system',
-    component: React.lazy(() => import(/* webpackChunkName: 'system' */'./index')),
+    path: "/lcbtest/system",
+    component: React.lazy(() =>
+      import(/* webpackChunkName: 'system' */ "./index")
+    ),
   },
-  permKey: 'menu.system',
-}
+  permKey: "menu.system",
+};
 
-export default route
+export default route;

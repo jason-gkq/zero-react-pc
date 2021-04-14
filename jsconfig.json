@@ -4,18 +4,18 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@assets/*": ["assets/*"],
+      "@assets/*": ["public/assets/*"],
       "@src/*": ["src/*"],
-      "@common": ["common"],
-      "@common/*": ["common/*"],
-      "@components": ["common/components"],
-      "@components/*": ["common/components/*"],
-      "@utils": ["common/utils"],
-      "@utils/*": ["common/utils/*"],
-      "@redux": ["common/redux"],
-      "@redux/*": ["common/redux/*"],
-      "@menus/*": ["common/menus/*"],
-      "@locales/*": ["common/locales/*"]
+      "@common": ["src/common"],
+      "@common/*": ["src/common/*"],
+      "@components": ["src/common/components"],
+      "@components/*": ["src/common/components/*"],
+      "@utils": ["src/common/utils"],
+      "@utils/*": ["src/common/utils/*"],
+      "@redux": ["src/common/redux"],
+      "@redux/*": ["src/common/redux/*"],
+      "@menus/*": ["src/common/menus/*"],
+      "@locales/*": ["src/common/locales/*"]
     }
   },
   "exclude": ["node_modules", "dist", "dest"]

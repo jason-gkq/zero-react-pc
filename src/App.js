@@ -12,7 +12,7 @@ import packageJson from "../package.json";
 import ReactIntlProvider from "@components/react-intl/ReactIntlProvider";
 import { setAxiosBase } from "@utils/handleAxios";
 import "antd/dist/antd.less";
-import "./app.css";
+// import "./app.css";
 
 // console.log(packageJson, process.env);
 

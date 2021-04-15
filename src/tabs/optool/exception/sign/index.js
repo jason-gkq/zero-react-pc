@@ -67,7 +67,7 @@ const Sign = (props) => {
 
   const handleSubmit = (e) => {
     const res = handleValid(nos);
-    console.log("res", res);
+
     if (res.flag === 0) {
       const data = { trackingNos: res.result };
       axios

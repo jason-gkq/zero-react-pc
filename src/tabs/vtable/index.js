@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Pagination } from "antd";
 import { VirtualTable } from "ant-virtual-table";
 import * as styles from "./index.less";
-console.log(styles);
 const Virtual = () => {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);

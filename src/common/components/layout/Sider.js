@@ -7,7 +7,6 @@ import logoImg from "@assets/img/logo3.svg";
 
 const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
-console.log(styles);
 class Sider extends PureComponent {
   constructor(props) {
     super(props);

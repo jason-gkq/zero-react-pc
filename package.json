@@ -45,6 +45,7 @@
     "redux-thunk": "~2.3.0",
     "require": "^2.4.20",
     "reselect": "^4.0.0",
+    "web-vitals": "^1.1.1",
     "zero-react-scripts": "0.2.7"
   },
   "browserslist": {

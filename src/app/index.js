@@ -20,6 +20,7 @@ class AppPage extends PureComponent {
   constructor(props) {
     super(props);
     const { routes, existRoute, redirects } = generateRoute();
+
     this.state = {
       collapsed: false,
       routes,
@@ -27,7 +28,13 @@ class AppPage extends PureComponent {
       redirects,
     };
   }
-
+  /**
+   * 项目初始化操作
+   * 1. 初始化项目相关配置信息和系统信息
+   * 2. 初始化启动项目相关信息【sessionId，partenterSessionId，sa，语言包，主题，layout】等
+   * 3. current-user，初始化用户信息；
+   * 4. 获取菜单、权限等相关信息
+   */
   componentDidMount() {
     const { dispatch, isNeedPermission } = this.props;
     // 设置本地开发环境cookie的token
@@ -59,6 +66,7 @@ class AppPage extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { menuList, isNeedPermission } = nextProps;
+
     if (menuList) {
       if (isNeedPermission) {
         // 需要菜单和路由权限
@@ -80,6 +88,7 @@ class AppPage extends PureComponent {
       } else {
         // 不需要菜单和路由权限
         const { routes, existRoute, redirects } = generateRoute(menuList, null);
+
         return {
           routes,
           existRoute,
@@ -133,9 +142,9 @@ class AppPage extends PureComponent {
             history={history}
             toggle={this.toggle}
           />
-          <Content className={styles.content}>
+          <Content>
             {/* <Breadcrumb /> */}
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Loading...0000</div>}>
               <Fragment>
                 <Switch>
                   {routes}

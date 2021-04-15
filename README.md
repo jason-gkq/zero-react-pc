@@ -8,7 +8,6 @@ just a demo
 - .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
 - .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
 
-
 - lodash 工具库
 - react
 - react-copy-to-clipboard 复制剪切板操作
@@ -25,8 +24,6 @@ just a demo
 - redux-arena 将 redux 与 react 打包成一个模块加载，如果 react 组件被卸载，那么 react 组件在 redux 中的 state/reducer/saga 都会被自动卸载，彻底解决 state 树和 reducer 过于庞大的问题
 - redux-saga
 - require
-
-
 
 ## 项目构建
 
@@ -112,20 +109,20 @@ prettier 介绍
 - https://juejin.cn/post/6844903966375936007
 - https://juejin.cn/post/6880011662926364679
 
-
 后续开发计划
 打包中
-1. 图片和svg是否要分开处理，图片支持cdn，svg可以打在包中，也可以直接放到代码中
-2. less是否还要继续支持下去，还是说用原生css即可【建议pc用less，因为涉及到ant，m站用原生】
+
+1. 图片和 svg 是否要分开处理，图片支持 cdn，svg 可以打在包中，也可以直接放到代码中
 
 代码框架中寻求所有的最佳解决方案
-1. 请求使用Axios，对Axios 的封装，包含请求头请求body携带公共参数，以及返回错误和异常的处理；
-2. 全局页面渲染错误封装主要用于页面渲染；全局js错误封装，收集js错误，并渲染对应错误页面；
-3. redux封装，并拿出最佳解决方案；
+
+1. 请求使用 Axios，对 Axios 的封装，包含请求头请求 body 携带公共参数，以及返回错误和异常的处理；
+2. 全局页面渲染错误封装主要用于页面渲染；全局 js 错误封装，收集 js 错误，并渲染对应错误页面；
+3. redux 封装，并拿出最佳解决方案；
 4. 语言包看是否需要改进；
-5. 全局404、403、500页面封装；
-6. 全局路由相关配置，包含自动进入home页，当前路由支持刷新，跳转缺省页等等
+5. 全局 404、403、500 页面封装；
+6. 全局路由相关配置，包含自动进入 home 页，当前路由支持刷新，跳转缺省页等等
 7. 页面渲染需要路由守卫，进行权限封装；
 8. 全局对象封装，包含全局变量、方法、消息等；
 9. 前端使用的三种缓存的封装；
-10. common中所有封装要从新改造
+10. common 中所有封装要从新改造

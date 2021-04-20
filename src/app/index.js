@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment, lazy, Suspense } from 'react';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import { Layout } from 'antd';
 import Sider from '@components/layout/Sider';
-import RootPage from '@common/core/rootPage';
+import RootPage from '@src/common/core/basePage';
 import * as styles from './index.less';
 import { generateRoute } from '@menus/menu.route';
 import { getCookie, devSetCookieToken } from '@utils/handleCookie';

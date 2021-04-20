@@ -14,13 +14,30 @@ import Connect from "@components/hoc/Connect";
 const { Content } = Layout;
 
 /**
- * app主页面布局
+ * app生命周期管理
+ * 页面挂载执行顺序为：
+ * constructor
+ *  1. 初始化项目相关配置信息和系统信息
+ *  2. 初始化启动项目相关信息【sessionId，partenterSessionId，sa，语言包，主题，layout】等
+ * static getDerivedStateFromProps
+ * render
+ * static getDerivedStateFromError
+ * componentDidMount
+ *  1. current-user，初始化用户信息；
+ *  2. 获取菜单、权限等相关信息
+ *
+ * componentDidUpdate
+ *
+ * componentWillUnmount
+ *
+ * componentDidCatch(error, info)
+ *  1. 此生命周期在后代组件抛出错误后被调用，发起sa报告，错误页面渲染
  */
 class AppPage extends PureComponent {
   constructor(props) {
     super(props);
     const { routes, existRoute, redirects } = generateRoute();
-
+    // console.log(11);
     this.state = {
       collapsed: false,
       routes,
@@ -144,7 +161,7 @@ class AppPage extends PureComponent {
           />
           <Content>
             {/* <Breadcrumb /> */}
-            <Suspense fallback={<div>Loading...0000</div>}>
+            <Suspense fallback={<div>Loading...</div>}>
               <Fragment>
                 <Switch>
                   {routes}

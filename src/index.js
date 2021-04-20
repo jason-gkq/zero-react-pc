@@ -1,5 +1,10 @@
+/**
+ * 项目入口
+ *  web
+ *  小程序入口
+ */
 // import 'babel-polyfill';
-import React from "react";
+// import React from "react";
 import { render } from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";

@@ -1,3 +1,9 @@
+/**
+ * 1. 初始化store
+ * 2. 设置axios拦截器
+ * 3. 初始化语言包
+ * 4. 定义项目入口
+ */
 import React, { lazy, Suspense } from "react";
 import {
   BrowserRouter,
@@ -7,6 +13,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import store from "@redux/store";
 import packageJson from "../package.json";
 import ReactIntlProvider from "@components/react-intl/ReactIntlProvider";
@@ -32,6 +39,7 @@ const AppPage = lazy(
 
 const App = (
   <Provider store={store}>
+    {/* <PersistGate persistor={persistor} loading={null}> */}
     <ReactIntlProvider>
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
@@ -43,6 +51,7 @@ const App = (
         </Suspense>
       </BrowserRouter>
     </ReactIntlProvider>
+    {/* </PersistGate> */}
   </Provider>
 );
 

@@ -12,7 +12,7 @@ import { ThemeContext } from "./themeContext";
 import RegisterApp from "./registerApp";
 
 const AppPage = lazy(() =>
-  import(/* webpackChunkName: 'app' */ "../pages/app")
+  import(/* webpackChunkName: 'app' */ "../components/layout")
 );
 
 export default (appModel) => (WrappedComponent) => {

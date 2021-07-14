@@ -1,0 +1,99 @@
+/**
+ * howtocenterincss
+ * autoprefixer  
+ * 
+ * 使用弹性盒子进行布局
+ * rem 设置字号、px设置边框、em设置其他大部分属性
+ * 1rem * 16 = 16px
+ * 其余用 em 进行 
+ */
+
+// .flex {
+//   display: flex;
+//   display: -webkit-flex;
+//   display: -ms-flexbox;
+//   -webkit-flex: 1 1 1;
+//   flex: 1 1 1;
+// }
+:root {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  // font-size: calc(0.8em + 0.2vw);
+}
+
+@media (max-width: 320px) {
+  :root {
+    font-size: 0.8125rem;
+  }
+}
+
+// 视网膜屏匹配
+// @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+
+// }
+
+*,
+::before ::after {
+  box-sizing: inherit;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+button,
+aside {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  touch-action: none;
+}
+
+body {
+  background: #f4f4f8;
+  font-family: "PingFang SC", Helvetica, Arial, "Lucida Grande", Verdana,
+    "Microsoft Yahei", STXihei, Sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 540px;
+}
+
+// 修复 IE bug
+main {
+  display: block;
+}
+
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+.clearfix::after {
+  clear: both;
+}
+
+// ==============

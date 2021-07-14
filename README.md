@@ -1,43 +1,246 @@
-# zero-react-pc
+- 系统 loading、页面 loading 开发
+- 页头 功能封装
+- tabBar 功能封装
+- 组件封装
+- 页面事件监听封装
 
-just a demo
+- ubt 埋点开发
+- svg 处理方案；
+- 媒体资源，在本地、测试和生产中方案定制；
+- cdn 方案【待验证】
 
-## 项目配置文件
+- content 部分采用 flex 布局封装以及验证
+- 代码检查、githock 封装
+- vendor 目录功能规划【存放第三方 sdk 等】
+
+- 所有页面使用 div 布局是否可以包装为 View 组件进行开发
+- fetch 封装
+- 语言包看是否需要
+
+## 指南
+
+### 项目启动
+
+```shell
+npm install;
+npm start;
+```
+
+本地访问
+
+```js
+http://localhost:8080/
+```
+
+更新包
+
+```shell
+yarn upgrade zero-react-scripts@0.2.17
+```
+
+## 框架
+
+### 目录结构
+
+新增页面目录结构示例：
+
+---
+
+home // 页面目录名  
+│ - components // 页面组件目录，固定名称  
+│ - │ - DivTest.js // 组件文件，大驼峰  
+│ - containers // 页面组件目录，固定名称  
+│ - │ - DivTest.js // 组件文件，大驼峰  
+│ - index.less // 页面样式，固定名称  
+│ - index.model.js // 页面 model，固定名称  
+│ - index.js // 页面入口，固定名称
+
+---
+
+**说明**
+
+- `index.js` 页面入口文件，代码示例：
+
+```js
+import React, { Component } from "react";
+import { BasePage } from "@/common/core";
+import model from "./index.model";
+
+import DivTest from "./containers/DivTest";
+@BasePage(model) // 必须
+class Home extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { $model, $globalActions } = this.props;
+    return <DivTest $model={$model} $globalActions={$globalActions} />;
+  }
+}
+export default Home;
+```
+
+- `index.model.js`用于处理页面逻辑，包括初始化的页面数据，接口请求，数据更新处理等。示例代码如下：
+
+```js
+import { createModel } from "@/common/redux";
+import { put, call } from "redux-saga/effects";
+
+export default createModel({
+  name: "Home", // 存在store里的节点名
+  config:{
+    pageId:'',
+    pageTitle:'',
+    pageStatus: 'success'
+    isNeedLogin: false,
+    isNeedpermission: false,
+  },
+  state: { // 页面所需的数据字段
+    systemName: "小程序",
+    pageStatus: "hhh",
+  },
+  reducers: {
+    //更新数据
+    changeName(state, { payload }) {
+      return {
+        ...state,
+        systemName: payload,
+      };
+    },
+  },
+  sagas: {
+    // 一些异步操作、复杂逻辑处理
+    *didMount({ $actions }) {
+      console.log("pages/home/index.model.js/saga/didMount");
+      yield put($actions.setState({ pageStatus: "234324" }));
+    },
+  },
+  selectors: {}, // 从store里的提取数据
+});
+```
+
+- `index.less`页面样式
+- `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
+- `containers/DivTest.js` 页面的状态组件，用于 View 和 Store 的联接
+
+---
+
+### 登录流程
+
+1. RegisterApp/componentDidMount 根据 currentUser 判断是否有用户信息，确定 isLogin 状态，isLogin = false 去调登录接口
+2. NetWork 层接口返回 904、907 状态也走登录流程（先 loginOut 再 Login）
+3. 登录状态标识：根据 ’用户 user 信息+ mobile 信息‘
+
+### 全局 store 信息：通过 isGloable 配置
+
+- user
+- car
+- store
+- location
+- subscribtion
+- inviteInfo
+
+- agentInfo
+- ad
+
+---
+
+## API
+
+### 基础
+
+- 环境
+
+  - `globalActions.env.setEnv`
+  - `globalActions.env.initEnv`
+
+- 对接
+
+  - `globalActions.env.setAppCode`
+  - `globalActions.env.setServiceUrl`
+
+- 主题
+
+  - `globalActions.env.changeTheme`
+  - `globalActions.env.injectThemes`
+
+- 页面信息
+  - `globalActions.route.setRoute`
+  - `globalActions.route.currentPage`
+
+### 路由
+
+- `globalActions.navigate.goTo({ url: "/home/home1" })`
+- `globalActions.navigate.goBack`
+- `globalActions.navigate.reLaunch`
+- `globalActions.navigate.redirect`
+- `globalActions.navigate.replace`
+
+## 组件
+
+### 基础组件
+
+basic
+
+- View
+- ScrollView
+- Swiper
+- Text
+- Button
+- Alert
+- Badge
+- Toast
+- Modal
+- Picker
+- DatePicker
+- Calendar
+- WingBlank 两翼留白
+- WhiteSpace 上下留白
+- NavNar 导航栏
+- Popover 气泡
+- Tabs 标签页
+- Checkbox 复选框
+- List
+
+- Drawer
+- Loading
+
+### 业务组件
+
+- 店铺信息组件 StoreInfo
+- 登录组件 OathLogin
+- 技术支持 TechSupport
+- Loading
+- PageLoading
+- Share
+- 选品牌-车型
+- 选年款
+- 客服组
+- 打电话
+- 支付
+- 订单结果
+- 公众号
+- Tab
+
+---
+
+指南：启动、配置项（登录，权限，TabBar 配置）、打包命令
+
+框架： 开发规范、目录结构规范、核心功能引入规范、common 和 pages 页面模块导入导出规范;
+
+组件：基础组件、业务组件
+
+API：页面跳转、设置主题、接口请求、缓存 cache、环境、路由，appCode 切换、请求地址切换、转发、
+
+---
+
+============以下内容无用，后续清理===========
+
+### 备忘
 
 - .gitignore 忽略不提交的 git 文件
 - .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
 - .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
-
-- lodash 工具库
-- react
-- react-copy-to-clipboard 复制剪切板操作
-- react-dom
-- react-hot-loader 热编译
-- react-redux
-- react-router
-- react-router-redux
-- redux
-- redux-actions
-- redux-mock-store 用于测试 Redux 异步操作创建者和中间件的模拟存储。模拟存储将创建一个调度操作数组，作为测试的操作日志。
-- redux-thunk 异步 store 创建的中间件
-- redux-logger 日志打印
-- redux-arena 将 redux 与 react 打包成一个模块加载，如果 react 组件被卸载，那么 react 组件在 redux 中的 state/reducer/saga 都会被自动卸载，彻底解决 state 树和 reducer 过于庞大的问题
-- redux-saga
-- require
-
-## 项目构建
-
-1. 本地开发
-
-```
-  npm run start
-```
-
-2. 格式化代码
-
-```
-  yarn prettier --write src/index.js
-```
 
 ## 代码风格
 
@@ -99,30 +302,4 @@ prettier 介绍
 }
 ```
 
-#### redux
-
-- https://zhuanlan.zhihu.com/p/26485702?utm_medium=social&utm_source=wechat_session&from=timeline&s_r=0
-- https://github.com/hapood/redux-arena/blob/master/README.zh-CN.MD?utm_medium=social&utm_member=ZTIxOTllMzdkMzdmOTJjMjU5ZTQ1YmQ1NmVmM2MwMzg%3D&utm_source=wechat_session
-- https://mp.weixin.qq.com/s/7xutRJpcX1doL-YzHH0jzg
-- https://www.zhihu.com/question/47995437
-- https://github.com/sorrycc/blog/issues/1
-- https://juejin.cn/post/6844903966375936007
-- https://juejin.cn/post/6880011662926364679
-
-后续开发计划
-打包中
-
-1. 图片和 svg 是否要分开处理，图片支持 cdn，svg 可以打在包中，也可以直接放到代码中
-
-代码框架中寻求所有的最佳解决方案
-
-1. 请求使用 Axios，对 Axios 的封装，包含请求头请求 body 携带公共参数，以及返回错误和异常的处理；
-2. 全局页面渲染错误封装主要用于页面渲染；全局 js 错误封装，收集 js 错误，并渲染对应错误页面；
-3. redux 封装，并拿出最佳解决方案；
-4. 语言包看是否需要改进；
-5. 全局 404、403、500 页面封装；
-6. 全局路由相关配置，包含自动进入 home 页，当前路由支持刷新，跳转缺省页等等
-7. 页面渲染需要路由守卫，进行权限封装；
-8. 全局对象封装，包含全局变量、方法、消息等；
-9. 前端使用的三种缓存的封装；
-10. common 中所有封装要从新改造
+### 小程序端：

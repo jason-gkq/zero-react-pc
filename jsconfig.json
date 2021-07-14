@@ -1,21 +1,15 @@
 {
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "compilerOptions": {
+    "experimentalDecorators": true,
     "checkJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@assets/*": ["public/assets/*"],
-      "@src/*": ["src/*"],
-      "@common": ["src/common"],
-      "@common/*": ["src/common/*"],
-      "@components": ["src/common/components"],
-      "@components/*": ["src/common/components/*"],
-      "@utils": ["src/common/utils"],
-      "@utils/*": ["src/common/utils/*"],
-      "@redux": ["src/common/redux"],
-      "@redux/*": ["src/common/redux/*"],
-      "@menus/*": ["src/common/menus/*"],
-      "@locales/*": ["src/common/locales/*"]
+      "@/assets/*": ["public/assets/*"],
+      "@/src/*": ["src/*"],
+      "@/common": ["src/common"],
+      "@/common/*": ["src/common/*"]
     }
   },
   "exclude": ["node_modules", "dist", "dest"]

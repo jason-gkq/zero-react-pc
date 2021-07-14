@@ -17,6 +17,8 @@ bin-release/
 dest
 dist
 
+src/common/navigate/routeData.js
+
 !assets
 !yarn.lock
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`

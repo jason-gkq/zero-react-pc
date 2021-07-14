@@ -35,6 +35,12 @@ class NameStorage {
     this.proxy.session = ret.session;
 
     this.store = this.proxy[type];
+
+    this.getItem = this.getItem.bind(this);
+    this.setItem = this.setItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.clear = this.clear.bind(this);
+    this._saveNameValue = this._saveNameValue.bind(this);
   }
 
   getItem(key) {
@@ -83,6 +89,18 @@ export class AbstractStorage {
     }
 
     this.type = type;
+
+    this.checkStorage = this.checkStorage.bind(this);
+    this.get = this.get.bind(this);
+    this.set = this.set.bind(this);
+    this.remove = this.remove.bind(this);
+    this.clear = this.clear.bind(this);
+    this.clearAll = this.clearAll.bind(this);
+    this.removeHttp = this.removeHttp.bind(this);
+    this.getKey = this.getKey.bind(this);
+    this.getForObject = this.getForObject.bind(this);
+    this.isQuotaExceeded = this.isQuotaExceeded.bind(this);
+    this.setExpires = this.setExpires.bind(this);
   }
 
   checkStorage() {

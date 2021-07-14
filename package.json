@@ -4,7 +4,6 @@
   "description": "",
   "type": "module",
   "main": "./src/pages/index/index.js",
-  "homepage": "/lcbtest/",
   "scripts": {
     "start": "zero-react-scripts start env=local",
     "build:dev": "zero-react-scripts build env=dev",
@@ -18,13 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jason-gkq/zero-react-m.git"
+    "url": "git+https://github.com/jason-gkq/zero-react-pc.git"
   },
   "keywords": [],
   "author": "guokeqin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jason-gkq/zero-react-m/issues"
+    "url": "https://github.com/jason-gkq/zero-react-pc/issues"
   },
   "dependencies": {
     "antd": "^4.16.7",

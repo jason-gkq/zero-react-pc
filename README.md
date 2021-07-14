@@ -22,8 +22,8 @@
 ### 项目启动
 
 ```shell
-npm install;
-npm start;
+yarn install
+yarn start
 ```
 
 本地访问
@@ -35,7 +35,7 @@ http://localhost:8080/
 更新包
 
 ```shell
-yarn upgrade zero-react-scripts@0.2.17
+yarn upgrade zero-react-scripts@0.2.20
 ```
 
 ## 框架

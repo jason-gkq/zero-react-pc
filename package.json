@@ -47,7 +47,7 @@
     "reselect": "^4.0.0",
     "rmc-tabs": "^1.2.29",
     "web-vitals": "^1.1.1",
-    "zero-react-scripts": "0.2.20"
+    "zero-react-scripts": "0.2.21"
   },
   "browserslist": {
     "production": [

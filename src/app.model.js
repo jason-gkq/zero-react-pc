@@ -1,7 +1,7 @@
 import { createModel } from "@/common/redux";
-import { httpsClient } from "@/common/net";
-import { storage, cookieStorage } from "@/common/cache";
-import { put, call, select } from "redux-saga/effects";
+// import { httpsClient } from "@/common/net";
+// import { storage, cookieStorage } from "@/common/cache";
+// import { put, call, select } from "redux-saga/effects";
 
 const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一

@@ -77,7 +77,7 @@ export default class extends Component {
           <Menu
             theme='dark'
             mode='inline'
-            openKeys={["755"]}
+            // openKeys={["755"]}
             defaultSelectedKeys={["828"]}
           >
             {menuItems}

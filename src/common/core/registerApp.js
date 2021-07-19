@@ -2,7 +2,6 @@ import React from "react";
 import { store } from "../redux";
 import { history, generateRoute } from "../navigate";
 // import { ThemeContext, themes } from "./themeContext";
-import "antd/dist/antd.less";
 import "../style/index.less";
 
 export default (appModel) => (WrappedComponent) => {

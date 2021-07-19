@@ -31,6 +31,7 @@ export default (props) => {
           value={mobile}
         />
       </div>
+
       <button className='login-btn' onClick={onLoginAction}>
         登录
       </button>

@@ -103,6 +103,7 @@ export default (pageModel) => (WrappedComponent) => {
           {...this.props}
           $model={pageModel}
           $globalActions={globalActions}
+          $globalSelectors={globalSelectors}
         />
       );
     }

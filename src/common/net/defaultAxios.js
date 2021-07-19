@@ -116,7 +116,7 @@ const getCommonData = () => {
 const getXRequestInfo = (data) => {
   let baseInfo = "";
   let xRequestInfo = Object.entries(data).reduce((baseInfo, [key, value]) => {
-    return baseInfo ? `${baseInfo};${key}:${value}` : `${key}:${value}`;
+    return baseInfo ? `${baseInfo};${key}=${value}` : `${key}=${value}`;
   }, baseInfo);
   return xRequestInfo;
 };

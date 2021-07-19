@@ -13,8 +13,8 @@ import Content from "../content";
 @connect(
   (state) => {
     const systemInfo = globalSelectors.getSystem(state);
-    const { currentPage = {} } = globalSelectors.getRoute(state);
-    return { systemInfo, currentPage };
+    const { currentPage = {}, menus } = globalSelectors.getRoute(state);
+    return { systemInfo, currentPage, menus };
   },
   (dispatch) => {
     return {
@@ -30,12 +30,12 @@ export default class extends React.Component {
   }
 
   render() {
-    const { systemInfo, $routes } = this.props;
+    const { systemInfo, $routes, menus } = this.props;
     const { winHeight } = systemInfo;
     return (
       <Suspense fallback={<div>Loading...</div>}>
         <Layout style={{ minHeight: winHeight + "px" }}>
-          <Sider />
+          <Sider menus={menus} />
           <Layout className='site-layout' style={{ marginLeft: 200 }}>
             <Header />
             <Content>

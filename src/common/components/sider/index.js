@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-
-import { globalSelectors } from "../../redux";
 import "./index.less";
 
 import { Layout, Menu } from "antd";
@@ -36,6 +33,24 @@ class SiderErrorBoundary extends Component {
   }
 }
 
+const cMenus = (menus) => {
+  if (!Array.isArray(menus)) {
+    return;
+  }
+  const menuList = menus.map((item) => {
+    if (item.children && item.children.length > 0) {
+      return (
+        <SubMenu key={item.key} title={item.title}>
+          {cMenus(item.children)}
+        </SubMenu>
+      );
+    } else {
+      return <Menu.Item key={item.key}>{item.title}</Menu.Item>;
+    }
+  });
+  return menuList;
+};
+
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +61,8 @@ export default class extends Component {
   }
 
   render() {
+    const { menus } = this.props;
+    const menuItems = cMenus(menus);
     return (
       <SiderErrorBoundary>
         <Sider
@@ -57,30 +74,13 @@ export default class extends Component {
           }}
         >
           <div className='logo' />
-          <Menu theme='dark' mode='inline' defaultSelectedKeys={["4"]}>
-            <Menu.Item key='1'>nav 1 </Menu.Item>
-            <Menu.Item key='2'>nav 2</Menu.Item>
-            <Menu.Item key='3'>nav 3</Menu.Item>
-            <Menu.Item key='4'>nav 4</Menu.Item>
-            <Menu.Item key='5'>nav 5</Menu.Item>
-            <Menu.Item key='6'>nav 6</Menu.Item>
-            <Menu.Item key='7'>nav 7</Menu.Item>
-            <Menu.Item key='8'>nav 8</Menu.Item>
-            <Menu.Item key='9'>nav 8</Menu.Item>
-            <Menu.Item key='10'>nav 8</Menu.Item>
-            <Menu.Item key='11'>nav 8</Menu.Item>
-            <Menu.Item key='12'>nav 8</Menu.Item>
-            <Menu.Item key='13'>nav 8</Menu.Item>
-            <Menu.Item key='14'>nav 8</Menu.Item>
-            <Menu.Item key='15'>nav 8</Menu.Item>
-            <Menu.Item key='16'>nav 8</Menu.Item>
-            <Menu.Item key='17'>nav 8</Menu.Item>
-            <Menu.Item key='18'>nav 8</Menu.Item>
-            <Menu.Item key='19'>nav 8</Menu.Item>
-            <Menu.Item key='20'>nav 8</Menu.Item>
-            <Menu.Item key='21'>nav 8</Menu.Item>
-            <Menu.Item key='22'>nav 8</Menu.Item>
-            <Menu.Item key='23'>nav 8</Menu.Item>
+          <Menu
+            theme='dark'
+            mode='inline'
+            openKeys={["755"]}
+            defaultSelectedKeys={["828"]}
+          >
+            {menuItems}
           </Menu>
         </Sider>
       </SiderErrorBoundary>

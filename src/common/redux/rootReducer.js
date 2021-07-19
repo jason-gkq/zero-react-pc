@@ -82,9 +82,22 @@ const user = handleActions(
   {}
 );
 
+const shop = handleActions(
+  {
+    [staticActions.shop.setShop](state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+  },
+  {}
+);
+
 export default {
   system,
   env,
   route,
   user,
+  shop,
 };

@@ -14,6 +14,7 @@ export default connect(
         dispatch($globalActions.env.changeTheme({ theme: "C" }));
       },
       goTo() {
+        console.log($globalActions);
         dispatch($globalActions.navigate.goTo({ url: "/home/home2" }));
       },
       goBack() {

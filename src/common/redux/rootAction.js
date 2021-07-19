@@ -29,6 +29,9 @@ const staticActions = {
     LOGIN: void 0,
     LOGOUT: void 0,
   },
+  SHOP: {
+    SET_SHOP: void 0,
+  },
   SHARE: void 0,
   TEST: void 0,
 };

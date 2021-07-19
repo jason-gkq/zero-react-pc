@@ -1,7 +1,7 @@
 import { isPlainObject } from "../utils";
 const environment = {
-  prefixUnable: [],
-  prefix: "",
+  prefixUnable: ["token", "__clientId"],
+  prefix: "lcb_",
 };
 
 class NameStorage {

@@ -23,6 +23,12 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     componentDidMount() {
+      // if (appModel.actions.didMount) {
+      //   const { $store, $onLunchPayload } = this.props;
+      //   setTimeout(() => {
+      //     $store.dispatch(appModel.actions.didMount($onLunchPayload));
+      //   }, 0);
+      // }
       if (super.componentDidMount) {
         super.componentDidMount();
       }

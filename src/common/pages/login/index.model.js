@@ -37,6 +37,7 @@ export default createModel({
           cookieStorage.getDomain()
         );
         yield put($globalActions.user.setUser(user));
+        yield put($globalActions.navigate.goBack());
       } catch (error) {
         cookieStorage.removeItem("token", "", cookieStorage.getDomain());
         yield put($globalActions.user.setUser({ isLogin: false }));

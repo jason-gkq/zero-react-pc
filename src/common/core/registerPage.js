@@ -14,7 +14,7 @@ export default (pageModel) => (WrappedComponent) => {
       const { $isNeedLogin, $isNeedPermission, dispatch, isLogin } = this.props;
       // 需要登录
       if ($isNeedLogin && !isLogin) {
-        dispatch(globalActions.navigate.redirect({ url: "/common/login" }));
+        dispatch(globalActions.navigate.goTo({ url: "/login/index" }));
         return;
       }
       super.componentDidMount();

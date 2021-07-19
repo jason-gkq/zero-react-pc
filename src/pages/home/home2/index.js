@@ -69,7 +69,9 @@ export default connect(
         dispatch(model.actions.addVer("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goTo({ url: "/home/home3?a=1&b=3" }));
+        dispatch(
+          globalActions.navigate.goTo({ url: "/home/home3/index?a=1&b=3" })
+        );
       },
     };
   }

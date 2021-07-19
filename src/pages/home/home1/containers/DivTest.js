@@ -15,7 +15,7 @@ export default connect(
       },
       goTo() {
         console.log($globalActions);
-        dispatch($globalActions.navigate.goTo({ url: "/home/home2" }));
+        dispatch($globalActions.navigate.goTo({ url: "/home/home2/index" }));
       },
       goBack() {
         dispatch($globalActions.navigate.goBack());

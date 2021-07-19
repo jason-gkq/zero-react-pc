@@ -49,7 +49,7 @@ export default connect(
         dispatch(model.action.changeName("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goTo({ url: "/home/home1" }));
+        dispatch(globalActions.navigate.goTo({ url: "/home/home1/index" }));
       },
     };
   }

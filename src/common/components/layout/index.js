@@ -19,7 +19,7 @@ import Content from "../content";
   (dispatch) => {
     return {
       // onBackAction(){
-      //   dispatch(globalActions.navigate.goTo({ url: "/home/home2" }))
+      //   dispatch(globalActions.navigate.goTo({ url: "/home/home2/index" }))
       // }
     };
   }

@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import "./index.less";
 
+import { View, Image } from "../basic";
+
+import Logo from "@/assets/lcb-logo/logo-menu.png";
+import logoCollapsed from "@/assets/lcb-logo/logo-collapsed.png";
+
 import { Layout, Menu } from "antd";
 
 const { SubMenu } = Menu;
@@ -61,27 +66,30 @@ export default class extends Component {
   }
 
   render() {
-    const { menus } = this.props;
+    const { menus, collapsed } = this.props;
     const menuItems = cMenus(menus);
     return (
       <SiderErrorBoundary>
         <Sider
-          style={{
-            overflow: "auto",
-            height: "100vh",
-            position: "fixed",
-            left: 0,
-          }}
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          collapsedWidth='64'
+          className='sider-root'
         >
-          <div className='logo' />
-          <Menu
-            theme='dark'
-            mode='inline'
-            // openKeys={["755"]}
-            defaultSelectedKeys={["828"]}
-          >
-            {menuItems}
-          </Menu>
+          <View className='sider-logo'>
+            <Image src={collapsed ? logoCollapsed : Logo} />
+          </View>
+          <View className='sider-menu'>
+            <Menu
+              theme='dark'
+              mode='inline'
+              // openKeys={["755"]}
+              defaultSelectedKeys={["828"]}
+            >
+              {menuItems}
+            </Menu>
+          </View>
         </Sider>
       </SiderErrorBoundary>
     );

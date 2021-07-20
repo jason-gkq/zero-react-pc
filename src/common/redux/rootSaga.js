@@ -221,7 +221,21 @@ const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {
   return;
 };
 
-const login = function* ({ payload }) {};
+const login = function* ({ payload }) {
+  try {
+    const user = yield httpsClient.post(`gateway/user/smsLogin`, {
+      mobile: "13800000000",
+      code: "1111",
+    });
+    user["isLogin"] = true;
+    user["mobile"] = user.user && user.user.mobile;
+    yield put(staticActions.user.setUser(user));
+  } catch (error) {
+    yield put(staticActions.user.setUser({ isLogin: false }));
+  }
+};
+
+const loginSuccess = function* ({ payload }) {};
 
 const logout = function* ({ payload }) {};
 
@@ -263,6 +277,8 @@ const checkLogin = function* () {
         staticActions.shop.setShop({
           shopList: roles,
           shopInfo: groupInfo,
+          groupInfoResp,
+          factoryInfoRespList,
         })
       );
       yield put(staticActions.user.setUser(user));

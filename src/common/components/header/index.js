@@ -26,11 +26,7 @@ class HeaderErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <Header className='site-layout-background' style={{ padding: 0 }}>
-          回首页
-        </Header>
-      );
+      return <Header className='main-header'>回首页</Header>;
     }
     return this.props.children;
   }
@@ -39,33 +35,25 @@ class HeaderErrorBoundary extends Component {
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      collapsed: false,
-    };
   }
 
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
-
   render() {
+    const { onCollapse, collapsed } = this.props;
     return (
       <HeaderErrorBoundary>
-        <Header className='site-layout-background' style={{ padding: 0 }}>
+        <Header
+          className={
+            collapsed ? "main-header main-header-trigger" : "main-header"
+          }
+        >
           {React.createElement(
-            this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
-              className: "trigger",
-              onClick: this.toggle,
+              className: "main-header-collapsed",
+              onClick: onCollapse,
             }
           )}
           User / Bill
-          {/* <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb> */}
         </Header>
       </HeaderErrorBoundary>
     );

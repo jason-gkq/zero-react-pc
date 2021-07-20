@@ -26,18 +26,7 @@ class ContentErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <Content
-          className='site-layout-background'
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
-          页面渲染出错
-        </Content>
-      );
+      return <Content className='main-content'>页面渲染出错</Content>;
     }
     return this.props.children;
   }
@@ -51,12 +40,7 @@ export default class extends Component {
   render() {
     return (
       <ContentErrorBoundary>
-        <Content
-          className='site-layout-background'
-          style={{ margin: "24px 16px 0", overflow: "initial" }}
-        >
-          {this.props.children}
-        </Content>
+        <Content className='main-content'>{this.props.children}</Content>
       </ContentErrorBoundary>
     );
   }

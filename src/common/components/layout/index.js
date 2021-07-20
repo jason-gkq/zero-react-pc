@@ -1,7 +1,7 @@
 import React, { Suspense, Fragment } from "react";
 import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
-
+import "./index.less";
 import { globalSelectors, globalActions, store } from "../../redux";
 
 import { Layout } from "antd";
@@ -27,17 +27,27 @@ import Content from "../content";
 export default class extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      collapsed: false,
+    };
+    this.onCollapse = this.onCollapse.bind(this);
   }
 
+  onCollapse = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
   render() {
-    const { systemInfo, $routes, menus } = this.props;
-    const { winHeight } = systemInfo;
+    const { $routes, menus } = this.props;
+    const { collapsed } = this.state;
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <Layout style={{ minHeight: winHeight + "px" }}>
-          <Sider menus={menus} />
-          <Layout className='site-layout' style={{ marginLeft: 200 }}>
-            <Header />
+        <Layout style={{ minHeight: "100vh" }}>
+          <Sider menus={menus} collapsed={collapsed} />
+          <Layout className={collapsed ? "main-root-trigger" : "main-root"}>
+            <Header onCollapse={this.onCollapse} collapsed={collapsed} />
             <Content>
               <Suspense fallback={<div>Loading...</div>}>
                 <Fragment>

@@ -1,14 +1,20 @@
-.sider {
-  overflow: auto;
+.sider-root {
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100vh;
   position: fixed;
   left: 0;
 }
 
-.logo {
+.sider-logo {
   height: 48px;
-  width: 200px;
+  z-index: 1;
   position: fixed;
+  background: #002140;
   left: 0;
   top: 0;
+}
+
+.sider-menu {
+  margin-top: 48px;
 }

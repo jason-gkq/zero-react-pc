@@ -1,3 +1,6 @@
-import React from 'react';
+import React from "react";
 
-export default props => <div {...props}>{props.children}</div>
+export default (props) => {
+  const { children, ...data } = props;
+  return <div {...data}>{children}</div>;
+};

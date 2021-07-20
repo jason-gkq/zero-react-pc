@@ -6,9 +6,9 @@ const defaultStyle = {
 };
 
 export default (props) => {
-  const { children, style, ...data } = props;
+  const { children, style, ...restProps } = props;
   return (
-    <div {...data} style={{ ...defaultStyle, ...style }}>
+    <div {...restProps} style={{ ...defaultStyle, ...style }}>
       {children}
     </div>
   );

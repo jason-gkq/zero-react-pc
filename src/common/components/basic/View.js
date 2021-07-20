@@ -1,6 +1,6 @@
 import React from "react";
 
 export default (props) => {
-  const { children, ...data } = props;
-  return <div {...data}>{children}</div>;
+  const { children, ...restProps } = props;
+  return <div {...restProps}>{children}</div>;
 };

@@ -38,7 +38,7 @@ class SiderErrorBoundary extends Component {
   }
 }
 
-const cMenus = (menus) => {
+const generateMenus = (menus) => {
   if (!Array.isArray(menus)) {
     return;
   }
@@ -46,7 +46,7 @@ const cMenus = (menus) => {
     if (item.children && item.children.length > 0) {
       return (
         <SubMenu key={item.key} title={item.title}>
-          {cMenus(item.children)}
+          {generateMenus(item.children)}
         </SubMenu>
       );
     } else {
@@ -67,7 +67,7 @@ export default class extends Component {
 
   render() {
     const { menus, collapsed } = this.props;
-    const menuItems = cMenus(menus);
+    const menuItems = generateMenus(menus);
     return (
       <SiderErrorBoundary>
         <Sider

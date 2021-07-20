@@ -4,10 +4,14 @@ import * as styles from "../index.less";
 import china from "@/assets/img/logo.svg";
 import logo from "@/assets/img/logo.jpg";
 
+import { Button } from "@/common/components";
+// import { Button } from "antd";
+
 export default (props) => {
   const { addVoucher, goTo, goBack, pageStatus } = props;
   return (
     <>
+      <Button>4444s</Button>
       <div>
         <div className={styles.testContainer}>
           <div onClick={addVoucher} className={styles.containerDiv}>

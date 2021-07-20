@@ -78,7 +78,7 @@ export default class extends Component {
           className='sider-root'
         >
           <View className='sider-logo'>
-            <Image src={collapsed ? logoCollapsed : Logo} />
+            <Image preview={false} src={collapsed ? logoCollapsed : Logo} />
           </View>
           <View className='sider-menu'>
             <Menu

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
-import { globalSelectors } from "../../redux";
-import { flatDeep } from "../../utils";
+import { globalSelectors } from "../../../redux";
+import { flatDeep } from "../../../utils";
 
-import { View, Image } from "../basic";
+import { View, Image } from "../../basic";
 
 import Logo from "@/assets/lcb-logo/logo-menu.png";
 import logoCollapsed from "@/assets/lcb-logo/logo-collapsed.png";

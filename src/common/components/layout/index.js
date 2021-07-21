@@ -6,9 +6,9 @@ import { globalSelectors, globalActions } from "../../redux";
 import { ConfigureMenu } from "../../navigate";
 import { Layout } from "antd";
 
-import Header from "../header";
-import Sider from "../sider";
-import Content from "../content";
+import Header from "./header";
+import Sider from "./sider";
+import Content from "./content";
 
 class LayoutErrorBoundary extends React.Component {
   constructor(props) {

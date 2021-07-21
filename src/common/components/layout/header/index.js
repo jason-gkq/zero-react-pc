@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
-import { globalSelectors } from "../../redux";
-import { View } from "../basic";
+import { globalSelectors } from "../../../redux";
+import { View } from "../../basic";
 import { Layout } from "antd";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";

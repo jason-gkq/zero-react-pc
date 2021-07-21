@@ -12,7 +12,6 @@ export default (pageModel) => (WrappedComponent) => {
     // TODO: 登录、权限 判断
     componentDidMount() {
       const { $isNeedLogin, $isNeedPermission, dispatch, isLogin } = this.props;
-      // console.log("/login/index", $isNeedLogin, !isLogin);
       // 需要登录
       if ($isNeedLogin && !isLogin) {
         dispatch(globalActions.navigate.goTo({ url: "/login/index" }));

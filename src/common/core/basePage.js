@@ -25,16 +25,16 @@ export default (pageModel) => (WrappedComponent) => {
       /**
        * 前置执行 didMount 方法；
        */
-      const { dispatch } = this.props;
+      const { dispatch, location } = this.props;
       if (!pageModel) {
         return;
       }
-      // setTimeout(() => {
       if (pageModel.actions.didMount) {
-        /* 传入页面options 即可： this.props.location.state */
-        dispatch(pageModel.actions.didMount(this.props.location.state || {}));
+        setTimeout(() => {
+          /* 传入页面options 即可： this.props.location.state */
+          dispatch(pageModel.actions.didMount(location.state || {}));
+        }, 0);
       }
-      // }, 0);
       if (super.componentDidMount) {
         super.componentDidMount();
       }

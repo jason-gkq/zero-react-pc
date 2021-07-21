@@ -150,6 +150,24 @@ export function cloneDeep(obj) {
   return ext({}, obj);
 }
 
+export function flatDeep(data, rel = []) {
+  if (!data) {
+    return rel;
+  }
+  if (!Array.isArray(data)) {
+    rel.push(data);
+    return rel;
+  }
+  data.map((item) => {
+    if (Array.isArray(item)) {
+      return flatDeep(item, rel);
+    } else {
+      return rel.push(item);
+    }
+  });
+  return rel;
+}
+
 // define([], function() {
 //   /**
 //    * 版本号比较

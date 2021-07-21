@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { store, globalActions, globalSelectors } from "../redux";
+import { globalActions, globalSelectors } from "../redux";
 
 export default (pageModel) => (WrappedComponent) => {
   class TargetComponent extends WrappedComponent {
@@ -12,6 +12,7 @@ export default (pageModel) => (WrappedComponent) => {
     // TODO: 登录、权限 判断
     componentDidMount() {
       const { $isNeedLogin, $isNeedPermission, dispatch, isLogin } = this.props;
+      // console.log("/login/index", $isNeedLogin, !isLogin);
       // 需要登录
       if ($isNeedLogin && !isLogin) {
         dispatch(globalActions.navigate.goTo({ url: "/login/index" }));
@@ -26,7 +27,7 @@ export default (pageModel) => (WrappedComponent) => {
     let {
       isNeedLogin: $isNeedLogin,
       isNeedPermission: $isNeedPermission,
-    } = globalSelectors.getApp(state);
+    } = globalSelectors.app.getState(state);
     const { isLogin } = globalSelectors.getUser(state);
 
     if (Reflect.has(pageModel.config, "isNeedLogin")) {
@@ -42,13 +43,23 @@ export default (pageModel) => (WrappedComponent) => {
       isLogin,
     };
   })
-  // @connect()
   class RegisterPageComponent extends React.Component {
     constructor(props) {
       super(props);
 
-      const { dispatch } = this.props;
-
+      const {
+        dispatch,
+        location: { pathname: path, state: payload },
+      } = this.props;
+      // console.log("this.props-->>", this.props);
+      dispatch(
+        globalActions.route.currentPage({
+          pageId: pageModel.config.pageId,
+          title: pageModel.config.title,
+          path,
+          payload,
+        })
+      );
       if (!pageModel) {
         return;
       }
@@ -63,14 +74,6 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     componentDidMount() {
-      this.props.dispatch(
-        globalActions.route.currentPage({
-          pageId: pageModel.config.pageId,
-          title: pageModel.config.title,
-        })
-      );
-      // pv 埋点
-      // console.log("RegisterPageComponent-props>>>>", this.props);
       if (!pageModel) {
         return;
       }

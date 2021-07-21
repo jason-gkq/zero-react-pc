@@ -49,16 +49,9 @@ export default (appModel) => (WrappedComponent) => {
         //     div.style.display = 'block';
         // }
       });
-      // 使用setTimeout解决跳转页面短暂空白问题
-      // setTimeout(() => {
-      if (appModel.actions.didMount) {
-        store.dispatch(appModel.actions.didMount(this.state.$onLunchPayload));
-      }
-      // }, 0);
     }
 
     componentWillUnmount() {
-      // window.removeEventListener("resize");
       if (appModel.actions.willUnmount) {
         store.dispatch(
           appModel.actions.willUnmount({

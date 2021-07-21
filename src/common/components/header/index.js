@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./index.less";
-
+import { globalSelectors } from "../../redux";
+import { View } from "../basic";
 import { Layout } from "antd";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
@@ -25,20 +27,29 @@ class HeaderErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.hasError) {
-      return <Header className='main-header'>回首页</Header>;
-    }
+    // if (this.state.hasError) {
+    //   return <Header className='main-header'>回首页</Header>;
+    // }
     return this.props.children;
   }
 }
 
+@connect(
+  (state) => {
+    const { currentPage = {} } = globalSelectors.getRoute(state);
+    const { path } = currentPage;
+    return { path };
+  }
+  // (dispatch) => {}
+)
 export default class extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { onCollapse, collapsed } = this.props;
+    const { onCollapse, collapsed, path, configureMenu } = this.props;
+    const breadcrumb = configureMenu.getBreadcrumb(path);
     return (
       <HeaderErrorBoundary>
         <Header
@@ -53,7 +64,7 @@ export default class extends Component {
               onClick: onCollapse,
             }
           )}
-          User / Bill
+          <View className='main-header-breadcrumb'>{breadcrumb}</View>
         </Header>
       </HeaderErrorBoundary>
     );

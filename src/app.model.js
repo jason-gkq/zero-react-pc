@@ -8,16 +8,21 @@ const model = createModel({
   name: "app",
   isGlobal: true,
   // 初始state状态
-  state: {},
+  state: {
+    appStatus: "",
+  },
   reducers: {},
   sagas: {
-    *didMount({ $actions }) {
+    *didMount({ $actions }, { payload: { done } }) {
       // const { isNeedPermission, isNeedLogin } = yield select($selectors.getApp);
       // console.log(">>>>", isNeedPermission, isNeedLogin);
       //TODO 项目启动 = appOnLaunch
       // console.log("pages/home/index.model.js/saga/didMount");
       // yield put($globalActions.env.changeTheme({ theme: "A" }));
       // yield put($actions.queryUserAuth());
+      if (done) {
+        done();
+      }
     },
   },
 });

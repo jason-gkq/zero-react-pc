@@ -167,13 +167,15 @@ export default function createDucks({
   const sliceAction = createActionsFromMap(actionMap, name);
 
   const defaultSelectors = {};
-  if (isGlobal) {
-    defaultSelectors[`get${name.replace(/^\S/, (s) => s.toUpperCase())}`] = (
-      state
-    ) => state[name];
-  } else {
-    defaultSelectors["getState"] = (state) => state[name];
-  }
+  // if (isGlobal) {
+  //   defaultSelectors[`get${name.replace(/^\S/, (s) => s.toUpperCase())}`] = (
+  //     state
+  //   ) => state[name];
+  // } else {
+  //   defaultSelectors["getState"] = (state) => state[name];
+  // }
+  defaultSelectors["getState"] = (state) => state[name];
+
   const sliceSelector = toLocalSelectors(selectors, defaultSelectors);
   let sliceReducer = createReducerFromMap(
     reducerMap,
@@ -184,8 +186,8 @@ export default function createDucks({
 
   injectAsyncReducer(name, sliceReducer);
   if (isGlobal) {
-    injectGlobalActions(sliceAction);
-    injectGlobalSelectors(sliceSelector);
+    injectGlobalActions(sliceAction, name);
+    injectGlobalSelectors(sliceSelector, name);
   }
   return {
     name,

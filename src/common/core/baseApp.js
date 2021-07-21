@@ -8,7 +8,6 @@ import React, { Suspense, lazy } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeContext } from "./themeContext";
-
 import RegisterApp from "./registerApp";
 
 const AppPage = lazy(() =>
@@ -20,15 +19,38 @@ export default (appModel) => (WrappedComponent) => {
   class AppComponent extends WrappedComponent {
     constructor(props) {
       super(props);
+      this.state = {
+        status: "loading",
+      };
     }
 
     componentDidMount() {
-      // if (appModel.actions.didMount) {
-      //   const { $store, $onLunchPayload } = this.props;
-      //   setTimeout(() => {
-      //     $store.dispatch(appModel.actions.didMount($onLunchPayload));
-      //   }, 0);
-      // }
+      const { $store, $onLunchPayload } = this.props;
+      const unsubscribe = $store.subscribe(() => {
+        const {
+          env: { status },
+        } = $store.getState();
+        if (status) {
+          this.setState({
+            status: "success",
+          });
+          unsubscribe();
+        }
+      });
+      if (appModel.actions.didMount) {
+        setTimeout(() => {
+          $store.dispatch(
+            appModel.actions.didMount({
+              ...$onLunchPayload,
+              done: () => {
+                // this.setState({
+                //   status: "success",
+                // });
+              },
+            })
+          );
+        }, 0);
+      }
       if (super.componentDidMount) {
         super.componentDidMount();
       }
@@ -40,19 +62,32 @@ export default (appModel) => (WrappedComponent) => {
       }
     }
 
+    renderContent() {
+      const { $routes } = this.props;
+      const { status } = this.state;
+      switch (status) {
+        case "loading":
+          return <div>Loading...</div>;
+        case "error":
+          return <div>网络异常</div>;
+        default:
+          return (
+            <Switch>
+              <Route path='/lcbtest'>
+                <AppPage $routes={$routes} />
+              </Route>
+            </Switch>
+          );
+      }
+    }
+
     render() {
-      const { $store, $history, $routes, $theme } = this.props;
+      const { $store, $history, $theme } = this.props;
       return (
         <Provider store={$store}>
           <ThemeContext.Provider value={$theme}>
             <Suspense fallback={<div>Loading...</div>}>
-              <Router history={$history}>
-                <Switch>
-                  <Route path='/lcbtest'>
-                    <AppPage $routes={$routes} />
-                  </Route>
-                </Switch>
-              </Router>
+              <Router history={$history}>{this.renderContent()}</Router>
             </Suspense>
           </ThemeContext.Provider>
         </Provider>

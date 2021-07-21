@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
-import DivTest from "../components/DivTest";
+import Content from "../components/Content";
 
 export default connect(
-  (state, { $model }) => {
+  (state, { $model, $globalActions, $globalSelectors }) => {
     const { pageStatus } = $model.selectors.getState(state);
     return { pageStatus };
   },
-  (dispatch, { $model, $globalActions }) => {
+  (dispatch, { $model, $globalActions, $globalSelectors }) => {
     return {
       addVoucher() {
         // document.documentElement.style.setProperty({ "--theme-color": "red" });
@@ -14,11 +14,11 @@ export default connect(
         dispatch($globalActions.env.changeTheme({ theme: "C" }));
       },
       goTo() {
-        dispatch($globalActions.navigate.goTo({ url: "/home/home2/index" }));
+        dispatch($globalActions.navigate.goTo({ url: "/index/index/index" }));
       },
       goBack() {
         dispatch($globalActions.navigate.goBack());
       },
     };
   }
-)(DivTest);
+)(Content);

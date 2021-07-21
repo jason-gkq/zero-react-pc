@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./index.less";
+import { globalSelectors } from "../../redux";
+import { flatDeep } from "../../utils";
 
 import { View, Image } from "../basic";
 
@@ -31,18 +34,42 @@ class SiderErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.hasError) {
-      return "";
-    }
+    // if (this.state.hasError) {
+    //   return "";
+    // }
     return this.props.children;
   }
 }
+const allMenus = {};
+
+const generateMenuPath = (menus, keys = null) => {
+  if (!Array.isArray(menus)) {
+    return;
+  }
+  const menuList = menus.map((item) => {
+    if (item.children && item.children.length > 0) {
+      return generateMenuPath(
+        item.children,
+        keys ? `${keys},${item.key}` : item.key
+      );
+    } else {
+      return {
+        key: item.key,
+        path: item.link,
+        keyPath: `${keys},${item.key}`,
+      };
+    }
+  });
+
+  return menuList;
+};
 
 const generateMenus = (menus) => {
   if (!Array.isArray(menus)) {
     return;
   }
   const menuList = menus.map((item) => {
+    allMenus[item.key] = item.title;
     if (item.children && item.children.length > 0) {
       return (
         <SubMenu key={item.key} title={item.title}>
@@ -56,18 +83,36 @@ const generateMenus = (menus) => {
   return menuList;
 };
 
+@connect(
+  (state) => {
+    const { currentPage = {}, menus } = globalSelectors.getRoute(state);
+    const { path } = currentPage;
+    return { path, menus };
+  }
+  // (dispatch) => {}
+)
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: "redTab",
-      hidden: false,
+      menuItems: [],
+      defaultOpenKeys: [],
+      defaultSelectedKeys: [],
     };
   }
 
-  render() {
-    const { menus, collapsed } = this.props;
+  componentDidMount() {
+    const { menus, path, configureMenu } = this.props;
     const menuItems = generateMenus(menus);
+    const keys = configureMenu.getSelectKeys(path);
+    console.log(keys);
+    this.setState({ menuItems });
+  }
+
+  render() {
+    const { collapsed, path, configureMenu } = this.props;
+    const { menuItems } = this.state;
+    // const keys = configureMenu.getSelectKeys(path);
     return (
       <SiderErrorBoundary>
         <Sider
@@ -84,8 +129,8 @@ export default class extends Component {
             <Menu
               theme='dark'
               mode='inline'
-              // openKeys={["755"]}
-              defaultSelectedKeys={["828"]}
+              defaultOpenKeys={["4", "818"]}
+              defaultSelectedKeys={["820"]}
             >
               {menuItems}
             </Menu>

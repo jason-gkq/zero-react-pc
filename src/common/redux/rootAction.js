@@ -43,6 +43,16 @@ export const globalActions = createActions(staticActions, {
 
 export default globalActions;
 
-export function injectGlobalActions(actions) {
-  Object.assign(globalActions, actions);
+export function injectGlobalActions(actions, name = null) {
+  if (name) {
+    globalActions[name] = actions;
+    return;
+  }
+  if (actions) {
+    Object.keys(actions).forEach((key) => {
+      if (!globalActions[key]) {
+        globalActions[key] = actions[key];
+      }
+    });
+  }
 }

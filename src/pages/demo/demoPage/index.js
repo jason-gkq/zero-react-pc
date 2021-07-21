@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { BasePage } from "@/common/core";
 import model from "./index.model";
+import "./index.less";
 
-import DivTest from "./containers/DivTest";
+import Content from "./containers/Content";
+
 @BasePage(model)
-class Home extends Component {
+export default class extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     const { $model, $globalActions, $globalSelectors } = this.props;
-    console.log($globalActions, $globalSelectors);
     return (
-      <DivTest
+      <Content
         $model={$model}
         $globalActions={$globalActions}
         $globalSelectors={$globalSelectors}
@@ -21,4 +22,3 @@ class Home extends Component {
     );
   }
 }
-export default Home;

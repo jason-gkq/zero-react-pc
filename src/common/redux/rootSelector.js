@@ -21,8 +21,18 @@ export const globalSelectors = {
   getShop,
 };
 
-export function injectGlobalSelectors(selectors) {
-  Object.assign(globalSelectors, selectors);
+export function injectGlobalSelectors(selectors, name = null) {
+  if (name) {
+    globalSelectors[name] = selectors;
+    return;
+  }
+  if (selectors) {
+    Object.keys(selectors).forEach((key) => {
+      if (!globalSelectors[key]) {
+        globalSelectors[key] = selectors[key];
+      }
+    });
+  }
 }
 
 export default globalSelectors;

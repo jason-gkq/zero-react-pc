@@ -283,8 +283,10 @@ const checkLogin = function* () {
       );
       yield put(staticActions.user.setUser(user));
     }
+    yield put(staticActions.env.setEnv({ status: true }));
   } catch (error) {
     yield put(staticActions.user.setUser({ isLogin: false }));
+    yield put(staticActions.env.setEnv({ status: true }));
   }
 };
 

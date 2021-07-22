@@ -24,12 +24,11 @@ class configureNavigate {
     }
     let { pathname, search, state = {} } = location;
     if (pathname === "/" || pathname === `/${this.rootModelName}`) {
-      pathname = `/${this.rootModelName}/index/index`;
+      pathname = `/index/index`;
     }
     const url = search.includes("?")
       ? `${pathname}${search}`
       : `${pathname}?${search}`;
-    // action: "POP"
     this.navigateHistory.push(this.getLocation(url, state));
     return;
   }
@@ -42,9 +41,10 @@ class configureNavigate {
     }
     // if (String(url).startsWith(`/${rootModelName}`)) {
     const urlArr = String(url).split("?");
-    const pathname = urlArr[0]
-      ? `/${this.rootModelName}${urlArr[0]}`
-      : `/${this.rootModelName}/index`;
+    const pagePath = urlArr[0] || "/index/index";
+    const pathname = pagePath.startsWith(`/${this.rootModelName}`)
+      ? pagePath
+      : `/${this.rootModelName}${pagePath}`;
     const state = params || {};
     const search = urlArr[1] || "";
     if (urlArr[1]) {

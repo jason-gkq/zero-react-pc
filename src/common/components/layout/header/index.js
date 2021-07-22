@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
 import { globalSelectors } from "../../../redux";
-import { View } from "../../basic";
+import { View, Text, Image, Avatar } from "../../basic";
 import { Layout } from "antd";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
@@ -37,8 +37,10 @@ class HeaderErrorBoundary extends Component {
 @connect(
   (state) => {
     const { currentPage = {} } = globalSelectors.getRoute(state);
+    const { userInfo } = globalSelectors.getUser(state);
+    const { shopInfo, shopList } = globalSelectors.getShop(state);
     const { path } = currentPage;
-    return { path };
+    return { path, userInfo, shopInfo, shopList };
   }
   // (dispatch) => {}
 )
@@ -48,7 +50,7 @@ export default class extends Component {
   }
 
   render() {
-    const { onCollapse, collapsed, path, configureMenu } = this.props;
+    const { onCollapse, collapsed, path, configureMenu, userInfo } = this.props;
     const breadcrumb = configureMenu.getBreadcrumb(path);
     return (
       <HeaderErrorBoundary>
@@ -57,14 +59,31 @@ export default class extends Component {
             collapsed ? "main-header main-header-trigger" : "main-header"
           }
         >
-          {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: "main-header-collapsed",
-              onClick: onCollapse,
-            }
-          )}
-          <View className='main-header-breadcrumb'>{breadcrumb}</View>
+          <View className='main-header-left'>
+            {React.createElement(
+              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+              {
+                className: "main-header-tools main-header-collapsed",
+                onClick: onCollapse,
+              }
+            )}
+            <View className='main-header-tools main-header-breadcrumb'>
+              <Text>{breadcrumb}</Text>
+            </View>
+          </View>
+          <View className='main-header-right'>
+            <View className='main-header-tools main-header-download'>
+              <Text>{breadcrumb}</Text>
+            </View>
+            {userInfo ? (
+              <View className='main-header-tools main-header-userinfo'>
+                <Text>{userInfo.realName || ""}</Text>
+                <Avatar src={userInfo.faceImageUrl || ""} />
+              </View>
+            ) : (
+              ""
+            )}
+          </View>
         </Header>
       </HeaderErrorBoundary>
     );

@@ -201,8 +201,8 @@ const initSystem = function* () {
 };
 
 // navigate
-const goTo = function* ({ payload: { url, params = {}, options = {} } }) {
-  navigate.goTo({ url, params, options });
+const goTo = function* ({ payload: { url, payload = {}, options = {} } }) {
+  navigate.goTo({ url, payload, options });
   return;
 };
 
@@ -211,13 +211,13 @@ const goBack = function* ({ payload: { delta, url = "" } = {} }) {
   return;
 };
 
-const redirect = function* ({ payload: { url, params = {}, options = {} } }) {
-  navigate.redirect({ url, params, options });
+const redirect = function* ({ payload: { url, payload = {}, options = {} } }) {
+  navigate.redirect({ url, payload, options });
   return;
 };
 
-const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {
-  navigate.redirect({ url, params, options });
+const reLaunch = function* ({ payload: { url, payload = {}, options = {} } }) {
+  navigate.redirect({ url, payload, options });
   return;
 };
 
@@ -239,55 +239,40 @@ const loginSuccess = function* ({ payload }) {};
 
 const logout = function* ({ payload }) {};
 
-const checkLogin = function* () {
+const queryUserAuth = function* () {
   try {
-    const { isNeedPermission } = yield select(getEnv);
-    if (!isNeedPermission) {
-      const user = yield httpsClient.post(`gateway/user/currentUser`);
-      user["isLogin"] = false;
-      if (user && user.user && user.user.mobile) {
-        user["isLogin"] = true;
-      }
-      user["mobile"] = user.user && user.user.mobile;
-      yield put(staticActions.user.setUser(user));
-    } else {
-      const {
-        factoryInfoRespList,
-        groupInfo,
-        groupInfoResp,
-        menus,
-        roles,
-        routerRules,
-        user,
-      } = yield httpsClient.post(
-        `gateway/manage/common/api/auth/queryUserAuth`
-      );
-      user["isLogin"] = false;
-      if (user && user.user && user.user.mobile) {
-        user["isLogin"] = true;
-      }
-      user["mobile"] = user.user && user.user.mobile;
-
-      yield put(
-        staticActions.route.setRoute({
-          menus,
-        })
-      );
-      yield put(
-        staticActions.shop.setShop({
-          shopList: roles,
-          shopInfo: groupInfo,
-          groupInfoResp,
-          factoryInfoRespList,
-        })
-      );
-      yield put(staticActions.user.setUser(user));
+    const {
+      factoryInfoRespList,
+      groupInfo,
+      groupInfoResp,
+      menus,
+      roles,
+      routerRules,
+      user,
+    } = yield httpsClient.post(`gateway/manage/common/api/auth/queryUserAuth`);
+    user["isLogin"] = false;
+    if (user && user.user && user.user.mobile) {
+      user["isLogin"] = true;
     }
-    yield put(staticActions.env.setEnv({ status: true }));
+    user["mobile"] = user.user && user.user.mobile;
+    yield put(
+      staticActions.route.setRoute({
+        menus,
+      })
+    );
+    yield put(
+      staticActions.shop.setShop({
+        shopList: roles,
+        shopInfo: groupInfo,
+        groupInfoResp,
+        factoryInfoRespList,
+      })
+    );
+    yield put(staticActions.user.setUser(user));
   } catch (error) {
     yield put(staticActions.user.setUser({ isLogin: false }));
-    yield put(staticActions.env.setEnv({ status: true }));
   }
+  yield put(staticActions.env.setEnv({ status: true }));
 };
 
 export default function* staticSagas() {
@@ -295,7 +280,7 @@ export default function* staticSagas() {
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
-  yield all([checkLogin()]);
+  yield all([queryUserAuth()]);
 
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.injectThemes, injectThemes);

@@ -63,7 +63,7 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     renderContent() {
-      const { $routes } = this.props;
+      const { $routes, $fullRoutes } = this.props;
       const { status } = this.state;
       switch (status) {
         case "loading":
@@ -73,6 +73,7 @@ export default (appModel) => (WrappedComponent) => {
         default:
           return (
             <Switch>
+              {$fullRoutes}
               <Route path='/lcbtest'>
                 <AppPage $routes={$routes} />
               </Route>

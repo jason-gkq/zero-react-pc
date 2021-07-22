@@ -7,6 +7,7 @@ const allPageRoute = [];
 
 export function generateRoute() {
   let indexRoute = "";
+  const fullRoutes = [];
   const routeList = Object.values(routes)
     .flat()
     .map((item) => {
@@ -16,10 +17,14 @@ export function generateRoute() {
         );
       }
       allPageRoute.push(item.path);
-      return <Route key={item.path} exact={true} {...item} />;
+      if (item.path.endsWith("/login/index")) {
+        fullRoutes.push(<Route key={item.path} exact={true} {...item} />);
+      } else {
+        return <Route key={item.path} exact={true} {...item} />;
+      }
     });
   routeList.push(indexRoute);
-  return routeList;
+  return { routeList, fullRoutes };
 }
 
 export function guardRoute() {

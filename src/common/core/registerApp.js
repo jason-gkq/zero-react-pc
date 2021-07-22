@@ -22,9 +22,11 @@ export default (appModel) => (WrappedComponent) => {
         }, onLunchPayload);
       }
       const { env } = store.getState();
+      const { routeList: $routes, fullRoutes: $fullRoutes } = generateRoute();
       this.state = {
         $onLunchPayload: onLunchPayload,
-        $routes: generateRoute(),
+        $routes,
+        $fullRoutes,
         $theme: {
           theme: env.theme || "",
         },

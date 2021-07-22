@@ -18,11 +18,6 @@ const loginWhiteListUrl = [
   "/gateway/user/smsLogin",
 ];
 
-// import { store } from "@/common/redux/store";
-/**
- * 用户clientId
- */
-const clientId = cookieStorage.getItem("__clientId");
 /**
  * 正在进行中的请求
  */
@@ -186,7 +181,16 @@ const responseHandler = (resp) => {
     !loginWhiteListUrl.includes(url)
   ) {
     // 登录跳转，注意排除loginWhiteListUrl
-    navigate.goTo({ url: "/common/login/index" });
+    const location =
+      navigate.navigateHistory.length > 0
+        ? navigate.navigateHistory[navigate.navigateHistory.length - 1]
+        : { pathname: "/index/index", state: {} };
+    navigate.redirect({
+      url: location.pathname.endsWith("/common/login/index")
+        ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
+        : `/common/login/index?to=${encodeURIComponent(location.pathname)}`,
+      payload: location.state,
+    });
   }
   let result = {
     msg: "服务器内部错误",

@@ -8,19 +8,44 @@
   width: calc(100vw - 200px);
   z-index: 1;
 }
+// .main-header > div + div {
+//   margin-right: 10px;
+// }
 
-.main-header-collapsed {
+.main-header-trigger {
+  width: calc(100vw - 64px);
+}
+
+.main-header-tools {
   height: 48px;
   line-height: 48px;
+}
+
+.main-header-left {
+  flex: 40%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.main-header-right {
+  flex: 60%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-header-collapsed {
   flex: 0 0 25px;
 }
 
 .main-header-breadcrumb {
-  height: 48px;
-  line-height: 48px;
-  flex: 1;
+  margin-left: 10px;
+  padding: 0 0 2px 0;
 }
 
-.main-header-trigger {
-  width: calc(100vw - 64px);
+.main-header-download {
+  // margin-left: auto;
+}
+
+.main-header-userinfo {
+  // margin-left: auto;
 }

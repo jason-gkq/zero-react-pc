@@ -25,14 +25,14 @@ export default (pageModel) => (WrappedComponent) => {
       /**
        * 前置执行 didMount 方法；
        */
-      const { dispatch, location } = this.props;
+      const { dispatch, $payload } = this.props;
       if (!pageModel) {
         return;
       }
       if (pageModel.actions.didMount) {
         setTimeout(() => {
           /* 传入页面options 即可： this.props.location.state */
-          dispatch(pageModel.actions.didMount(location.state || {}));
+          dispatch(pageModel.actions.didMount($payload));
         }, 0);
       }
       if (super.componentDidMount) {

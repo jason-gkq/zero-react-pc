@@ -70,11 +70,8 @@ const generateMenus = (menus) => {
   },
   (dispatch) => {
     return {
-      goTo(...data) {
-        console.log(data);
-        // dispatch(
-        //   globalActions.navigate.goTo({ url: "/home/home3/index?a=1&b=3" })
-        // );
+      goTo({ item }) {
+        dispatch(globalActions.navigate.goTo({ url: item.props.link }));
       },
     };
   }

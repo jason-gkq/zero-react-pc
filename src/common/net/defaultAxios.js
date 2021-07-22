@@ -186,7 +186,7 @@ const responseHandler = (resp) => {
     !loginWhiteListUrl.includes(url)
   ) {
     // 登录跳转，注意排除loginWhiteListUrl
-    navigate.goTo({ url: "/login/index" });
+    navigate.goTo({ url: "/common/login/index" });
   }
   let result = {
     msg: "服务器内部错误",

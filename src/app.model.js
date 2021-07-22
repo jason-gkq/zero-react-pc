@@ -8,6 +8,10 @@ const model = createModel({
   name: "app",
   isGlobal: true,
   // 初始state状态
+  config: {
+    isNeedLogin: false,
+    isNeedPermission: true,
+  },
   state: {
     appStatus: "",
   },

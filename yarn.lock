@@ -11194,10 +11194,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zero-react-scripts@0.2.21:
-  version "0.2.21"
-  resolved "https://registry.yarnpkg.com/zero-react-scripts/-/zero-react-scripts-0.2.21.tgz#26cb1246b602ef92e6cbfa5378e01088ddced16b"
-  integrity sha512-mWpAywAkNzez5D5I3oV6cCBrb/o9pqA9Ix3Jyl2ByDfAV9gkd9oLKiOyjKD5PIr8obgn84maCJdPhbOisr8+ww==
+zero-react-scripts@0.2.23:
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/zero-react-scripts/-/zero-react-scripts-0.2.23.tgz#624891de2e5b54c2bcb8e551d3c65616e7491b46"
+  integrity sha512-VvnFAwRlVvs7eQ4j667RTDhrbVi5ddqT+UdRZ8NFdFR5mxX+luISz69HQJOQpCZ/7SheoV5jFX7SX309/04GoA==
   dependencies:
     "@babel/cli" "^7.13.14"
     "@babel/core" "^7.13.14"

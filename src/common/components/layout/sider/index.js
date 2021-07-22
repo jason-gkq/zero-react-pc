@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
-import { globalSelectors } from "../../../redux";
-import { flatDeep } from "../../../utils";
+import { globalSelectors, globalActions } from "../../../redux";
 
 import { View, Image } from "../../basic";
 
@@ -40,36 +39,12 @@ class SiderErrorBoundary extends Component {
     return this.props.children;
   }
 }
-const allMenus = {};
-
-const generateMenuPath = (menus, keys = null) => {
-  if (!Array.isArray(menus)) {
-    return;
-  }
-  const menuList = menus.map((item) => {
-    if (item.children && item.children.length > 0) {
-      return generateMenuPath(
-        item.children,
-        keys ? `${keys},${item.key}` : item.key
-      );
-    } else {
-      return {
-        key: item.key,
-        path: item.link,
-        keyPath: `${keys},${item.key}`,
-      };
-    }
-  });
-
-  return menuList;
-};
 
 const generateMenus = (menus) => {
   if (!Array.isArray(menus)) {
     return;
   }
   const menuList = menus.map((item) => {
-    allMenus[item.key] = item.title;
     if (item.children && item.children.length > 0) {
       return (
         <SubMenu key={item.key} title={item.title}>
@@ -77,7 +52,11 @@ const generateMenus = (menus) => {
         </SubMenu>
       );
     } else {
-      return <Menu.Item key={item.key}>{item.title}</Menu.Item>;
+      return (
+        <Menu.Item link={item.link} key={item.key}>
+          {item.title}
+        </Menu.Item>
+      );
     }
   });
   return menuList;
@@ -88,8 +67,17 @@ const generateMenus = (menus) => {
     const { currentPage = {}, menus } = globalSelectors.getRoute(state);
     const { path } = currentPage;
     return { path, menus };
+  },
+  (dispatch) => {
+    return {
+      goTo(...data) {
+        console.log(data);
+        // dispatch(
+        //   globalActions.navigate.goTo({ url: "/home/home3/index?a=1&b=3" })
+        // );
+      },
+    };
   }
-  // (dispatch) => {}
 )
 export default class extends Component {
   constructor(props) {
@@ -105,14 +93,21 @@ export default class extends Component {
     const { menus, path, configureMenu } = this.props;
     const menuItems = generateMenus(menus);
     const keys = configureMenu.getSelectKeys(path);
-    console.log(keys);
-    this.setState({ menuItems });
+    let defaultOpenKeys = [];
+    let defaultSelectedKeys = [];
+    if (keys && keys.length > 2) {
+      defaultOpenKeys = keys.slice(0, keys.length - 1);
+      defaultSelectedKeys = keys.slice(keys.length - 1, keys.length);
+    } else {
+      defaultOpenKeys = keys;
+      defaultSelectedKeys = keys;
+    }
+    this.setState({ menuItems, defaultOpenKeys, defaultSelectedKeys });
   }
 
   render() {
-    const { collapsed, path, configureMenu } = this.props;
-    const { menuItems } = this.state;
-    // const keys = configureMenu.getSelectKeys(path);
+    const { collapsed, goTo } = this.props;
+    const { menuItems, defaultSelectedKeys, defaultOpenKeys } = this.state;
     return (
       <SiderErrorBoundary>
         <Sider
@@ -129,8 +124,9 @@ export default class extends Component {
             <Menu
               theme='dark'
               mode='inline'
-              defaultOpenKeys={["4", "818"]}
-              defaultSelectedKeys={["820"]}
+              defaultOpenKeys={defaultOpenKeys}
+              defaultSelectedKeys={defaultSelectedKeys}
+              onClick={goTo}
             >
               {menuItems}
             </Menu>

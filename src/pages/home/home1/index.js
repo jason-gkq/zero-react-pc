@@ -11,7 +11,6 @@ class Home extends Component {
 
   render() {
     const { $model, $globalActions, $globalSelectors } = this.props;
-    console.log($globalActions, $globalSelectors);
     return (
       <DivTest
         $model={$model}

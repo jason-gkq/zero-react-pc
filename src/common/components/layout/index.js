@@ -2,7 +2,7 @@ import React, { Suspense, Fragment } from "react";
 import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import "./index.less";
-import { globalSelectors, globalActions } from "../../redux";
+import { globalSelectors } from "../../redux";
 import { ConfigureMenu } from "../../navigate";
 import { Layout } from "antd";
 

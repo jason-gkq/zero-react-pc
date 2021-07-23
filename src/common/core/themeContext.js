@@ -4,6 +4,7 @@ export let themes = {
   A: {
     "--theme-color": "#000000",
     background: "#eeeeee",
+    "--font-color": "red",
   },
   B: {
     "--theme-color": "#ffffff",
@@ -15,9 +16,9 @@ export let themes = {
   },
 };
 
-export const injectTheme = (newThemes) => {
-  return Promise.resolve(Object.assign(themes, newThemes));
-};
+// export const injectTheme = (newThemes) => {
+//   return Promise.resolve(Object.assign(themes, newThemes));
+// };
 
 export let currentTheme = "A";
 

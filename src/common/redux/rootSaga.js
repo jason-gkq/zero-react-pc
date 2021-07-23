@@ -23,20 +23,11 @@ import platform from "platform";
 
 import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
-
 import { cookieStorage, storage } from "../cache";
 import { guid } from "../utils";
-
 import { navigate } from "../navigate";
-
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
-
-import {
-  themes,
-  injectTheme,
-  setThemeContext,
-  currentTheme,
-} from "../core/themeContext";
+import { themes, setThemeContext } from "../core/themeContext";
 
 const initEnv = function* () {
   const env = yield select(getEnv);
@@ -71,20 +62,16 @@ const initEnv = function* () {
   yield put(staticActions.env.setEnv({ ...env }));
 };
 
-const injectThemes = function* ({ payload: { themes } }) {
-  injectTheme(themes);
-};
-
 const changeTheme = function* ({ payload: { theme } }) {
   // const {theme} = yield select(getEnv);
+  console.log(theme);
   if (!themes[theme]) {
     return;
   }
-  if (theme === currentTheme) {
-    return;
-  }
+
   setThemeContext(theme);
   const themeInfo = themes[theme];
+
   Object.keys(themeInfo).forEach((key) => {
     document.documentElement.style.setProperty(key, themeInfo[key]);
   });
@@ -283,7 +270,6 @@ export default function* staticSagas() {
   yield all([queryUserAuth()]);
 
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
-  yield takeLatest(staticActions.env.injectThemes, injectThemes);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
   yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
   /**

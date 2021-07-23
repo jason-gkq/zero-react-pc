@@ -4,37 +4,6 @@ import { connect } from "react-redux";
 import { globalActions, globalSelectors } from "../redux";
 
 export default (pageModel) => (WrappedComponent) => {
-  class TargetComponent extends WrappedComponent {
-    constructor(props) {
-      super(props);
-    }
-
-    // TODO: 登录、权限 判断
-    componentDidMount() {
-      const {
-        $isNeedLogin,
-        $isNeedPermission,
-        dispatch,
-        $route,
-        $payload,
-        $isLogin,
-      } = this.props;
-      // 需要登录
-      if ($isNeedLogin && !$isLogin) {
-        dispatch(
-          globalActions.navigate.goTo({
-            url: $route.endsWith("/common/login/index")
-              ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
-              : `/common/login/index?to=${encodeURIComponent($route)}`,
-            payload: $payload,
-          })
-        );
-        return;
-      }
-      super.componentDidMount();
-    }
-  }
-
   @connect((state, { location }) => {
     const { pageStatus } = pageModel.selectors.getState(state);
     let {
@@ -76,7 +45,7 @@ export default (pageModel) => (WrappedComponent) => {
       );
       if ($isNeedLogin && !$isLogin) {
         dispatch(
-          globalActions.navigate.goTo({
+          globalActions.navigate.redirect({
             url: $route.endsWith("/common/login/index")
               ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
               : `/common/login/index?to=${encodeURIComponent($route)}`,

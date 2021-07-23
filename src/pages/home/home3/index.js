@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as styles from "./index.less";
+
 import { BasePage } from "@/common/core";
 import model from "./index.model";
 
 import { globalActions } from "@/common/redux";
-
+import { Button } from "@/common/components";
+import "./index.less";
 @BasePage(model)
 class Home extends Component {
   constructor(props) {
@@ -17,19 +18,19 @@ class Home extends Component {
     const { dispatch } = this.props;
     return (
       <div>
-        {/* <PageContent/> */}
-        <div className={styles.testContainer}>
-          <div onClick={this.props.addVoucher} className={styles.containerDiv}>
+        <Button type='primary'>4444s</Button>
+        <div className='test-container'>
+          <div onClick={this.props.addVoucher} className='container-div'>
             我是一个home3
           </div>
-          <div onClick={this.props.goTo} className={styles.containerDiv}>
+          <div onClick={this.props.goTo} className='container-div'>
             我是一个很多字div{" "}
           </div>
           <div
             onClick={() => {
               dispatch(globalActions.navigate.goBack());
             }}
-            className={styles.containerDiv}
+            className='container-div'
           >
             我是一个更多字而且第三个div
           </div>

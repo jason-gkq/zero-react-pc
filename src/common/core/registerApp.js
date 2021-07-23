@@ -1,7 +1,6 @@
 import React from "react";
 import { store } from "../redux";
 import { history, generateRoute } from "../navigate";
-// import { ThemeContext, themes } from "./themeContext";
 import "../style/index.less";
 
 export default (appModel) => (WrappedComponent) => {
@@ -27,9 +26,6 @@ export default (appModel) => (WrappedComponent) => {
         $onLunchPayload: onLunchPayload,
         $routes,
         $fullRoutes,
-        $theme: {
-          theme: env.theme || "",
-        },
       };
       /**
        * 运行app中 saga

@@ -27,7 +27,7 @@ import { cookieStorage, storage } from "../cache";
 import { guid } from "../utils";
 import { navigate } from "../navigate";
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
-import { themes, setThemeContext } from "../core/themeContext";
+import { themes } from "../core/themeContext";
 
 const initEnv = function* () {
   const env = yield select(getEnv);
@@ -63,13 +63,9 @@ const initEnv = function* () {
 };
 
 const changeTheme = function* ({ payload: { theme } }) {
-  // const {theme} = yield select(getEnv);
-  console.log(theme);
   if (!themes[theme]) {
     return;
   }
-
-  setThemeContext(theme);
   const themeInfo = themes[theme];
 
   Object.keys(themeInfo).forEach((key) => {

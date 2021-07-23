@@ -83,14 +83,14 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     render() {
-      const { $store, $history, $theme } = this.props;
+      const { $store, $history } = this.props;
       return (
         <Provider store={$store}>
-          <ThemeContext.Provider value={$theme}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Router history={$history}>{this.renderContent()}</Router>
-            </Suspense>
-          </ThemeContext.Provider>
+          {/* <ThemeContext.Provider value={$theme}> */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <Router history={$history}>{this.renderContent()}</Router>
+          </Suspense>
+          {/* </ThemeContext.Provider> */}
         </Provider>
       );
     }

@@ -1,21 +1,13 @@
 - 系统 loading、页面 loading 开发
 - 页头 功能封装
-- tabBar 功能封装
+
 - 组件封装
 - 页面事件监听封装
-
 - ubt 埋点开发
-- svg 处理方案；
-- 媒体资源，在本地、测试和生产中方案定制；
 - cdn 方案【待验证】
-
-- content 部分采用 flex 布局封装以及验证
 - 代码检查、githock 封装
 - vendor 目录功能规划【存放第三方 sdk 等】
-
-- 所有页面使用 div 布局是否可以包装为 View 组件进行开发
 - fetch 封装
-- 语言包看是否需要
 
 ## 指南
 
@@ -35,7 +27,7 @@ http://localhost:8080/
 更新包
 
 ```shell
-yarn upgrade zero-react-scripts@0.2.20
+yarn upgrade zero-react-scripts@0.2.24
 ```
 
 ## 框架

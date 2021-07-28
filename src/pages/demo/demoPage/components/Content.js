@@ -3,7 +3,7 @@ import React from "react";
 import china from "@/assets/lcb-logo/logo-collapsed.png";
 import logo from "@/assets/lcb-logo/logo-menu.png";
 
-import { Button, View, Image } from "@/common/components";
+import { Button, View, Image, Text } from "@/common/components";
 
 export default (props) => {
   const { addVoucher, goTo, goBack, pageStatus } = props;
@@ -13,7 +13,7 @@ export default (props) => {
       <View>
         <View className='test-container'>
           <View onClick={addVoucher} className='container-div'>
-            我是一个demo
+            <Text>我是一个demo</Text>
             <Image src={china} />
             <Image src={logo} />
           </View>

@@ -1,15 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { globalActions, globalSelectors } from "../redux";
+import { guardRoute } from "../navigate";
 
 export default (pageModel) => (WrappedComponent) => {
   @connect((state, { location }) => {
     const { pageStatus } = pageModel.selectors.getState(state);
     let {
-      isNeedLogin: $isNeedLogin,
-      isNeedPermission: $isNeedPermission,
+      config: {
+        isNeedLogin: $isNeedLogin,
+        isNeedPermission: $isNeedPermission,
+      },
     } = globalSelectors.app.getState(state);
+
     const { isLogin: $isLogin } = globalSelectors.getUser(state);
 
     if (Reflect.has(pageModel.config, "isNeedLogin")) {
@@ -33,8 +36,18 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props) {
       super(props);
 
-      const { dispatch, $route, $payload, $isLogin, $isNeedLogin } = this.props;
-
+      const {
+        dispatch,
+        $route,
+        $payload,
+        $isLogin,
+        $isNeedLogin,
+        $isNeedPermission,
+      } = this.props;
+      if ($isNeedPermission && !guardRoute($route)) {
+        dispatch(globalActions.navigate.goBack());
+        return;
+      }
       dispatch(
         globalActions.route.currentPage({
           pageId: pageModel.config.pageId,
@@ -99,6 +112,7 @@ export default (pageModel) => (WrappedComponent) => {
       return (
         <WrappedComponent
           {...restProps}
+          $guardRoute={guardRoute}
           $model={pageModel}
           $globalActions={globalActions}
           $globalSelectors={globalSelectors}

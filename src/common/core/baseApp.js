@@ -9,6 +9,8 @@ import { Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { View, PageLoading, ErrorBoundary } from "../components";
 import RegisterApp from "./registerApp";
+import { injectRouterRules } from "../navigate";
+import { storage } from "../cache";
 
 const AppPage = lazy(() =>
   import(/* webpackChunkName: 'app' */ "../components/layout")
@@ -26,11 +28,18 @@ export default (appModel) => (WrappedComponent) => {
 
     componentDidMount() {
       const { $store, $onLunchPayload } = this.props;
+      const { config } = appModel;
+      const { isNeedPermission } = config;
+      $store.dispatch(appModel.actions.setState({ config }));
       const unsubscribe = $store.subscribe(() => {
         const {
           env: { status },
         } = $store.getState();
         if (status) {
+          if (isNeedPermission) {
+            const { routerRules } = storage.getStorageSync("userAuth") || {};
+            injectRouterRules(routerRules);
+          }
           this.setState({
             status: "success",
           });

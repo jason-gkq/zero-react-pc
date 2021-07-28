@@ -1,9 +1,11 @@
 import React from "react";
 import routes from "./routeData";
 import { Route } from "react-router-dom";
+import { storage } from "../cache";
 import { flatDeep } from "../utils";
 
 const allPageRoute = [];
+let routerRules = [];
 
 export function generateRoute() {
   let indexRoute = "";
@@ -27,8 +29,20 @@ export function generateRoute() {
   return { routeList, fullRoutes };
 }
 
-export function guardRoute() {
-  return true;
+export function injectRouterRules(rules) {
+  routerRules = rules;
+}
+
+export function guardRoute(route) {
+  if (routerRules && routerRules.length > 0) {
+    return routerRules.includes(route);
+  }
+  const { routerRules: routerRulesCache } =
+    storage.getStorageSync("userAuth") || {};
+  if (routerRulesCache && routerRulesCache.length > 0) {
+    return routerRulesCache.includes(route);
+  }
+  return false;
 }
 
 export class ConfigureMenu {

@@ -6,6 +6,7 @@ export default createModel({
     pageId: "10011",
     title: "Index",
     isNeedLogin: false,
+    isNeedPermission: false,
   },
   state: {
     systemName: "小程序",

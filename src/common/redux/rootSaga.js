@@ -204,35 +204,41 @@ const reLaunch = function* ({ payload: { url, payload = {}, options = {} } }) {
   return;
 };
 
-const login = function* ({ payload }) {
-  try {
-    const user = yield httpsClient.post(`gateway/user/smsLogin`, {
-      mobile: "13800000000",
-      code: "1111",
-    });
-    user["isLogin"] = true;
-    user["mobile"] = user.user && user.user.mobile;
-    yield put(staticActions.user.setUser(user));
-  } catch (error) {
-    yield put(staticActions.user.setUser({ isLogin: false }));
-  }
-};
+// const login = function* ({ payload }) {
+//   try {
+//     const user = yield httpsClient.post(`gateway/user/smsLogin`, {
+//       mobile: "13800000000",
+//       code: "1111",
+//     });
+//     user["isLogin"] = true;
+//     user["mobile"] = user.user && user.user.mobile;
+//     yield put(staticActions.user.setUser(user));
+//   } catch (error) {
+//     yield put(staticActions.user.setUser({ isLogin: false }));
+//   }
+// };
 
-const loginSuccess = function* ({ payload }) {};
+// const loginSuccess = function* ({ payload }) {};
 
-const logout = function* ({ payload }) {};
+// const logout = function* ({ payload }) {};
 
 const queryUserAuth = function* () {
+  let userAuth = storage.getStorageSync("userAuth");
   try {
+    if (!userAuth) {
+      userAuth = yield httpsClient.post(
+        `gateway/manage/common/api/auth/queryUserAuth`
+      );
+      storage.setStorageSync("userAuth", userAuth, "2H");
+    }
     const {
       factoryInfoRespList,
       groupInfo,
       groupInfoResp,
       menus,
       roles,
-      routerRules,
       user,
-    } = yield httpsClient.post(`gateway/manage/common/api/auth/queryUserAuth`);
+    } = userAuth;
     user["isLogin"] = false;
     if (user && user.user && user.user.mobile) {
       user["isLogin"] = true;
@@ -278,8 +284,8 @@ export default function* staticSagas() {
   /**
    * 用户
    */
-  yield takeLatest(staticActions.user.login, login);
-  yield takeLatest(staticActions.user.logout, logout);
+  // yield takeLatest(staticActions.user.login, login);
+  // yield takeLatest(staticActions.user.logout, logout);
 }
 
 // 用于缓存所有effects函数

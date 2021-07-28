@@ -5,6 +5,7 @@ import { BasePage } from "@/common/core";
 import model from "./index.model";
 
 import { globalActions } from "@/common/redux";
+import { Loading } from "@/common/components";
 
 @BasePage(model)
 class Index extends Component {
@@ -18,7 +19,7 @@ class Index extends Component {
         {/* <PageContent/> */}
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
-            我是一个home
+            <Loading msg={"我是一个home"} />
           </div>
           <div onClick={this.props.goTo} className={styles.containerDiv}>
             我是一个很多字div{" "}

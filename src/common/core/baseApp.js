@@ -7,7 +7,7 @@
 import React, { Suspense, lazy } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { ThemeContext } from "./themeContext";
+import { View, PageLoading, ErrorBoundary } from "../components";
 import RegisterApp from "./registerApp";
 
 const AppPage = lazy(() =>
@@ -67,9 +67,25 @@ export default (appModel) => (WrappedComponent) => {
       const { status } = this.state;
       switch (status) {
         case "loading":
-          return <div>Loading...</div>;
+          return (
+            <View
+              style={{
+                height: "100vh",
+              }}
+            >
+              <PageLoading />
+            </View>
+          );
         case "error":
-          return <div>网络异常</div>;
+          return (
+            <View
+              style={{
+                height: "100vh",
+              }}
+            >
+              <ErrorBoundary msg={"网络异常，请刷新重试"} />
+            </View>
+          );
         default:
           return (
             <Switch>
@@ -87,7 +103,17 @@ export default (appModel) => (WrappedComponent) => {
       return (
         <Provider store={$store}>
           {/* <ThemeContext.Provider value={$theme}> */}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <View
+                style={{
+                  height: "100vh",
+                }}
+              >
+                <PageLoading />
+              </View>
+            }
+          >
             <Router history={$history}>{this.renderContent()}</Router>
           </Suspense>
           {/* </ThemeContext.Provider> */}

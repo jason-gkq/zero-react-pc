@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./index.less";
 
 import { Layout } from "antd";
+import { ErrorBoundary } from "../../business";
 
 const { Content } = Layout;
 
@@ -26,7 +27,11 @@ class ContentErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return <Content className='main-content'>页面渲染出错</Content>;
+      return (
+        <Content className='main-content'>
+          <ErrorBoundary msg={"页面渲染出错"} />
+        </Content>
+      );
     }
     return this.props.children;
   }

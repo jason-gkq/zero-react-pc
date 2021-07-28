@@ -9,6 +9,7 @@ import { Layout } from "antd";
 import Header from "./header";
 import Sider from "./sider";
 import Content from "./content";
+import { PageLoading } from "../business";
 
 class LayoutErrorBoundary extends React.Component {
   constructor(props) {
@@ -71,25 +72,23 @@ export default class extends React.Component {
 
     return (
       <LayoutErrorBoundary>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Layout style={{ minHeight: "100vh" }}>
-            <Sider collapsed={collapsed} configureMenu={configureMenu} />
-            <Layout className={collapsed ? "main-root-trigger" : "main-root"}>
-              <Header
-                onCollapse={this.onCollapse}
-                collapsed={collapsed}
-                configureMenu={configureMenu}
-              />
-              <Content>
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Fragment>
-                    <Switch>{$routes}</Switch>
-                  </Fragment>
-                </Suspense>
-              </Content>
-            </Layout>
+        <Layout style={{ minHeight: "100vh" }}>
+          <Sider collapsed={collapsed} configureMenu={configureMenu} />
+          <Layout className={collapsed ? "main-root-trigger" : "main-root"}>
+            <Header
+              onCollapse={this.onCollapse}
+              collapsed={collapsed}
+              configureMenu={configureMenu}
+            />
+            <Content>
+              <Suspense fallback={<PageLoading />}>
+                <Fragment>
+                  <Switch>{$routes}</Switch>
+                </Fragment>
+              </Suspense>
+            </Content>
           </Layout>
-        </Suspense>
+        </Layout>
       </LayoutErrorBoundary>
     );
   }

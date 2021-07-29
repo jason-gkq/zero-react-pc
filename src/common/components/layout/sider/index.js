@@ -10,6 +10,8 @@ import logoCollapsed from "@/assets/lcb-logo/logo-collapsed.png";
 
 import { Layout, Menu } from "antd";
 
+import { AppstoreOutlined, PayCircleOutlined } from "@ant-design/icons";
+
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
@@ -47,7 +49,11 @@ const generateMenus = (menus) => {
   const menuList = menus.map((item) => {
     if (item.children && item.children.length > 0) {
       return (
-        <SubMenu key={item.key} title={item.title}>
+        <SubMenu
+          icon={item.icon ? <PayCircleOutlined /> : null}
+          key={item.key}
+          title={item.title}
+        >
           {generateMenus(item.children)}
         </SubMenu>
       );

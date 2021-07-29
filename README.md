@@ -55,7 +55,7 @@ home // 页面目录名
 
 ```js
 import React, { Component } from "react";
-import { BasePage } from "@/common/core";
+import { BasePage } from "@/zero/core";
 import model from "./index.model";
 
 import DivTest from "./containers/DivTest";

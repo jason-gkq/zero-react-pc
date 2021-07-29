@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Flex } from "@/common/components";
+import { Text, Flex } from "@/zero/components";
 import backBlack from "@/assets/img/back-black.svg";
 
 const styles = {

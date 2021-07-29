@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "@/common/components";
+import { View, Text, Button } from "@/zero/components";
 import ReactToPrint from "react-to-print";
 
 /**

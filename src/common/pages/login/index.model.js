@@ -1,7 +1,7 @@
-import { createModel } from "@/common/redux";
+import { createModel } from "@/zero/redux";
 import { put, call, select } from "redux-saga/effects";
-import { cookieStorage } from "@/common/cache";
-import { httpsClient } from "@/common/net";
+import { cookieStorage } from "@/zero/cache";
+import { httpsClient } from "@/zero/net";
 
 export default createModel({
   name: "login",

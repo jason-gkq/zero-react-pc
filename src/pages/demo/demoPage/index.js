@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BasePage } from "@/common/core";
+import { BasePage } from "@/zero/core";
 import model from "./index.model";
 import "./index.less";
 

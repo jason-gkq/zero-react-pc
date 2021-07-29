@@ -1,6 +1,6 @@
-import { createModel } from "@/common/redux";
-// import { httpsClient } from "@/common/net";
-// import { storage, cookieStorage } from "@/common/cache";
+import { createModel } from "@/zero/redux";
+// import { httpsClient } from "@/zero/net";
+// import { storage, cookieStorage } from "@/zero/cache";
 // import { put, call, select } from "redux-saga/effects";
 
 const model = createModel({

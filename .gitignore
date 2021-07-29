@@ -17,7 +17,7 @@ bin-release/
 dest
 dist
 
-src/common/navigate/routeData.js
+src/zero/navigate/routeData.js
 
 !assets
 !yarn.lock

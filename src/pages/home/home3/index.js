@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { BasePage } from "@/common/core";
+import { BasePage } from "@/zero/core";
 import model from "./index.model";
 
-import { globalActions } from "@/common/redux";
-import { Button } from "@/common/components";
+import { globalActions } from "@/zero/redux";
+import { Button } from "@/zero/components";
 import "./index.less";
 
 import ReactToPrint from "react-to-print";

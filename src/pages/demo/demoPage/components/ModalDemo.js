@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View, Image, Text, Modal } from "@/common/components";
+import { Button, View, Image, Text, Modal } from "@/zero/components";
 import logo from "@/assets/lcb-logo/logo-menu.png";
 
 export default (props) => {

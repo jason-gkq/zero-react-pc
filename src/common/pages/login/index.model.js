@@ -62,7 +62,7 @@ export default createModel({
         yield put($globalActions.auth.queryAuth());
         yield put($globalActions.navigate.redirect({ url, payload: params }));
       } catch (error) {
-        cookieStorage.removeItem("token", "", cookieStorage.getDomain());
+        cookieStorage.removeItem("token", "/", cookieStorage.getDomain());
         yield put($globalActions.user.setUser({ isLogin: false }));
       }
     },

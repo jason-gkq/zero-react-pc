@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
 import { globalSelectors, globalActions } from "../../../redux";
-import { View, Text, Avatar, Divider } from "../../basic";
+import { View, Text, Avatar } from "../../basic";
 import { Layout } from "antd";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
-import StoreList from "./tools/chengeStore";
+import StoreList from "./tools/changeStore";
 
 class HeaderErrorBoundary extends Component {
   constructor(props) {

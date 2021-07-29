@@ -17,3 +17,7 @@ export const Avatar = AvatarD;
 export const Spin = SpinD;
 export const Space = SpaceD;
 export const Divider = DividerD;
+
+/**
+ * icon
+ */

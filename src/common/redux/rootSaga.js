@@ -392,6 +392,15 @@ const modifyAuth = function* () {
 };
 
 export default function* staticSagas() {
+  yield fork(modifyAuth);
+  /**
+   * 路由
+   */
+  yield fork(goTo);
+  yield fork(goBack);
+  yield fork(redirect);
+  yield fork(reLaunch);
+
   /**
    * 系统信息初始化
    */
@@ -400,15 +409,7 @@ export default function* staticSagas() {
   /**
    * 权限变更
    */
-  yield fork(modifyAuth);
   yield takeLatest(staticActions.auth.queryAuth, queryUserAuth);
-  /**
-   * 路由
-   */
-  yield fork(goTo);
-  yield fork(goBack);
-  yield fork(redirect);
-  yield fork(reLaunch);
   /**
    * 切换店铺
    */

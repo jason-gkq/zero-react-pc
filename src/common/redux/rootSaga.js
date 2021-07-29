@@ -25,18 +25,23 @@ import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
 import { cookieStorage, storage } from "../cache";
 import { guid } from "../utils";
-import { navigate } from "../navigate";
+import { navigate, injectRouterRules } from "../navigate";
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
 import { themes } from "../core/themeContext";
 
 const initEnv = function* () {
   const env = yield select(getEnv);
-  let clientId = storage.getStorageSync("__clientId");
+  let clientId = cookieStorage.getItem("__clientId");
   if (!clientId) {
     clientId = guid();
-    storage.setStorageSync("__clientId", clientId, Infinity);
+    cookieStorage.setItem(
+      "__clientId",
+      clientId,
+      Infinity,
+      "/",
+      cookieStorage.getDomain()
+    );
   }
-  // console.log(document.documentElement.style);
   const parentSessionId = guid();
   const sessionId = parentSessionId;
   const onLunchTime = Date.now();
@@ -223,20 +228,33 @@ const reLaunch = function* ({ payload: { url, payload = {}, options = {} } }) {
 // const logout = function* ({ payload }) {};
 
 const queryUserAuth = function* () {
-  let userAuth = storage.getStorageSync("userAuth");
+  // let userAuth = storage.getStorageSync("userAuth");
   try {
-    if (!userAuth) {
-      userAuth = yield httpsClient.post(
-        `gateway/manage/common/api/auth/queryUserAuth`
-      );
-      storage.setStorageSync("userAuth", userAuth, "2H");
+    // if (!userAuth) {
+    const { cachePrefix } = yield select(getEnv);
+    let groupKey = cookieStorage.getItem(`${cachePrefix}currentStore`);
+    let groupArr = [];
+    if (groupKey) {
+      groupArr = groupKey.split("|");
     }
+    const userAuth = yield call(
+      httpsClient.post,
+      `gateway/manage/common/api/auth/queryUserAuth`,
+      {
+        groupKey: groupKey || null,
+        groupId: groupArr[1] || null,
+        groupType: groupArr[0] || null,
+      }
+    );
+    storage.setStorageSync("userAuth", userAuth, Infinity);
+    // }
     const {
       factoryInfoRespList,
       groupInfo,
       groupInfoResp,
       menus,
       roles,
+      routerRules,
       user,
     } = userAuth;
     user["isLogin"] = false;
@@ -244,6 +262,18 @@ const queryUserAuth = function* () {
       user["isLogin"] = true;
     }
     user["mobile"] = user.user && user.user.mobile;
+    cookieStorage.setItem(
+      `${cachePrefix}currentStore`,
+      `${groupInfo.groupType}|${groupInfo.groupId}`,
+      Infinity,
+      "/",
+      cookieStorage.getDomain()
+    );
+    setCommonData({
+      groupType: groupInfo.groupType,
+      groupId: groupInfo.groupId,
+    });
+    injectRouterRules(routerRules);
     yield put(
       staticActions.route.setRoute({
         menus,
@@ -264,16 +294,70 @@ const queryUserAuth = function* () {
   yield put(staticActions.env.setEnv({ status: true }));
 };
 
+const changeShop = function* ({ payload: { shopInfo } }) {
+  try {
+    yield setCommonData({
+      groupType: shopInfo.groupType,
+      groupId: shopInfo.groupId,
+    });
+    const data = yield all([
+      call(httpsClient.post, "gateway/manage/common/api/menu/queryUserMenus", {
+        groupId: shopInfo.groupId,
+        groupType: shopInfo.groupType,
+      }),
+      call(
+        httpsClient.post,
+        "gateway/manage/common/api/routes/userRoutesByGroup",
+        {
+          groupId: shopInfo.groupId,
+          groupType: shopInfo.groupType,
+        }
+      ),
+    ]);
+    let userAuth = storage.getStorageSync("userAuth");
+
+    const { cachePrefix } = yield select(getEnv);
+    const menus = data[0] || [];
+    const rules = data[1];
+    storage.setStorageSync(
+      "userAuth",
+      Object.assign(userAuth, {
+        menus,
+        routerRules: rules,
+        groupInfo: shopInfo,
+      }),
+      Infinity
+    );
+
+    cookieStorage.setItem(
+      `${cachePrefix}currentStore`,
+      `${shopInfo.groupType}|${shopInfo.groupId}`,
+      Infinity,
+      "/",
+      cookieStorage.getDomain()
+    );
+    yield put(
+      staticActions.route.setRoute({
+        menus,
+      })
+    );
+    injectRouterRules(rules);
+    yield put(
+      staticActions.shop.setShop({
+        shopInfo,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default function* staticSagas() {
   /**
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
   yield all([queryUserAuth()]);
-
-  yield takeLatest(staticActions.env.changeTheme, changeTheme);
-  yield takeLatest(staticActions.env.setAppCode, setAppCode);
-  yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
   /**
    * 路由
    */
@@ -281,6 +365,12 @@ export default function* staticSagas() {
   yield takeLatest(staticActions.navigate.goBack, goBack);
   yield takeLatest(staticActions.navigate.redirect, redirect);
   yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
+
+  yield takeLatest(staticActions.shop.changeShop, changeShop);
+
+  yield takeLatest(staticActions.env.changeTheme, changeTheme);
+  yield takeLatest(staticActions.env.setAppCode, setAppCode);
+  yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
   /**
    * 用户
    */

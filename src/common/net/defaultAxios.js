@@ -65,15 +65,12 @@ const getRequestIdentify = (config, isReuest = false) => {
  */
 const initCommonData = (env) => {
   commonData = {
-    appCode: env.appCode,
+    appCode: Number(env.appCode),
     version: env.version,
     __cleintId: env.__clientId,
     parentSessionId: env.parentSessionId,
     sessionId: env.sessionId,
   };
-  env.appId && (commonData["appId"] = env.appId);
-  env.groupId && (commonData["groupId"] = env.groupId);
-  env.groupType && (commonData["groupType"] = env.groupType);
 };
 /**
  * 更新公共参数
@@ -294,8 +291,7 @@ export function setAxiosBase(env) {
     interceptorsFlag = false;
     axios.defaults.baseURL = env.SERVICE_URL || process.env.SERVICE_URL;
     axios.defaults.headers.post["Accept"] = "*/*";
-    axios.defaults.headers.post["Content-Type"] =
-      "application/json; charset=utf-8";
+    axios.defaults.headers.post["Content-Type"] = "application/json";
 
     axios.defaults.timeout = 10000;
     axios.defaults.withCredentials = true;

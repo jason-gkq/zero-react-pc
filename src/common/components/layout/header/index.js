@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
-import { globalSelectors } from "../../../redux";
-import { View, Text, Avatar } from "../../basic";
+import { globalSelectors, globalActions } from "../../../redux";
+import { View, Text, Avatar, Divider } from "../../basic";
 import { Layout } from "antd";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+
+import StoreList from "./tools/chengeStore";
 
 class HeaderErrorBoundary extends Component {
   constructor(props) {
@@ -41,8 +43,16 @@ class HeaderErrorBoundary extends Component {
     const { shopInfo, shopList } = globalSelectors.getShop(state);
     const { path } = currentPage;
     return { path, userInfo, shopInfo, shopList };
+  },
+  (dispatch) => {
+    return {
+      changeShop({ item }) {
+        dispatch(
+          globalActions.shop.changeShop({ shopInfo: item.props.shopinfo })
+        );
+      },
+    };
   }
-  // (dispatch) => {}
 )
 export default class extends Component {
   constructor(props) {
@@ -50,7 +60,16 @@ export default class extends Component {
   }
 
   render() {
-    const { onCollapse, collapsed, path, configureMenu, userInfo } = this.props;
+    const {
+      onCollapse,
+      collapsed,
+      path,
+      configureMenu,
+      userInfo,
+      shopInfo,
+      shopList,
+      changeShop,
+    } = this.props;
     const breadcrumb = configureMenu.getBreadcrumb(path);
     return (
       <HeaderErrorBoundary>
@@ -72,9 +91,11 @@ export default class extends Component {
             </View>
           </View>
           <View className='main-header-right'>
-            <View className='main-header-tools main-header-download'>
-              <Text>{breadcrumb}</Text>
-            </View>
+            <StoreList
+              shopList={shopList}
+              shopInfo={shopInfo}
+              changeShop={changeShop}
+            />
             {userInfo ? (
               <View className='main-header-tools main-header-userinfo'>
                 <Text>{userInfo.realName || ""}</Text>

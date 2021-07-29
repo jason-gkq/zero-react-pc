@@ -15,6 +15,7 @@ export default createModel({
     pageId: "10011",
     title: "登录",
     isNeedLogin: false,
+    isNeedPermission: false,
   },
   reducers: {},
   sagas: {
@@ -30,10 +31,18 @@ export default createModel({
     },
     *requestSmsCode({ $selectors, $globalActions }) {
       try {
-        const user = yield httpsClient.post(`gateway/user/smsLogin`, {
-          mobile: "13800000000",
-          code: "1111",
-        });
+        // const user = yield httpsClient.post(`gateway/user/smsLogin`, {
+        //   mobile: "13800000000",
+        //   code: "1111",
+        // });
+        const user = yield call(
+          httpsClient.post,
+          "gateway/manage/common/api/user/pwdLogin",
+          {
+            loginName: "15000499260",
+            passwd: "12345678",
+          }
+        );
         user["isLogin"] = false;
         if (user && user.user && user.user.mobile) {
           user["isLogin"] = true;
@@ -43,6 +52,7 @@ export default createModel({
           "token",
           user.token,
           Infinity,
+          "/",
           cookieStorage.getDomain()
         );
         yield put($globalActions.user.setUser(user));

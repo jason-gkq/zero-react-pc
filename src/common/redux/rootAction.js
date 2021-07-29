@@ -31,6 +31,7 @@ const staticActions = {
   },
   SHOP: {
     SET_SHOP: void 0,
+    CHANGE_SHOP: void 0,
   },
   SHARE: void 0,
   TEST: void 0,

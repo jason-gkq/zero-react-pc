@@ -87,8 +87,7 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    const { menus, path, configureMenu } = this.props;
-    const menuItems = generateMenus(menus);
+    const { path, configureMenu } = this.props;
     const keys = configureMenu.getSelectKeys(path);
     let defaultOpenKeys = [];
     let defaultSelectedKeys = [];
@@ -99,12 +98,13 @@ export default class extends Component {
       defaultOpenKeys = keys;
       defaultSelectedKeys = keys;
     }
-    this.setState({ menuItems, defaultOpenKeys, defaultSelectedKeys });
+    this.setState({ defaultOpenKeys, defaultSelectedKeys });
   }
 
   render() {
-    const { collapsed, goTo } = this.props;
-    const { menuItems, defaultSelectedKeys, defaultOpenKeys } = this.state;
+    const { collapsed, goTo, menus } = this.props;
+    const { defaultSelectedKeys, defaultOpenKeys } = this.state;
+    const menuItems = generateMenus(menus);
     return (
       <SiderErrorBoundary>
         <Sider

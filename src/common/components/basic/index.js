@@ -8,6 +8,7 @@ import {
   Avatar as AvatarD,
   Spin as SpinD,
   Space as SpaceD,
+  Divider as DividerD,
 } from "antd";
 
 export const Image = ImageD;
@@ -15,3 +16,4 @@ export const Button = ButtonD;
 export const Avatar = AvatarD;
 export const Spin = SpinD;
 export const Space = SpaceD;
+export const Divider = DividerD;

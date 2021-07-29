@@ -19,7 +19,7 @@ class CookieStorage {
     );
   }
 
-  setItem(sKey, sValue, vEnd, sPath = "", sDomain = "") {
+  setItem(sKey, sValue, vEnd, sPath = "/", sDomain = "") {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
       return false;
     }

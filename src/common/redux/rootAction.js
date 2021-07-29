@@ -33,8 +33,10 @@ const staticActions = {
     SET_SHOP: void 0,
     CHANGE_SHOP: void 0,
   },
-  SHARE: void 0,
-  TEST: void 0,
+  AUTH: {
+    MODIFY_AUTH: void 0,
+    QUERY_AUTH: void 0,
+  },
 };
 
 export const globalActions = createActions(staticActions, {

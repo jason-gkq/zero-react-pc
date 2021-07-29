@@ -10,7 +10,7 @@ const model = createModel({
   // 初始state状态
   config: {
     isNeedLogin: false,
-    isNeedPermission: true,
+    isNeedPermission: false,
   },
   state: {
     appStatus: "",

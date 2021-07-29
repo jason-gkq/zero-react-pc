@@ -59,6 +59,7 @@ export default createModel({
         const { url = "/index/index", params } = yield select(
           $selectors.getState
         );
+        yield put($globalActions.auth.queryAuth());
         yield put($globalActions.navigate.redirect({ url, payload: params }));
       } catch (error) {
         cookieStorage.removeItem("token", "", cookieStorage.getDomain());

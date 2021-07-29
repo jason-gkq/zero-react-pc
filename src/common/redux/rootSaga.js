@@ -12,6 +12,7 @@
  */
 import {
   all,
+  take,
   put,
   fork,
   call,
@@ -22,7 +23,7 @@ import {
 import platform from "platform";
 
 import staticActions from "./rootAction";
-import { getEnv } from "./rootSelector";
+import { getEnv, getRoute } from "./rootSelector";
 import { cookieStorage, storage } from "../cache";
 import { guid } from "../utils";
 import { navigate, injectRouterRules } from "../navigate";
@@ -189,24 +190,40 @@ const initSystem = function* () {
 };
 
 // navigate
-const goTo = function* ({ payload: { url, payload = {}, options = {} } }) {
-  navigate.goTo({ url, payload, options });
-  return;
+const goTo = function* () {
+  while (true) {
+    const {
+      payload: { url, payload = {}, options = {} },
+    } = yield take(staticActions.navigate.goTo);
+    navigate.goTo({ url, payload, options });
+  }
 };
 
-const goBack = function* ({ payload: { delta, url = "" } = {} }) {
-  navigate.goBack({ delta, url });
-  return;
+const goBack = function* () {
+  while (true) {
+    const { payload: { delta, url = "" } = {} } = yield take(
+      staticActions.navigate.goBack
+    );
+    navigate.goBack({ delta, url });
+  }
 };
 
-const redirect = function* ({ payload: { url, payload = {}, options = {} } }) {
-  navigate.redirect({ url, payload, options });
-  return;
+const redirect = function* () {
+  while (true) {
+    const {
+      payload: { url, payload = {}, options = {} },
+    } = yield take(staticActions.navigate.redirect);
+    navigate.redirect({ url, payload, options });
+  }
 };
 
-const reLaunch = function* ({ payload: { url, payload = {}, options = {} } }) {
-  navigate.redirect({ url, payload, options });
-  return;
+const reLaunch = function* () {
+  while (true) {
+    const {
+      payload: { url, payload = {}, options = {} },
+    } = yield take(staticActions.navigate.reLaunch);
+    navigate.redirect({ url, payload, options });
+  }
 };
 
 // const login = function* ({ payload }) {
@@ -246,15 +263,11 @@ const queryUserAuth = function* () {
         groupType: groupArr[0] || null,
       }
     );
-    storage.setStorageSync("userAuth", userAuth, Infinity);
-    // }
     const {
       factoryInfoRespList,
       groupInfo,
       groupInfoResp,
-      menus,
       roles,
-      routerRules,
       user,
     } = userAuth;
     user["isLogin"] = false;
@@ -262,32 +275,23 @@ const queryUserAuth = function* () {
       user["isLogin"] = true;
     }
     user["mobile"] = user.user && user.user.mobile;
-    cookieStorage.setItem(
-      `${cachePrefix}currentStore`,
-      `${groupInfo.groupType}|${groupInfo.groupId}`,
-      Infinity,
-      "/",
-      cookieStorage.getDomain()
-    );
+
     setCommonData({
       groupType: groupInfo.groupType,
       groupId: groupInfo.groupId,
     });
-    injectRouterRules(routerRules);
-    yield put(
-      staticActions.route.setRoute({
-        menus,
-      })
-    );
-    yield put(
-      staticActions.shop.setShop({
-        shopList: roles,
-        shopInfo: groupInfo,
-        groupInfoResp,
-        factoryInfoRespList,
-      })
-    );
     yield put(staticActions.user.setUser(user));
+    yield put(
+      staticActions.auth.modifyAuth({
+        newUserAuth: userAuth,
+        allShopInfo: {
+          shopList: roles,
+          shopInfo: groupInfo,
+          groupInfoResp,
+          factoryInfoRespList,
+        },
+      })
+    );
   } catch (error) {
     yield put(staticActions.user.setUser({ isLogin: false }));
   }
@@ -314,24 +318,62 @@ const changeShop = function* ({ payload: { shopInfo } }) {
         }
       ),
     ]);
-    let userAuth = storage.getStorageSync("userAuth");
+
+    const menus = data[0] || [];
+    const rules = data[1] || [];
+
+    yield put(
+      staticActions.auth.modifyAuth({
+        newUserAuth: {
+          groupInfo: shopInfo,
+          menus,
+          routerRules: rules,
+        },
+        allShopInfo: {
+          shopInfo,
+        },
+      })
+    );
+    const { currentPage } = yield select(getRoute);
+    if (rules.includes(currentPage.route)) {
+      navigate.redirect({
+        url: currentPage.route,
+        payload: currentPage.payload,
+      });
+    } else {
+      navigate.redirect({ url: "/index/index" });
+    }
+  } catch (error) {
+    const { groupInfo } = storage.getStorageSync("userAuth");
+    yield setCommonData({
+      groupType: groupInfo.groupType,
+      groupId: groupInfo.groupId,
+    });
+  }
+};
+
+const modifyAuth = function* () {
+  while (true) {
+    const {
+      payload: { allShopInfo, newUserAuth },
+    } = yield take(staticActions.auth.modifyAuth);
 
     const { cachePrefix } = yield select(getEnv);
-    const menus = data[0] || [];
-    const rules = data[1];
+    let userAuth = storage.getStorageSync("userAuth");
+
     storage.setStorageSync(
       "userAuth",
-      Object.assign(userAuth, {
-        menus,
-        routerRules: rules,
-        groupInfo: shopInfo,
-      }),
+      Object.assign(userAuth, newUserAuth),
       Infinity
     );
 
+    const { groupInfo, menus, routerRules } = newUserAuth;
+
+    yield injectRouterRules(routerRules);
+
     cookieStorage.setItem(
       `${cachePrefix}currentStore`,
-      `${shopInfo.groupType}|${shopInfo.groupId}`,
+      `${groupInfo.groupType}|${groupInfo.groupId}`,
       Infinity,
       "/",
       cookieStorage.getDomain()
@@ -341,14 +383,11 @@ const changeShop = function* ({ payload: { shopInfo } }) {
         menus,
       })
     );
-    injectRouterRules(rules);
     yield put(
       staticActions.shop.setShop({
-        shopInfo,
+        ...allShopInfo,
       })
     );
-  } catch (error) {
-    console.log(error);
   }
 };
 
@@ -359,14 +398,24 @@ export default function* staticSagas() {
   yield all([initSystem(), initEnv()]);
   yield all([queryUserAuth()]);
   /**
+   * 权限变更
+   */
+  yield fork(modifyAuth);
+  yield takeLatest(staticActions.auth.queryAuth, queryUserAuth);
+  /**
    * 路由
    */
-  yield takeLatest(staticActions.navigate.goTo, goTo);
-  yield takeLatest(staticActions.navigate.goBack, goBack);
-  yield takeLatest(staticActions.navigate.redirect, redirect);
-  yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
-
+  yield fork(goTo);
+  yield fork(goBack);
+  yield fork(redirect);
+  yield fork(reLaunch);
+  /**
+   * 切换店铺
+   */
   yield takeLatest(staticActions.shop.changeShop, changeShop);
+  /**
+   * 初始化权限
+   */
 
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);

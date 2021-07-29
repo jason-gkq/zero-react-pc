@@ -18,7 +18,13 @@ export default (props) => {
     }
     const key = `${item.groupType}|${item.groupId}`;
     return (
-      <Menu.Item key={key} shopinfo={item}>
+      <Menu.Item
+        key={key}
+        shopinfo={item}
+        style={{
+          fontSize: "12px",
+        }}
+      >
         {item.groupName}
       </Menu.Item>
     );

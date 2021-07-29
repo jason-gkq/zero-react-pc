@@ -4,6 +4,8 @@ import model from "./index.model";
 import "./index.less";
 
 import Content from "./containers/Content";
+import ModalDemo from "./containers/ModalDemo";
+import PrintDemo from "./components/PrintDemo";
 
 @BasePage(model)
 export default class extends Component {
@@ -14,11 +16,15 @@ export default class extends Component {
   render() {
     const { $model, $globalActions, $globalSelectors } = this.props;
     return (
-      <Content
-        $model={$model}
-        $globalActions={$globalActions}
-        $globalSelectors={$globalSelectors}
-      />
+      <>
+        <Content
+          $model={$model}
+          $globalActions={$globalActions}
+          $globalSelectors={$globalSelectors}
+        />
+        <ModalDemo $model={$model} />
+        <PrintDemo />
+      </>
     );
   }
 }

@@ -25,8 +25,9 @@ export default createModel({
    * 页面默认参数定义
    */
   state: {
-    systemName: "DEMO",
     pageStatus: "loading",
+    isModalVisible: false,
+    systemName: "测试文案",
     authData: {},
   },
   /**
@@ -62,37 +63,37 @@ export default createModel({
       yield put($actions.setState({ pageStatus: "success" }));
     },
     // 所有方法前必须加：*
-    *getAuthData(
-      { $actions, $selectors, $globalActions, $globalSelectors }, // 不需要的参数可以不用引入
-      { payload }
-    ) {
-      // 接口调用示例
-      const authData = yield call(httpsClient.post, { ...payload });
-      // 存值如state
-      yield put($actions.setState({ authData }));
-      // 获取state
-      const { authData: newAuthData1 } = yield select($selectors.getState);
-      console.log("newAuthData:", newAuthData1);
-      // 获取state
-      const newAuthData2 = yield select($selectors.getAuthData);
-      console.log("newAuthData:", newAuthData2);
-    },
-    *consoleUser({ $selectors }) {
-      const user = yield select($selectors.getUser);
-      console.log(user);
-    },
+    // *getAuthData(
+    //   { $actions, $selectors, $globalActions, $globalSelectors }, // 不需要的参数可以不用引入
+    //   { payload }
+    // ) {
+    //   // 接口调用示例
+    //   const authData = yield call(httpsClient.post, { ...payload });
+    //   // 存值如state
+    //   yield put($actions.setState({ authData }));
+    //   // 获取state
+    //   const { authData: newAuthData1 } = yield select($selectors.getState);
+    //   console.log("newAuthData:", newAuthData1);
+    //   // 获取state
+    //   const newAuthData2 = yield select($selectors.getAuthData);
+    //   console.log("newAuthData:", newAuthData2);
+    // },
+    // *consoleUser({ $selectors }) {
+    //   const user = yield select($selectors.getUser);
+    //   console.log(user);
+    // },
   },
   selectors: {
-    getAuthData(state) {
-      const { authData } = state;
-      return authData;
-    },
-    getUser: createSelector(
-      (state) => state.authData,
-      (result) => {
-        const { user } = result || {};
-        return user;
-      }
-    ),
+    //   getAuthData(state) {
+    //     const { authData } = state;
+    //     return authData;
+    //   },
+    //   getUser: createSelector(
+    //     (state) => state.authData,
+    //     (result) => {
+    //       const { user } = result || {};
+    //       return user;
+    //     }
+    //   ),
   },
 });

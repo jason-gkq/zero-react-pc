@@ -7,6 +7,30 @@ import model from "./index.model";
 import { globalActions } from "@/common/redux";
 import { Button } from "@/common/components";
 import "./index.less";
+
+import ReactToPrint from "react-to-print";
+
+export class ComponentToPrint extends React.PureComponent {
+  render() {
+    return (
+      <table>
+        <thead>
+          <th>column 1</th>
+          <th>column 2</th>
+          <th>column 3</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+}
+
 @BasePage(model)
 class Home extends Component {
   constructor(props) {
@@ -18,6 +42,17 @@ class Home extends Component {
     const { dispatch } = this.props;
     return (
       <div>
+        <div>
+          <ReactToPrint
+            trigger={() => {
+              // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
+              // to the root node of the returned component as it will be overwritten.
+              return <Button type='primary'>4444s</Button>;
+            }}
+            content={() => this.componentRef}
+          />
+          <ComponentToPrint ref={(el) => (this.componentRef = el)} />
+        </div>
         <Button type='primary'>4444s</Button>
         <div className='test-container'>
           <div onClick={this.props.addVoucher} className='container-div'>

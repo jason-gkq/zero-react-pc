@@ -46,7 +46,7 @@
     "require": "^2.4.20",
     "reselect": "^4.0.0",
     "web-vitals": "^1.1.1",
-    "zero-react-scripts": "0.2.23"
+    "zero-react-scripts": "0.2.26"
   },
   "browserslist": {
     "production": [

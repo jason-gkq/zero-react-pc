@@ -27,7 +27,8 @@ http://localhost:8080/
 更新包
 
 ```shell
-yarn upgrade zero-react-scripts@0.2.24
+yarn upgrade zero-react-scripts@0.2.17
+yarn upgrade zero-react-scripts --latest
 ```
 
 ## 框架

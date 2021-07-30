@@ -4,7 +4,7 @@ import { globalActions, globalSelectors } from "../redux";
 import { guardRoute } from "../navigate";
 
 export default (pageModel) => (WrappedComponent) => {
-  @connect((state, { location }) => {
+  const mapStateToProps = (state, { location }) => {
     const { pageStatus } = pageModel.selectors.getState(state);
     let {
       config: {
@@ -31,7 +31,8 @@ export default (pageModel) => (WrappedComponent) => {
       $isNeedPermission,
       $isLogin,
     };
-  })
+  };
+  @connect(mapStateToProps)
   class RegisterPageComponent extends React.Component {
     constructor(props) {
       super(props);
@@ -56,6 +57,7 @@ export default (pageModel) => (WrappedComponent) => {
           payload: $payload,
         })
       );
+      /* 判断登录跳转 */
       if ($isNeedLogin && !$isLogin) {
         dispatch(
           globalActions.navigate.redirect({

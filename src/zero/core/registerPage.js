@@ -60,9 +60,7 @@ export default (pageModel) => (WrappedComponent) => {
       if (!pageModel) {
         return;
       }
-      // if (!store.asyncReducers[pageModel.name]) {
-      //   injectAsyncReducer(pageModel.name, pageModel.reducers);
-      // }
+
       if (pageModel.initialize) {
         dispatch(pageModel.actions.initState());
       }

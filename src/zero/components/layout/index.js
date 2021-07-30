@@ -9,7 +9,9 @@ import { Layout } from "antd";
 import Header from "./header";
 import Sider from "./sider";
 import Content from "./content";
-import { PageLoading } from "../business";
+import { PageLoading, ErrorBoundary } from "../business";
+
+import { View } from "../basic";
 
 class LayoutErrorBoundary extends React.Component {
   constructor(props) {
@@ -31,9 +33,17 @@ class LayoutErrorBoundary extends React.Component {
   }
 
   render() {
-    // if (this.state.hasError) {
-    //   return <Header className='main-header'>回首页</Header>;
-    // }
+    if (this.state.hasError) {
+      return (
+        <View
+          style={{
+            height: "100vh",
+          }}
+        >
+          <ErrorBoundary msg={"网络异常，请刷新重试"} />
+        </View>
+      );
+    }
     return this.props.children;
   }
 }

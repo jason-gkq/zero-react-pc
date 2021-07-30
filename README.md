@@ -1,4 +1,4 @@
-- 系统 loading、页面 loading 开发
+- 页面 title 功能封装
 - 页头 功能封装
 
 - 组件封装

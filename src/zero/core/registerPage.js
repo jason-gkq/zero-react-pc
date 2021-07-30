@@ -2,53 +2,41 @@ import React from "react";
 import { connect } from "react-redux";
 import { globalActions, globalSelectors } from "../redux";
 import { guardRoute } from "../navigate";
+import { AppConfigContext } from "./configureContext";
 
 export default (pageModel) => (WrappedComponent) => {
   const mapStateToProps = (state, { location }) => {
     const { pageStatus } = pageModel.selectors.getState(state);
-    let {
-      config: {
-        isNeedLogin: $isNeedLogin,
-        isNeedPermission: $isNeedPermission,
-      },
-    } = globalSelectors.app.getState(state);
-
     const { isLogin: $isLogin } = globalSelectors.getUser(state);
-
-    if (Reflect.has(pageModel.config, "isNeedLogin")) {
-      $isNeedLogin = pageModel.config.isNeedLogin;
-    }
-    if (Reflect.has(pageModel.config, "isNeedPermission")) {
-      $isNeedPermission = pageModel.config.isNeedPermission;
-    }
-
     const { pathname: $route, state: $payload = {} } = location;
+
     return {
       $pageStatus: pageStatus,
       $route,
       $payload,
-      $isNeedLogin,
-      $isNeedPermission,
       $isLogin,
     };
   };
-  @connect(mapStateToProps)
+
   class RegisterPageComponent extends React.Component {
-    constructor(props) {
+    constructor(props, context) {
       super(props);
 
-      const {
-        dispatch,
-        $route,
-        $payload,
-        $isLogin,
-        $isNeedLogin,
-        $isNeedPermission,
-      } = this.props;
-      if ($isNeedPermission && !guardRoute($route)) {
+      const { dispatch, $route, $payload, $isLogin } = this.props;
+
+      let { isNeedLogin, isNeedPermission } = context;
+      if (Reflect.has(pageModel.config, "isNeedLogin")) {
+        isNeedLogin = pageModel.config.isNeedLogin;
+      }
+      if (Reflect.has(pageModel.config, "isNeedPermission")) {
+        isNeedPermission = pageModel.config.isNeedPermission;
+      }
+
+      if (isNeedPermission && !guardRoute($route)) {
         dispatch(globalActions.navigate.goBack());
         return;
       }
+
       dispatch(
         globalActions.route.currentPage({
           pageId: pageModel.config.pageId,
@@ -58,7 +46,7 @@ export default (pageModel) => (WrappedComponent) => {
         })
       );
       /* 判断登录跳转 */
-      if ($isNeedLogin && !$isLogin) {
+      if (isNeedLogin && !$isLogin) {
         dispatch(
           globalActions.navigate.redirect({
             url: $route.endsWith("/common/login/index")
@@ -110,7 +98,8 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
-      const { $isNeedLogin, $isNeedPermission, ...restProps } = this.props;
+      const { ...restProps } = this.props;
+
       return (
         <WrappedComponent
           {...restProps}
@@ -122,5 +111,6 @@ export default (pageModel) => (WrappedComponent) => {
       );
     }
   }
-  return RegisterPageComponent;
+  RegisterPageComponent.contextType = AppConfigContext;
+  return connect(mapStateToProps)(RegisterPageComponent);
 };

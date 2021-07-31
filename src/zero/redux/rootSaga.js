@@ -63,9 +63,12 @@ const initEnv = function* () {
   /**
    * 设置axios拦截器
    */
-  setAxiosBase(env);
-  yield call(changeTheme, { payload: { theme: env.theme } });
+  yield call(setAxiosBase, env);
   yield put(staticActions.env.setEnv({ ...env }));
+  const themeInfo = themes[env.theme];
+  Object.keys(themeInfo).forEach((key) => {
+    document.documentElement.style.setProperty(key, themeInfo[key]);
+  });
 };
 
 const changeTheme = function* ({ payload: { theme } }) {

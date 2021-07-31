@@ -33,26 +33,19 @@ export default (appModel) => (WrappedComponent) => {
           env: { status },
         } = $store.getState();
         if (status) {
-          this.setState({
-            status: "success",
-          });
           unsubscribe();
-        }
-      });
-      if (appModel.actions.didMount) {
-        setTimeout(() => {
           $store.dispatch(
             appModel.actions.didMount({
               ...$onLunchPayload,
               done: () => {
-                // this.setState({
-                //   status: "success",
-                // });
+                this.setState({
+                  status: "success",
+                });
               },
             })
           );
-        }, 0);
-      }
+        }
+      });
       if (super.componentDidMount) {
         super.componentDidMount();
       }

@@ -18,13 +18,14 @@ const model = createModel({
   },
   reducers: {},
   sagas: {
-    *didMount({ $actions }, { payload: { done } }) {
-      // const { isNeedPermission, isNeedLogin } = yield select($selectors.getApp);
-      // console.log(">>>>", isNeedPermission, isNeedLogin);
-      //TODO 项目启动 = appOnLaunch
-      // console.log("pages/home/index.model.js/saga/didMount");
-      // yield put($globalActions.env.changeTheme({ theme: "A" }));
-      // yield put($actions.queryUserAuth());
+    *didMount(
+      { $actions, $selectors, $globalActions, $globalSelectors },
+      { payload: { done, ...option } }
+    ) {
+      /**
+       * option 启动参数
+       * done 不可删除
+       */
       if (done) {
         done();
       }

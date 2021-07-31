@@ -1,6 +1,4 @@
 /**
- * howtocenterincss
- * autoprefixer  
  * 
  * 使用弹性盒子进行布局
  * rem 设置字号、px设置边框、em设置其他大部分属性
@@ -8,25 +6,14 @@
  * 其余用 em 进行 
  */
 
-// .flex {
-//   display: flex;
-//   display: -webkit-flex;
-//   display: -ms-flexbox;
-//   -webkit-flex: 1 1 1;
-//   flex: 1 1 1;
-// }
+/* ********************************* */
+
 :root {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 0.875rem;
+  // font-size: 0.875rem;
   // font-size: calc(0.8em + 0.2vw);
 }
-
-// @media (max-width: 320px) {
-//   :root {
-//     font-size: 0.8125rem;
-//   }
-// }
 
 // 视网膜屏匹配
 // @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -38,6 +25,26 @@
   box-sizing: inherit;
 }
 
+// @media (max-device-width: 320px) {
+//   body {
+//     font-size: 13px;
+//   }
+// }
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-text-size-adjust: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+html {
+  touch-action: none;
+}
+
+/*移除浏览器默认的`margin、padding`*/
 body,
 div,
 dl,
@@ -67,10 +74,6 @@ aside {
   padding: 0;
 }
 
-html {
-  touch-action: none;
-}
-
 body {
   background: #f4f4f8;
   font-family: "PingFang SC", Helvetica, Arial, "Lucida Grande", Verdana,
@@ -80,6 +83,7 @@ body {
   margin: 0 auto;
 }
 
+/* 清除浮动 */
 .clearfix::before,
 .clearfix::after {
   content: "";
@@ -89,4 +93,71 @@ body {
   clear: both;
 }
 
-// ==============
+textarea,
+button,
+input {
+  -webkit-appearance: none;
+}
+
+button {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: 1px transparent solid;
+  outline: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+li {
+  list-style: none;
+}
+
+caption,
+th {
+  text-align: left;
+}
+
+q:before,
+q:after {
+  content: "";
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+}
+
+/*移除浏览器部分元素的默认边框*/
+
+img,
+abbr,
+input,
+button,
+acronym,
+fieldset,
+textarea {
+  border: none;
+}
+
+/*因为`input`默认不继承父元素的居中样式，所以让`input`元素继承父元素的文本居中方式*/
+input {
+  text-align: inherit;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+input:password {
+  ime-mode: disabled;
+}

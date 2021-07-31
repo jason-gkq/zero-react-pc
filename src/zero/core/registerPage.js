@@ -24,23 +24,29 @@ export default (pageModel) => (WrappedComponent) => {
 
       const { dispatch, $route, $payload, $isLogin } = this.props;
 
-      let { isNeedLogin, isNeedPermission } = context;
-      if (Reflect.has(pageModel.config, "isNeedLogin")) {
+      let { isNeedLogin, isNeedPermission, title } = context;
+      if (pageModel.config && Reflect.has(pageModel.config, "isNeedLogin")) {
         isNeedLogin = pageModel.config.isNeedLogin;
       }
-      if (Reflect.has(pageModel.config, "isNeedPermission")) {
+      if (
+        pageModel.config &&
+        Reflect.has(pageModel.config, "isNeedPermission")
+      ) {
         isNeedPermission = pageModel.config.isNeedPermission;
       }
-
+      if (pageModel.config && Reflect.has(pageModel.config, "title")) {
+        title = pageModel.config.title;
+      }
+      document.title = title;
       if (isNeedPermission && !guardRoute($route)) {
         dispatch(globalActions.navigate.goBack());
         return;
       }
-
+      const { pageId } = pageModel.config || {};
       dispatch(
         globalActions.route.currentPage({
-          pageId: pageModel.config.pageId,
-          title: pageModel.config.title,
+          pageId,
+          title,
           route: $route,
           payload: $payload,
         })

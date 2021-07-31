@@ -81,12 +81,12 @@ const changeTheme = function* ({ payload: { theme } }) {
 };
 
 const setAppCode = function* ({ payload: { appCode } }) {
-  setCommonData({ appCode });
+  yield call(setCommonData, { appCode });
   yield put(staticActions.env.setEnv({ appCode }));
 };
 
 const setServiceUrl = function* ({ payload: { SERVICE_URL } }) {
-  setCommonData({ SERVICE_URL });
+  yield call(setCommonData, { SERVICE_URL });
   yield put(staticActions.env.setEnv({ SERVICE_URL }));
 };
 

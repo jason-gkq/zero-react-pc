@@ -9,6 +9,7 @@ const model = createModel({
   isGlobal: true,
   // 初始state状态
   config: {
+    title: "乐车邦",
     isNeedLogin: false,
     isNeedPermission: false,
   },

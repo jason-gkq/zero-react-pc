@@ -247,6 +247,10 @@ const reLaunch = function* () {
 
 // const logout = function* ({ payload }) {};
 
+const rootLunch = function* () {
+  yield call(queryUserAuth);
+  yield put(staticActions.env.setEnv({ status: true }));
+};
 const queryUserAuth = function* () {
   // let userAuth = storage.getStorageSync("userAuth");
   try {
@@ -298,7 +302,6 @@ const queryUserAuth = function* () {
   } catch (error) {
     yield put(staticActions.user.setUser({ isLogin: false }));
   }
-  yield put(staticActions.env.setEnv({ status: true }));
 };
 
 const changeShop = function* ({ payload: { shopInfo } }) {
@@ -408,7 +411,7 @@ export default function* staticSagas() {
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
-  yield all([queryUserAuth()]);
+  yield all([rootLunch()]);
   /**
    * 权限变更
    */

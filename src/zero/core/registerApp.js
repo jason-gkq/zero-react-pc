@@ -40,6 +40,9 @@ export default (appModel) => (WrappedComponent) => {
       /**
        * 添加事件监听
        */
+      window.onerror = function (message, url, line, column, error) {
+        console.log("log---onerror::::", message, url, line, column, error);
+      };
       window.addEventListener("resize", function () {
         // if(window.innerWidth <= 800) {
         //     div.style.display = 'none';

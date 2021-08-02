@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { globalActions, globalSelectors } from "../redux";
 import { guardRoute } from "../navigate";
 import { AppConfigContext } from "./configureContext";
+import { ErrorBoundary } from "../components";
 
 export default (pageModel) => (WrappedComponent) => {
   const mapStateToProps = (state, { location }) => {
@@ -11,7 +12,8 @@ export default (pageModel) => (WrappedComponent) => {
     const { pathname: $route, state: $payload = {} } = location;
 
     return {
-      $pageStatus: pageStatus,
+      // $pageStatus: pageStatus,
+      pageStatus,
       $route,
       $payload,
       $isLogin,
@@ -22,7 +24,11 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props, context) {
       super(props);
 
-      const { dispatch, $route, $payload, $isLogin } = this.props;
+      const { dispatch, $route, $payload, $isLogin, pageStatus } = this.props;
+
+      this.state = {
+        pageStatus,
+      };
 
       let { isNeedLogin, isNeedPermission, title } = context;
       if (pageModel.config && Reflect.has(pageModel.config, "isNeedLogin")) {
@@ -80,6 +86,16 @@ export default (pageModel) => (WrappedComponent) => {
       }
     }
 
+    static getDerivedStateFromError(error) {
+      // 更新 state 使下一次渲染能够显示降级后的 UI
+      return { pageStatus: "error" };
+    }
+
+    componentDidCatch(error, errorInfo) {
+      // 你同样可以将错误日志上报给服务器
+      console.warn("error, errorInfo>>>>", error, errorInfo);
+    }
+
     componentWillUnmount() {
       if (!pageModel) {
         return;
@@ -103,10 +119,11 @@ export default (pageModel) => (WrappedComponent) => {
 
     render() {
       const { ...restProps } = this.props;
-
+      const { pageStatus } = this.state;
       return (
         <WrappedComponent
           {...restProps}
+          $pageStatus={pageStatus}
           $guardRoute={guardRoute}
           $model={pageModel}
           $globalActions={globalActions}

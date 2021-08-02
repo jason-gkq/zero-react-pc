@@ -248,9 +248,10 @@ const reLaunch = function* () {
 // const logout = function* ({ payload }) {};
 
 const rootLunch = function* () {
-  yield call(queryUserAuth);
+  yield call(queryUserAuth, { payload: {} });
   yield put(staticActions.env.setEnv({ status: true }));
 };
+
 const queryUserAuth = function* () {
   // let userAuth = storage.getStorageSync("userAuth");
   try {
@@ -365,7 +366,7 @@ const modifyAuth = function* () {
     } = yield take(staticActions.auth.modifyAuth);
 
     const { cachePrefix } = yield select(getEnv);
-    let userAuth = storage.getStorageSync("userAuth");
+    let userAuth = storage.getStorageSync("userAuth") || {};
 
     storage.setStorageSync(
       "userAuth",
@@ -416,6 +417,7 @@ export default function* staticSagas() {
    * 权限变更
    */
   yield takeLatest(staticActions.auth.queryAuth, queryUserAuth);
+
   /**
    * 切换店铺
    */

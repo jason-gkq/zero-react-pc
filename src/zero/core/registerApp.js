@@ -41,8 +41,24 @@ export default (appModel) => (WrappedComponent) => {
        * 添加事件监听
        */
       window.onerror = function (message, url, line, column, error) {
-        console.log("log---onerror::::", message, url, line, column, error);
+        console.log("捕获到异常 onerror:", message, url, line, column, error);
       };
+      // new Image错误，不能捕获
+      // fetch错误，不能捕获
+      window.addEventListener(
+        "error",
+        (error) => {
+          console.log("捕获到异常 addEventListener error：", error);
+        },
+        true
+      );
+      // window.addEventListener("click", (e) => {
+      //   console.log("click..", e);
+      // });
+      // 全局统一处理Promise
+      window.addEventListener("unhandledrejection", function (e) {
+        console.log("捕获到异常 unhandledrejection ：", e);
+      });
       window.addEventListener("resize", function () {
         // if(window.innerWidth <= 800) {
         //     div.style.display = 'none';

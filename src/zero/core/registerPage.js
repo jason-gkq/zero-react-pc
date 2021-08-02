@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { globalActions, globalSelectors } from "../redux";
 import { guardRoute } from "../navigate";
 import { AppConfigContext } from "./configureContext";
-import { ErrorBoundary } from "../components";
 
 export default (pageModel) => (WrappedComponent) => {
   const mapStateToProps = (state, { location }) => {
@@ -12,7 +11,6 @@ export default (pageModel) => (WrappedComponent) => {
     const { pathname: $route, state: $payload = {} } = location;
 
     return {
-      // $pageStatus: pageStatus,
       pageStatus,
       $route,
       $payload,
@@ -48,13 +46,14 @@ export default (pageModel) => (WrappedComponent) => {
         dispatch(globalActions.navigate.goBack());
         return;
       }
-      const { pageId } = pageModel.config || {};
+      const { pageId, breadcrumb } = pageModel.config || {};
       dispatch(
         globalActions.route.currentPage({
           pageId,
           title,
           route: $route,
           payload: $payload,
+          breadcrumb,
         })
       );
       /* 判断登录跳转 */

@@ -1,6 +1,6 @@
 import React from "react";
 import RegisterPage from "./registerPage";
-import { ErrorBoundary } from "../components";
+import { PageLoading, ErrorBoundary } from "../components";
 
 export default (pageModel) => (WrappedComponent) => {
   @RegisterPage(pageModel)
@@ -8,20 +8,6 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props) {
       super(props);
     }
-
-    // static getDerivedStateFromError(error) {
-    //   // 更新 state 使下一次渲染可以显示降级 UI
-    //   return { hasError: true };
-    // }
-
-    // componentDidCatch(error, info) {
-    //   // "组件堆栈" 例子:
-    //   //   in ComponentThatThrows (created by App)
-    //   //   in ErrorBoundary (created by App)
-    //   //   in div (created by App)
-    //   //   in App
-    //   logComponentStackToMyService(info.componentStack);
-    // }
 
     componentDidMount() {
       /**
@@ -49,12 +35,15 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
-      console.log("$pageStatus>>>>", this.props.$pageStatus);
       const { $pageStatus } = this.props;
-      if ($pageStatus === "error") {
-        return <ErrorBoundary msg={"页面渲染失败，请刷新重试"} />;
+      switch ($pageStatus) {
+        case "loading":
+          return <PageLoading />;
+        case "error":
+          return <ErrorBoundary msg={"页面渲染失败，请刷新重试"} />;
+        default:
+          return super.render();
       }
-      return super.render();
     }
   }
   return BasePageComponent;

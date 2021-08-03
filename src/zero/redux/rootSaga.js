@@ -223,9 +223,12 @@ const redirect = function* () {
 const reLaunch = function* () {
   while (true) {
     const {
-      payload: { url, payload = {}, options = {} },
+      payload: { url = "", payload = {}, options = {} },
     } = yield take(staticActions.navigate.reLaunch);
-    navigate.redirect({ url, payload, options });
+    if (url) {
+      yield navigate.redirect({ url, payload, options });
+    }
+    window.location.reload();
   }
 };
 

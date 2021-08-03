@@ -21,8 +21,12 @@ export default (appModel) => (WrappedComponent) => {
   class AppComponent extends WrappedComponent {
     constructor(props) {
       super(props);
+      const {
+        env: { status, appName },
+      } = props.$store.getState();
       this.state = {
-        status: "loading",
+        status: status ? "success" : "loading",
+        appName,
       };
     }
 
@@ -59,7 +63,7 @@ export default (appModel) => (WrappedComponent) => {
 
     renderContent() {
       const { $routes, $fullRoutes } = this.props;
-      const { status } = this.state;
+      const { status, appName } = this.state;
       switch (status) {
         case "loading":
           return (
@@ -85,7 +89,7 @@ export default (appModel) => (WrappedComponent) => {
           return (
             <Switch>
               {$fullRoutes}
-              <Route path='/lcbtest'>
+              <Route path={`/${appName}`}>
                 <AppPage $routes={$routes} />
               </Route>
             </Switch>

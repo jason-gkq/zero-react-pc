@@ -9,33 +9,6 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 import StoreList from "./tools/changeStore";
 
-class HeaderErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    // 更新 state 使下一次渲染能够显示降级后的 UI
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // this.setState({
-    //   error,
-    //   errorInfo,
-    // });
-    // logErrorToMyService(error, errorInfo);
-  }
-
-  render() {
-    // if (this.state.hasError) {
-    //   return <Header className='main-header'>回首页</Header>;
-    // }
-    return this.props.children;
-  }
-}
-
 @connect(
   (state) => {
     const { currentPage = {} } = globalSelectors.getRoute(state);
@@ -72,41 +45,39 @@ export default class extends Component {
     } = this.props;
     const breadcrumb = configureMenu.getBreadcrumb(path);
     return (
-      <HeaderErrorBoundary>
-        <Header
-          className={
-            collapsed ? "main-header main-header-trigger" : "main-header"
-          }
-        >
-          <View className='main-header-left'>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "main-header-tools main-header-collapsed",
-                onClick: onCollapse,
-              }
-            )}
-            <View className='main-header-tools main-header-breadcrumb'>
-              <Text>{breadcrumb}</Text>
+      <Header
+        className={
+          collapsed ? "main-header main-header-trigger" : "main-header"
+        }
+      >
+        <View className='main-header-left'>
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "main-header-tools main-header-collapsed",
+              onClick: onCollapse,
+            }
+          )}
+          <View className='main-header-tools main-header-breadcrumb'>
+            <Text>{breadcrumb}</Text>
+          </View>
+        </View>
+        <View className='main-header-right'>
+          <StoreList
+            shopList={shopList}
+            shopInfo={shopInfo}
+            changeShop={changeShop}
+          />
+          {userInfo ? (
+            <View className='main-header-tools main-header-userinfo'>
+              <Text>{userInfo.realName || ""}</Text>
+              <Avatar src={userInfo.faceImageUrl || ""} />
             </View>
-          </View>
-          <View className='main-header-right'>
-            <StoreList
-              shopList={shopList}
-              shopInfo={shopInfo}
-              changeShop={changeShop}
-            />
-            {userInfo ? (
-              <View className='main-header-tools main-header-userinfo'>
-                <Text>{userInfo.realName || ""}</Text>
-                <Avatar src={userInfo.faceImageUrl || ""} />
-              </View>
-            ) : (
-              ""
-            )}
-          </View>
-        </Header>
-      </HeaderErrorBoundary>
+          ) : (
+            ""
+          )}
+        </View>
+      </Header>
     );
   }
 }

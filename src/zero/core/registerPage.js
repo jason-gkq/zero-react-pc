@@ -22,10 +22,10 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props, context) {
       super(props);
 
-      const { dispatch, $route, $payload, $isLogin, pageStatus } = this.props;
+      const { dispatch, $route, $payload, $isLogin } = this.props;
 
       this.state = {
-        pageStatus,
+        hasError: false,
       };
 
       let { isNeedLogin, isNeedPermission, title } = context;
@@ -87,7 +87,7 @@ export default (pageModel) => (WrappedComponent) => {
 
     static getDerivedStateFromError(error) {
       // 更新 state 使下一次渲染能够显示降级后的 UI
-      return { pageStatus: "error" };
+      return { hasError: true };
     }
 
     componentDidCatch(error, errorInfo) {
@@ -117,12 +117,13 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
-      const { ...restProps } = this.props;
-      const { pageStatus } = this.state;
+      const { pageStatus, ...restProps } = this.props;
+      const { hasError } = this.state;
+      const $pageStatus = hasError ? "error" : pageStatus;
       return (
         <WrappedComponent
           {...restProps}
-          $pageStatus={pageStatus}
+          $pageStatus={$pageStatus}
           $guardRoute={guardRoute}
           $model={pageModel}
           $globalActions={globalActions}

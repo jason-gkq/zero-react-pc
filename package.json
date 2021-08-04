@@ -8,11 +8,7 @@
     "build:dev": "zero-react-scripts build env=dev",
     "build:uat": "zero-react-scripts build env=uat",
     "build:pre": "zero-react-scripts build env=pre",
-    "build:prod": "zero-react-scripts build env=prod",
-    "buildmp:dev": "zero-react-scripts buildmp env=dev",
-    "buildmp:uat": "zero-react-scripts buildmp env=uat",
-    "buildmp:pre": "zero-react-scripts buildmp env=pre",
-    "buildmp:prod": "zero-react-scripts buildmp env=prod"
+    "build:prod": "zero-react-scripts build env=prod"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,6 @@
   "name": "zero-react-m",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "./src/pages/index/index.js",
   "scripts": {
     "start": "zero-react-scripts start env=local",

@@ -195,9 +195,9 @@ const initSystem = function* () {
 // navigate
 const goTo = function* () {
   while (true) {
-    const {
-      payload: { url, payload = {}, options = {} },
-    } = yield take(staticActions.navigate.goTo);
+    const { payload: { url, payload = {}, options = {} } = {} } = yield take(
+      staticActions.navigate.goTo
+    );
     navigate.goTo({ url, payload, options });
   }
 };
@@ -213,9 +213,9 @@ const goBack = function* () {
 
 const redirect = function* () {
   while (true) {
-    const {
-      payload: { url, payload = {}, options = {} },
-    } = yield take(staticActions.navigate.redirect);
+    const { payload: { url, payload = {}, options = {} } = {} } = yield take(
+      staticActions.navigate.redirect
+    );
     navigate.redirect({ url, payload, options });
   }
 };
@@ -223,7 +223,7 @@ const redirect = function* () {
 const reLaunch = function* () {
   while (true) {
     const {
-      payload: { url = "", payload = {}, options = {} },
+      payload: { url = null, payload = {}, options = {} } = {},
     } = yield take(staticActions.navigate.reLaunch);
     if (url) {
       yield navigate.redirect({ url, payload, options });
@@ -251,7 +251,7 @@ const reLaunch = function* () {
 // const logout = function* ({ payload }) {};
 
 const rootLunch = function* () {
-  yield call(queryUserAuth, { payload: {} });
+  yield call(queryUserAuth);
   yield put(staticActions.env.setEnv({ status: true }));
 };
 
@@ -432,6 +432,7 @@ export default function* staticSagas() {
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
   yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
+
   /**
    * 用户
    */

@@ -6,27 +6,50 @@ import { View, Image } from "../../basic";
 import Logo from "@/assets/lcb-logo/logo-menu.png";
 import logoCollapsed from "@/assets/lcb-logo/logo-collapsed.png";
 import { Layout, Menu } from "antd";
-import { PayCircleOutlined } from "@ant-design/icons";
+import { BarsOutlined, createFromIconfontCN } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const generateMenus = (menus) => {
+const MyIcon = createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1810562_ex0jixy1ib.js", // 在 iconfont.cn 上生成
+});
+// const arr = [];
+const generateMenuItems = (menus, rootMenuList) => {
   if (!Array.isArray(menus)) {
     return;
   }
   const menuList = menus.map((item) => {
     if (item.children && item.children.length > 0) {
-      return (
-        <SubMenu
-          icon={item.icon ? <PayCircleOutlined /> : null}
-          key={item.key}
-          title={item.title}
-        >
-          {generateMenus(item.children)}
-        </SubMenu>
-      );
+      if (rootMenuList.includes(item.key)) {
+        return (
+          <SubMenu
+            icon={
+              <>{item.icon ? <MyIcon type='icon4Sdian' /> : <BarsOutlined />}</>
+            }
+            key={item.key}
+            title={item.title}
+          >
+            {generateMenuItems(item.children, [])}
+          </SubMenu>
+        );
+      } else {
+        return (
+          <SubMenu key={item.key} title={item.title}>
+            {generateMenuItems(item.children, [])}
+          </SubMenu>
+        );
+      }
     } else {
+      // if (
+      //   !item.link.startsWith("/saas/") &&
+      //   !item.link.startsWith("/common/") &&
+      //   !item.link.startsWith("/supply/") &&
+      //   !item.link.startsWith("/fixedprice/") &&
+      //   !item.link.startsWith("/rhd/")
+      // ) {
+      //   arr.push(item.link);
+      // }
       return (
         <Menu.Item link={item.link} key={item.key}>
           {item.title}
@@ -35,6 +58,16 @@ const generateMenus = (menus) => {
     }
   });
   return menuList;
+};
+
+const generateMenus = (menus) => {
+  if (!Array.isArray(menus)) {
+    return;
+  }
+  const rootMenuList = menus.map((item) => {
+    return item.key;
+  });
+  return generateMenuItems(menus, rootMenuList);
 };
 
 @connect(
@@ -87,13 +120,14 @@ export default class extends Component {
         collapsed={collapsed}
         collapsedWidth='64'
         className='sider-root'
+        theme='light'
       >
         <View className='sider-logo'>
           <Image preview={false} src={collapsed ? logoCollapsed : Logo} />
         </View>
         <View className='sider-menu'>
           <Menu
-            theme='dark'
+            theme='light'
             mode='inline'
             defaultOpenKeys={defaultOpenKeys}
             defaultSelectedKeys={defaultSelectedKeys}

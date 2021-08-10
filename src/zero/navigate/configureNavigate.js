@@ -33,7 +33,7 @@ class configureNavigate {
     return;
   }
 
-  getLocation(url, params) {
+  getLocation(url, payload) {
     if (String(url).startsWith("https:")) {
       return {
         pathname: url,
@@ -45,7 +45,7 @@ class configureNavigate {
     const pathname = pagePath.startsWith(`/${this.rootModelName}`)
       ? pagePath
       : `/${this.rootModelName}${pagePath}`;
-    const state = params || {};
+    const state = payload || {};
     const search = urlArr[1] || "";
     if (urlArr[1]) {
       urlArr[1].split("&").reduce((state, v) => {
@@ -68,12 +68,19 @@ class configureNavigate {
     // if (String(url).startsWith(`/`)) {
     // }
   }
-  goTo({ url, params = {}, options = {} } = {}) {
+  goTo({ url, payload = {}, options = {} } = {}) {
+    if (String(url).startsWith("https:") || String(url).startsWith("http:")) {
+      if (options.target) {
+        window.open(url, "target");
+      } else {
+        window.open(url, "_self");
+      }
+    }
     if (options && options.replace) {
-      this.redirect({ payload: { url, params, options } });
+      this.redirect({ payload: { url, payload, options } });
       return;
     }
-    const location = this.getLocation(url, params);
+    const location = this.getLocation(url, payload);
     this.history.push(location);
     if (this.navigateHistory.length >= this.maxHistoryLength) {
       this.navigateHistory = this.navigateHistory.slice(1);
@@ -107,9 +114,11 @@ class configureNavigate {
         this.navigateHistory = this.navigateHistory.slice(0, tempIndex + 1);
         delta = this.navigateHistory.length - tempIndex + 1;
         this.history.goBack(delta);
+        return;
         // localStorage.set("navigateHistory", navigateHistory);
       } else {
         this.goTo({ payload: { url } });
+        return;
       }
     }
 
@@ -119,16 +128,14 @@ class configureNavigate {
     return;
   }
 
-  redirect({ url, params = {}, options = {} } = {}) {
-    const location = this.getLocation(url, params);
+  redirect({ url, payload = {}, options = {} } = {}) {
+    const location = this.getLocation(url, payload);
     this.navigateHistory = this.navigateHistory.slice(0, -1);
     this.navigateHistory.push(location);
     // localStorage.set("navigateHistory", navigateHistory);
     this.history.replace(location);
     return;
   }
-
-  reLaunch({ url, params = {}, options = {} } = {}) {}
 }
 
 export default new configureNavigate();

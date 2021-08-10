@@ -1,7 +1,6 @@
-- 页面 title 功能封装
-- 页头 功能封装
+### 待开发任务列表
 
-- 组件封装
+- 页头 功能封装
 - 页面事件监听封装
 - ubt 埋点开发
 - cdn 方案【待验证】
@@ -13,15 +12,29 @@
 
 ### 项目启动
 
+拉取项目到本地
+
+> [zero-react-pc](https://github.com/jason-gkq/zero-react-pc)
+
+然后在命令行依次执行
+
 ```shell
+cd zero-react-pc
 yarn install
 yarn start
 ```
 
 本地访问
 
-```js
-http://localhost:8080/
+> http://localhost:8080/
+
+打包
+
+```shell
+yarn build:dev
+yarn build:uat
+yarn build:pre
+yarn build:prod
 ```
 
 更新包
@@ -31,15 +44,66 @@ yarn upgrade zero-react-scripts@0.2.17
 yarn upgrade zero-react-scripts --latest
 ```
 
-## 框架
+### 全局 store 信息：通过 isGloable 配置
 
-### 目录结构
+- system 系统信息
+- env 项目相关信息
+- route 路由、菜单及页面信息
+- navigate 跳转方法
+- user 用户信息
+- shop 当前店铺
+- auth 权限
 
-新增页面目录结构示例：
+> globalActions
+
+- .shop.changeShop 切换店铺
+- .navigate.goTo
+- .navigate.goBack
+- .navigate.redirect
+- .navigate.reLaunch
+
+> globalSelectors
+
+- getState
+- getEnv
+- getSystem
+- getRoute
+- getUser
+- getShop
 
 ---
 
-home // 页面目录名  
+### 目录结构
+
+项目目录结构介绍
+
+zero-react-pc  
+│ - dest 打包  
+│ - env 环境变量配置  
+│ - node_modules 依赖包  
+│ - public 静态资源  
+│ - │ - assets 图片、svg 等静态资源  
+│ - │ - themes ant 组件主题颜色设置  
+│ - │ - index.html html 模板页面  
+│ - src  
+│ - │ - common 公共页面  
+│ - │ - pages 页面  
+│ - │ - zero 框架代码  
+│ - │ - app.js 项目启动页  
+│ - │ - app.less 全局样式  
+│ - │ - app.model.js 全局 store，可自行扩展  
+│ - │ - index.js 项目入口  
+│ - .gitignore  
+│ - jsconfig.json 项目 js 配置文件  
+│ - package.json  
+│ - yarn.lock
+
+---
+
+新增页面目录结构示例：  
+**页面详细使用规则参考 /pages/demo **
+
+home // 页面目录名，单个单词  
 │ - components // 页面组件目录，固定名称  
 │ - │ - DivTest.js // 组件文件，大驼峰  
 │ - containers // 页面组件目录，固定名称  
@@ -49,80 +113,6 @@ home // 页面目录名
 │ - index.js // 页面入口，固定名称
 
 ---
-
-**说明**
-
-- `index.js` 页面入口文件，代码示例：
-
-```js
-import React, { Component } from "react";
-import { BasePage } from "@/zero/core";
-import model from "./index.model";
-
-import DivTest from "./containers/DivTest";
-@BasePage(model) // 必须
-class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const { $model, $globalActions } = this.props;
-    return <DivTest $model={$model} $globalActions={$globalActions} />;
-  }
-}
-export default Home;
-```
-
-- `index.model.js`用于处理页面逻辑，包括初始化的页面数据，接口请求，数据更新处理等。示例代码如下：
-
-```js
-import { createModel } from "@/common/redux";
-import { put, call } from "redux-saga/effects";
-
-export default createModel({
-  name: "Home", // 存在store里的节点名
-  config:{
-    pageId:'',
-    pageTitle:'',
-    pageStatus: 'success'
-    isNeedLogin: false,
-    isNeedpermission: false,
-  },
-  state: { // 页面所需的数据字段
-    systemName: "小程序",
-    pageStatus: "hhh",
-  },
-  reducers: {
-    //更新数据
-    changeName(state, { payload }) {
-      return {
-        ...state,
-        systemName: payload,
-      };
-    },
-  },
-  sagas: {
-    // 一些异步操作、复杂逻辑处理
-    *didMount({ $actions }) {
-      console.log("pages/home/index.model.js/saga/didMount");
-      yield put($actions.setState({ pageStatus: "234324" }));
-    },
-  },
-  selectors: {}, // 从store里的提取数据
-});
-```
-
-- `index.less`页面样式
-- `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
-- `containers/DivTest.js` 页面的状态组件，用于 View 和 Store 的联接
-
----
-
-### 登录流程
-
-1. RegisterApp/componentDidMount 根据 currentUser 判断是否有用户信息，确定 isLogin 状态，isLogin = false 去调登录接口
-2. NetWork 层接口返回 904、907 状态也走登录流程（先 loginOut 再 Login）
-3. 登录状态标识：根据 ’用户 user 信息+ mobile 信息‘
 
 ### 全局 store 信息：通过 isGloable 配置
 
@@ -137,39 +127,6 @@ export default createModel({
 - ad
 
 ---
-
-## API
-
-### 基础
-
-- 环境
-
-  - `globalActions.env.setEnv`
-  - `globalActions.env.initEnv`
-
-- 对接
-
-  - `globalActions.env.setAppCode`
-  - `globalActions.env.setServiceUrl`
-
-- 主题
-
-  - `globalActions.env.changeTheme`
-  - `globalActions.env.injectThemes`
-
-- 页面信息
-  - `globalActions.route.setRoute`
-  - `globalActions.route.currentPage`
-
-### 路由
-
-- `globalActions.navigate.goTo({ url: "/home/home1" })`
-- `globalActions.navigate.goBack`
-- `globalActions.navigate.reLaunch`
-- `globalActions.navigate.redirect`
-- `globalActions.navigate.replace`
-
-## 组件
 
 ### 基础组件
 
@@ -187,14 +144,10 @@ basic
 - Picker
 - DatePicker
 - Calendar
-- WingBlank 两翼留白
-- WhiteSpace 上下留白
-- NavNar 导航栏
 - Popover 气泡
 - Tabs 标签页
 - Checkbox 复选框
 - List
-
 - Drawer
 - Loading
 
@@ -217,17 +170,34 @@ basic
 
 ---
 
-指南：启动、配置项（登录，权限，TabBar 配置）、打包命令
+### 参考官网
 
-框架： 开发规范、目录结构规范、核心功能引入规范、common 和 pages 页面模块导入导出规范;
+> [webpack](https://webpack.docschina.org/concepts/)  
+> [babel](https://www.babeljs.cn/docs/options)  
+> [ES6](http://es6.ruanyifeng.com/)  
+> [react](https://react.docschina.org/docs/getting-started.html)  
+> [redux](http://cn.redux.js.org/)  
+> [redux-saga](https://redux-saga-in-chinese.js.org/)  
+> [React Router](https://react-guide.github.io/react-router-cn/docs/Introduction.html)
+
+### 社区好文推荐
+
+> [redux 系列总结](https://juejin.cn/post/6880011662926364679)  
+> [分布式事务：Saga 模式](https://www.jianshu.com/p/e4b662407c66?from=timeline&isappinstalled=0)  
+> [深入理解 React 高阶组件](https://www.jianshu.com/p/0aae7d4d9bc1)  
+> [React 从渲染原理到性能优化](https://www.cnblogs.com/chaoyuehedy/p/9638848.html)
+
+---
+
+## 以下内容无用，后续清理
+
+框架： 开发规范、目录结构规范、核心功能引入规范;
 
 组件：基础组件、业务组件
 
 API：页面跳转、设置主题、接口请求、缓存 cache、环境、路由，appCode 切换、请求地址切换、转发、
 
 ---
-
-============以下内容无用，后续清理===========
 
 ### 备忘
 
@@ -261,38 +231,3 @@ prettier 介绍
 - .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
 - .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
 - .eslintrc.json eslint 对应的配置文件
-
-```json
-// 安装 eslint-config-prettier 使 eslint 可以继承 prettier 规则
-{
-  "env": {
-    "browser": true, // 浏览器环境中的全局变量
-    "es2021": true // 启用除了 modules 以外的所有 ECMAScript 6 特性
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint",
-    "prettier/babel",
-    "prettier/flowtype",
-    "prettier/prettier",
-    "prettier/react",
-    "prettier/standard",
-    "prettier/unicorn"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
-  },
-  "plugins": ["react", "@typescript-eslint"],
-  "rules": {}
-}
-```
-
-### 小程序端：

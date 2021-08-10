@@ -178,7 +178,7 @@ export default class extends Component {
 
   render() {
     const { collapsed, goTo, menus } = this.props;
-    const { defaultSelectedKeys, defaultOpenKeys, rootMenus } = this.state;
+    const { defaultSelectedKeys, defaultOpenKeys } = this.state;
     const menuItems = generateMenus(menus);
     return (
       <Sider

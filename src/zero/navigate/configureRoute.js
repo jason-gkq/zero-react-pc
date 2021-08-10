@@ -1,7 +1,7 @@
 import React from "react";
 import routes from "./routeData";
 import { Route } from "react-router-dom";
-import { storage } from "../cache";
+import { sessionStorage } from "../cache";
 import { flatDeep } from "../utils";
 
 const allPageRoute = [];
@@ -36,7 +36,7 @@ export function guardRoute(route) {
     return routerRules.includes(route);
   }
   const { routerRules: routerRulesCache } =
-    storage.getStorageSync("userAuth") || {};
+    sessionStorage.get("userAuth") || {};
   if (routerRulesCache && routerRulesCache.length > 0) {
     return routerRulesCache.includes(route);
   }

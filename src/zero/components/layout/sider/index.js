@@ -88,14 +88,17 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuItems: [],
+      // rootMenus: [],
+      menuItems: {},
       defaultOpenKeys: [],
       defaultSelectedKeys: [],
     };
+    // this.generateMenus = this.generateMenus.bind(this);
+    // this.generateMenuItems = this.generateMenuItems.bind(this);
   }
 
   componentDidMount() {
-    const { path, configureMenu } = this.props;
+    const { path, configureMenu, menus } = this.props;
     const keys = configureMenu.getSelectKeys(path);
     let defaultOpenKeys = [];
     let defaultSelectedKeys = [];
@@ -106,12 +109,76 @@ export default class extends Component {
       defaultOpenKeys = keys;
       defaultSelectedKeys = keys;
     }
+    // const rootMenus = this.generateMenus(menus);
     this.setState({ defaultOpenKeys, defaultSelectedKeys });
   }
 
+  // generateMenuItems(e) {
+  //   console.log(e);
+  //   if (e.length <= 0) {
+  //     return;
+  //   }
+  //   const key = e[e.length - 1];
+  //   let { menuItems } = this.state;
+  //   if (menuItems[key] && menuItems[key].length > 0) {
+  //     return;
+  //   }
+  //   const { menus } = this.props;
+  //   let items = [];
+  //   for (let i in menus) {
+  //     if (Number(menus[i]["key"]) == Number(key)) {
+  //       items = generateMenuItems(menus[i]["children"], []);
+  //       break;
+  //     }
+  //   }
+  //   console.log(
+  //     items,
+  //     {
+  //       [key]: items,
+  //     },
+  //     Object.assign(menuItems, {
+  //       [key]: items,
+  //     })
+  //   );
+  //   this.setState({
+  //     menuItems: Object.assign(menuItems, {
+  //       [key]: items,
+  //     }),
+  //   });
+  // }
+
+  // generateMenus(menus) {
+  //   if (!Array.isArray(menus)) {
+  //     return;
+  //   }
+  //   const { menuItems } = this.state;
+  //   const menuList = menus.map((item) => {
+  //     menuItems[item.key] = [];
+  //     if (item.children && item.children.length > 0) {
+  //       return (
+  //         <SubMenu
+  //           icon={
+  //             <>{item.icon ? <MyIcon type='icon4Sdian' /> : <BarsOutlined />}</>
+  //           }
+  //           key={item.key}
+  //           title={item.title}
+  //           children={menuItems[item.key]}
+  //         ></SubMenu>
+  //       );
+  //     } else {
+  //       return (
+  //         <Menu.Item link={item.link} key={item.key}>
+  //           {item.title}
+  //         </Menu.Item>
+  //       );
+  //     }
+  //   });
+  //   return menuList;
+  // }
+
   render() {
     const { collapsed, goTo, menus } = this.props;
-    const { defaultSelectedKeys, defaultOpenKeys } = this.state;
+    const { defaultSelectedKeys, defaultOpenKeys, rootMenus } = this.state;
     const menuItems = generateMenus(menus);
     return (
       <Sider
@@ -132,8 +199,12 @@ export default class extends Component {
             defaultOpenKeys={defaultOpenKeys}
             defaultSelectedKeys={defaultSelectedKeys}
             onClick={goTo}
+            // onOpenChange={this.generateMenuItems}
+            // triggerSubMenuAction='click'
           >
             {menuItems}
+            {/* {this.generateMenus(menus)} */}
+            {/* {rootMenus} */}
           </Menu>
         </View>
       </Sider>

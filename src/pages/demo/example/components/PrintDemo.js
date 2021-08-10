@@ -14,7 +14,8 @@ class ComponentToPrint extends React.PureComponent {
   }
   render() {
     return (
-      <View>
+      <View style={{ width: "80%", margin: "10px auto" }}>
+        <View>这是打印内容</View>
         <View>
           <Text>column 1</Text>
           <Text>column 2</Text>
@@ -37,7 +38,7 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-      <View>
+      <View style={{ width: "30%", margin: "10px auto" }}>
         <ReactToPrint
           trigger={() => {
             return <Button type='primary'>打印</Button>;

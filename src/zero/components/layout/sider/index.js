@@ -14,7 +14,8 @@ const { Sider } = Layout;
 const MyIcon = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_1810562_ex0jixy1ib.js", // 在 iconfont.cn 上生成
 });
-// const arr = [];
+// const arr = [],
+//   other = [];
 const generateMenuItems = (menus, rootMenuList) => {
   if (!Array.isArray(menus)) {
     return;
@@ -49,6 +50,8 @@ const generateMenuItems = (menus, rootMenuList) => {
       //   !item.link.startsWith("/rhd/")
       // ) {
       //   arr.push(item.link);
+      // } else {
+      //   other.push(item.link);
       // }
       return (
         <Menu.Item link={item.link} key={item.key}>
@@ -67,7 +70,9 @@ const generateMenus = (menus) => {
   const rootMenuList = menus.map((item) => {
     return item.key;
   });
-  return generateMenuItems(menus, rootMenuList);
+  const rel = generateMenuItems(menus, rootMenuList);
+  // console.log(arr, other);
+  return rel;
 };
 
 @connect(

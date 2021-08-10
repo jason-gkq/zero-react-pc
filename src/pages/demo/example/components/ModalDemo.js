@@ -5,8 +5,8 @@ import logo from "@/assets/lcb-logo/logo-menu.png";
 export default (props) => {
   const { isModalVisible, handleOk, handleCancel, showModal } = props;
   return (
-    <>
-      <Button onClick={showModal}>4444</Button>
+    <View style={{ width: "30%", margin: "10px auto" }}>
+      <Button onClick={showModal}>弹窗</Button>
       <Modal
         title='弹窗'
         visible={isModalVisible}
@@ -18,6 +18,6 @@ export default (props) => {
           <Image src={logo} />
         </View>
       </Modal>
-    </>
+    </View>
   );
 };

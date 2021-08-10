@@ -13,7 +13,7 @@ export default connect(
         // dispatch($globalActions.env.changeTheme({ theme: "C" }));
       },
       goTo() {
-        dispatch($globalActions.navigate.goTo({ url: "/index/index/index" }));
+        dispatch($globalActions.navigate.goTo({ url: "/index" }));
       },
       goBack() {
         dispatch($globalActions.navigate.goBack());

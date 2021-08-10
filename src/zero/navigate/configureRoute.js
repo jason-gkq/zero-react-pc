@@ -13,13 +13,11 @@ export function generateRoute() {
   const routeList = Object.values(routes)
     .flat()
     .map((item) => {
-      if (item.path.endsWith("/index/index")) {
-        indexRoute = (
-          <Route key='index' exact={true} component={item.component} />
-        );
+      if (item.path.endsWith("/index")) {
+        indexRoute = <Route key='index' component={item.component} />;
       }
       allPageRoute.push(item.path);
-      if (item.path.endsWith("/login/index")) {
+      if (item.path.endsWith("/common/login")) {
         fullRoutes.push(<Route key={item.path} exact={true} {...item} />);
       } else {
         return <Route key={item.path} exact={true} {...item} />;

@@ -351,7 +351,7 @@ const changeShop = function* ({ payload: { shopInfo } }) {
         payload: currentPage.payload,
       });
     } else {
-      navigate.redirect({ url: "/index/index" });
+      navigate.redirect({ url: "/index" });
     }
   } catch (error) {
     const { groupInfo } = storage.getStorageSync("userAuth");

@@ -181,11 +181,11 @@ const responseHandler = (resp) => {
     const location =
       navigate.navigateHistory.length > 0
         ? navigate.navigateHistory[navigate.navigateHistory.length - 1]
-        : { pathname: "/index/index", state: {} };
+        : { pathname: "/index", state: {} };
     navigate.redirect({
-      url: location.pathname.endsWith("/common/login/index")
-        ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
-        : `/common/login/index?to=${encodeURIComponent(location.pathname)}`,
+      url: location.pathname.endsWith("/common/login")
+        ? `/common/login?to=${encodeURIComponent("/index")}`
+        : `/common/login?to=${encodeURIComponent(location.pathname)}`,
       payload: location.state,
     });
   }

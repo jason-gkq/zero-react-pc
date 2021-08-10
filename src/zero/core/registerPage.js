@@ -60,9 +60,9 @@ export default (pageModel) => (WrappedComponent) => {
       if (isNeedLogin && !$isLogin) {
         dispatch(
           globalActions.navigate.redirect({
-            url: $route.endsWith("/common/login/index")
-              ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
-              : `/common/login/index?to=${encodeURIComponent($route)}`,
+            url: $route.endsWith("/common/login")
+              ? `/common/login?to=${encodeURIComponent("/index")}`
+              : `/common/login?to=${encodeURIComponent($route)}`,
             payload: $payload,
           })
         );

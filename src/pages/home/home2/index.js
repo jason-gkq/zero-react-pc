@@ -84,9 +84,7 @@ export default connect(
         // store.dispatch(store.globalActions.test());
       },
       goTo() {
-        dispatch(
-          globalActions.navigate.goTo({ url: "/home/home3/index?a=1&b=3" })
-        );
+        dispatch(globalActions.navigate.goTo({ url: "/home/home3?a=1&b=3" }));
       },
     };
   }

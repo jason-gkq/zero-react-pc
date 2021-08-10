@@ -114,20 +114,6 @@ home // 页面目录名，单个单词
 
 ---
 
-### 全局 store 信息：通过 isGloable 配置
-
-- user
-- car
-- store
-- location
-- subscribtion
-- inviteInfo
-
-- agentInfo
-- ad
-
----
-
 ### 基础组件
 
 basic
@@ -153,20 +139,8 @@ basic
 
 ### 业务组件
 
-- 店铺信息组件 StoreInfo
-- 登录组件 OathLogin
-- 技术支持 TechSupport
 - Loading
 - PageLoading
-- Share
-- 选品牌-车型
-- 选年款
-- 客服组
-- 打电话
-- 支付
-- 订单结果
-- 公众号
-- Tab
 
 ---
 

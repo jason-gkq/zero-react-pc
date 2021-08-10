@@ -24,7 +24,7 @@ import platform from "platform";
 
 import staticActions from "./rootAction";
 import { getEnv, getRoute } from "./rootSelector";
-import { cookieStorage, storage } from "../cache";
+import { cookieStorage, storage, sessionStorage } from "../cache";
 import { guid } from "../utils";
 import { navigate, injectRouterRules } from "../navigate";
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
@@ -256,24 +256,25 @@ const rootLunch = function* () {
 };
 
 const queryUserAuth = function* () {
-  // let userAuth = storage.getStorageSync("userAuth");
+  let userAuth = sessionStorage.get("userAuth");
   try {
-    // if (!userAuth) {
-    const { cachePrefix } = yield select(getEnv);
-    let groupKey = cookieStorage.getItem(`${cachePrefix}currentStore`);
-    let groupArr = [];
-    if (groupKey) {
-      groupArr = groupKey.split("|");
-    }
-    const userAuth = yield call(
-      httpsClient.post,
-      `gateway/manage/common/api/auth/queryUserAuth`,
-      {
-        groupKey: groupKey || null,
-        groupId: groupArr[1] || null,
-        groupType: groupArr[0] || null,
+    if (!userAuth) {
+      const { cachePrefix } = yield select(getEnv);
+      let groupKey = cookieStorage.getItem(`${cachePrefix}currentStore`);
+      let groupArr = [];
+      if (groupKey) {
+        groupArr = groupKey.split("|");
       }
-    );
+      userAuth = yield call(
+        httpsClient.post,
+        `gateway/manage/common/api/auth/queryUserAuth`,
+        {
+          groupKey: groupKey || null,
+          groupId: groupArr[1] || null,
+          groupType: groupArr[0] || null,
+        }
+      );
+    }
     const {
       factoryInfoRespList,
       groupInfo,
@@ -354,7 +355,8 @@ const changeShop = function* ({ payload: { shopInfo } }) {
       navigate.redirect({ url: "/index" });
     }
   } catch (error) {
-    const { groupInfo } = storage.getStorageSync("userAuth");
+    // const { groupInfo } = storage.getStorageSync("userAuth");
+    const { groupInfo } = sessionStorage.get("userAuth") || {};
     yield setCommonData({
       groupType: groupInfo.groupType,
       groupId: groupInfo.groupId,
@@ -369,13 +371,14 @@ const modifyAuth = function* () {
     } = yield take(staticActions.auth.modifyAuth);
 
     const { cachePrefix } = yield select(getEnv);
-    let userAuth = storage.getStorageSync("userAuth") || {};
-
-    storage.setStorageSync(
-      "userAuth",
-      Object.assign(userAuth, newUserAuth),
-      Infinity
-    );
+    // let userAuth = storage.getStorageSync("userAuth") || {};
+    let userAuth = sessionStorage.get("userAuth") || {};
+    sessionStorage.set("userAuth", Object.assign(userAuth, newUserAuth));
+    // storage.setStorageSync(
+    //   "userAuth",
+    //   Object.assign(userAuth, newUserAuth),
+    //   Infinity
+    // );
 
     const { groupInfo, menus, routerRules } = newUserAuth;
 

@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import NavigateDemo from "../components/NavigateDemo";
 
 export default connect(
-  (state) => {},
+  (state) => state,
   (dispatch, { $globalActions }) => {
     return {
       redirect() {

@@ -10,6 +10,9 @@ export default createModel({
     pageStatus: "loading",
     url: "/index/index",
     params: {},
+
+    loginTitle: "乐车邦员工管理后台",
+    fDate: new Date().getFullYear(),
   },
   config: {
     pageId: "10011",

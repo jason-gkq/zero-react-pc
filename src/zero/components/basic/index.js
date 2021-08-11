@@ -1,24 +1,27 @@
 export { default as View } from "./View";
 export { default as Text } from "./Text";
-export { default as Flex } from "./Flex";
 
 import {
-  Image as ImageD,
-  Button as ButtonD,
-  Avatar as AvatarD,
-  Spin as SpinD,
-  Space as SpaceD,
-  Divider as DividerD,
-  Modal as ModalD,
+  Image as AntImage,
+  Button as AntButton,
+  Avatar as AntAvatar,
+  Spin as AntSpin,
+  Space as AntSpace,
+  Divider as AntDivider,
+  Modal as AntModal,
+  Form as AntForm,
+  Input as AntInput,
 } from "antd";
 
-export const Image = ImageD;
-export const Button = ButtonD;
-export const Avatar = AvatarD;
-export const Spin = SpinD;
-export const Space = SpaceD;
-export const Divider = DividerD;
-export const Modal = ModalD;
+export const Image = AntImage;
+export const Button = AntButton;
+export const Avatar = AntAvatar;
+export const Spin = AntSpin;
+export const Space = AntSpace;
+export const Divider = AntDivider;
+export const Modal = AntModal;
+export const Form = AntForm;
+export const Input = AntInput;
 /**
  * icon
  */

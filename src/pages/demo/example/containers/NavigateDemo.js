@@ -6,10 +6,10 @@ export default connect(
   (dispatch, { $globalActions }) => {
     return {
       redirect() {
-        dispatch($globalActions.navigate.redirect({ url: "/index" }));
+        dispatch($globalActions.navigate.redirect({ url: "/backend/index" }));
       },
       goTo() {
-        dispatch($globalActions.navigate.goTo({ url: "/index" }));
+        dispatch($globalActions.navigate.goTo({ url: "/backend/index" }));
       },
       goBack() {
         dispatch($globalActions.navigate.goBack());

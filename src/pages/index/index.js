@@ -43,7 +43,7 @@ export default connect(
         // dispatch(model.action.changeName("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goTo({ url: "/demo/example" }));
+        dispatch(globalActions.navigate.goTo({ url: "/backend/demo/example" }));
       },
     };
   }

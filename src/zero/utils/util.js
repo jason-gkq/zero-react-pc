@@ -168,6 +168,51 @@ export function flatDeep(data, rel = []) {
   return rel;
 }
 
+/**
+ * 追加url参数
+ * @param {string} url url参数
+ * @param {string|object} key 名字或者对象
+ * @param {string} value 值
+ * @return {string} 返回新的url
+ * @example
+ * util.appendQuery('lechebang.com', 'id', 3);
+ * util.appendQuery('lechebang.com?key=value', { cityId:2,cityName: '北京'});
+ */
+export function appendQuery(url, key, value) {
+  var options = key;
+
+  if (typeof options == "string") {
+    options = {};
+    options[key] = value;
+  }
+
+  options = param(options);
+
+  if (url.includes("?")) {
+    url += "&" + options;
+  } else {
+    url += "?" + options;
+  }
+
+  return url;
+}
+
+// 处理查询参数对象, 如果需要拼接在url参数里面，需要自行调用encodeURIComponent(util.param({k: 'v'}))
+export function param(query, isEncode = true) {
+  let params = [];
+
+  for (let i in query) {
+    let value = query[i];
+
+    if (isPlainObject(value)) {
+      value = JSON.stringify(value);
+    }
+
+    params.push(`${i}=${isEncode ? encodeURIComponent(value) : value}`);
+  }
+
+  return params.join("&");
+}
 // define([], function() {
 //   /**
 //    * 版本号比较

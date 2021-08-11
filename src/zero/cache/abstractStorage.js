@@ -1,7 +1,7 @@
 import { isPlainObject } from "../utils";
 const environment = {
   prefixUnable: ["token", "__clientId"],
-  prefix: "lcb_",
+  prefix: process.env.productConfig.cachePrefix,
 };
 
 class NameStorage {

@@ -8,6 +8,7 @@ export default (pageModel) => (WrappedComponent) => {
   const mapStateToProps = (state, { location }) => {
     const { pageStatus } = pageModel.selectors.getState(state);
     const { isLogin: $isLogin } = globalSelectors.getUser(state);
+    const { appName } = globalSelectors.getEnv(state);
     const { pathname: $route, state: $payload = {} } = location;
 
     return {
@@ -15,6 +16,7 @@ export default (pageModel) => (WrappedComponent) => {
       $route,
       $payload,
       $isLogin,
+      appName,
     };
   };
 
@@ -22,7 +24,7 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props, context) {
       super(props);
 
-      const { dispatch, $route, $payload, $isLogin } = this.props;
+      const { dispatch, $route, $payload, $isLogin, appName } = this.props;
 
       this.state = {
         hasError: false,
@@ -61,8 +63,10 @@ export default (pageModel) => (WrappedComponent) => {
         dispatch(
           globalActions.navigate.redirect({
             url: $route.endsWith("/common/login")
-              ? `/common/login?to=${encodeURIComponent("/index")}`
-              : `/common/login?to=${encodeURIComponent($route)}`,
+              ? `/${appName}/common/login?to=${encodeURIComponent(
+                  `/${appName}/index`
+                )}`
+              : `/${appName}/common/login?to=${encodeURIComponent($route)}`,
             payload: $payload,
           })
         );
@@ -117,7 +121,7 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
-      const { pageStatus, ...restProps } = this.props;
+      const { pageStatus, appName, ...restProps } = this.props;
       const { hasError } = this.state;
       const $pageStatus = hasError ? "error" : pageStatus;
       return (

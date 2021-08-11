@@ -23,6 +23,8 @@ const loginWhiteListUrl = [
  */
 const pending = {};
 
+let appName;
+
 let interceptorsFlag = true;
 /**
  * 用于重复请求取消操作，只取消请求中还未完成的请求
@@ -71,6 +73,7 @@ const initCommonData = (env) => {
     parentSessionId: env.parentSessionId,
     sessionId: env.sessionId,
   };
+  appName = env.appName;
 };
 /**
  * 更新公共参数
@@ -181,11 +184,15 @@ const responseHandler = (resp) => {
     const location =
       navigate.navigateHistory.length > 0
         ? navigate.navigateHistory[navigate.navigateHistory.length - 1]
-        : { pathname: "/index", state: {} };
+        : { pathname: `/${appName}/index`, state: {} };
     navigate.redirect({
       url: location.pathname.endsWith("/common/login")
-        ? `/common/login?to=${encodeURIComponent("/index")}`
-        : `/common/login?to=${encodeURIComponent(location.pathname)}`,
+        ? `/${appName}/common/login?to=${encodeURIComponent(
+            `/${appName}/index`
+          )}`
+        : `/${appName}/common/login?to=${encodeURIComponent(
+            location.pathname
+          )}`,
       payload: location.state,
     });
   }

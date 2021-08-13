@@ -1,7 +1,7 @@
 class CookieStorage {
   constructor() {}
 
-  getItem(sKey) {
+  getItem = (sKey) => {
     if (!sKey) {
       return null;
     }
@@ -17,9 +17,9 @@ class CookieStorage {
         )
       ) || null
     );
-  }
+  };
 
-  setItem(sKey, sValue, vEnd, sPath = "/", sDomain = "") {
+  setItem = (sKey, sValue, vEnd, sPath = "/", sDomain = "") => {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
       return false;
     }
@@ -40,18 +40,19 @@ class CookieStorage {
           break;
       }
     }
+
     document.cookie =
       encodeURIComponent(sKey) +
       "=" +
       encodeURIComponent(sValue) +
       sExpires +
-      ";SameSite=None;Secure" +
+      (sDomain === "localhost" ? "" : ";SameSite=None;Secure") +
       (sDomain ? "; domain=" + sDomain : "") +
       (sPath ? "; path=" + sPath : "");
     return true;
-  }
+  };
 
-  removeItem(sKey, sPath = "", sDomain = "") {
+  removeItem = (sKey, sPath = "", sDomain = "") => {
     if (!this.hasItem(sKey)) {
       return false;
     }
@@ -61,9 +62,9 @@ class CookieStorage {
       (sDomain ? "; domain=" + sDomain : "") +
       (sPath ? "; path=" + sPath : "");
     return true;
-  }
+  };
 
-  hasItem(sKey) {
+  hasItem = (sKey) => {
     if (!sKey) {
       return false;
     }
@@ -72,18 +73,18 @@ class CookieStorage {
         encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") +
         "\\s*\\="
     ).test(document.cookie);
-  }
+  };
 
-  clearAll() {
+  clearAll = () => {
     const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
     if (keys) {
       keys.forEach((key) => {
         document.cookie = key + "=0;expires=" + new Date(0).toUTCString();
       });
     }
-  }
+  };
 
-  getDomain() {
+  getDomain = () => {
     const ret = location.hostname.split(".");
 
     if (ret.length > 1) {
@@ -96,7 +97,7 @@ class CookieStorage {
     } else {
       return ret[0];
     }
-  }
+  };
 }
 
 export default new CookieStorage();

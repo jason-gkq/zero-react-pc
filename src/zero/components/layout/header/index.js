@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./index.less";
 import { globalSelectors, globalActions } from "../../../redux";
-import { View, Text, Avatar } from "../../basic";
+import { View, Text, Avatar, Popover, Modal, Divider } from "../../basic";
 import { Layout } from "antd";
 const { Header } = Layout;
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+const { confirm } = Modal;
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  ExclamationCircleOutlined,
+  DownloadOutlined,
+} from "@ant-design/icons";
 
-import StoreList from "./tools/changeStore";
+import StoreList from "./tools/ChangeStore";
+import RoleList from "./tools/RoleList";
 
 @connect(
   (state) => {
@@ -15,6 +22,7 @@ import StoreList from "./tools/changeStore";
     const { userInfo } = globalSelectors.getUser(state);
     const { shopInfo, shopList } = globalSelectors.getShop(state);
     const { path } = currentPage;
+
     return { path, userInfo, shopInfo, shopList };
   },
   (dispatch) => {
@@ -24,6 +32,26 @@ import StoreList from "./tools/changeStore";
           globalActions.shop.changeShop({ shopInfo: item.props.shopinfo })
         );
       },
+      logOutAction() {
+        dispatch(globalActions.user.logout());
+      },
+      cleanStorageAction() {
+        confirm({
+          title: "是否确定清除系统缓存",
+          icon: <ExclamationCircleOutlined />,
+          content: "该操作将会清除系统缓存信息",
+          okText: "确定",
+          cancelText: "取消",
+          okType: "danger",
+          onOk() {
+            console.log("OK");
+          },
+          onCancel() {
+            console.log("Cancel");
+          },
+        });
+      },
+      goToDownloadCenter() {},
     };
   }
 )
@@ -42,7 +70,11 @@ export default class extends Component {
       shopInfo,
       shopList,
       changeShop,
+      logOutAction,
+      cleanStorageAction,
+      goToDownloadCenter,
     } = this.props;
+
     const breadcrumb = configureMenu.getBreadcrumb(path);
     return (
       <Header
@@ -50,7 +82,7 @@ export default class extends Component {
           collapsed ? "main-header main-header-trigger" : "main-header"
         }
       >
-        <View className='main-header-left'>
+        <View className="main-header-left">
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -58,20 +90,43 @@ export default class extends Component {
               onClick: onCollapse,
             }
           )}
-          <View className='main-header-tools main-header-breadcrumb'>
+          <View className="main-header-tools main-header-breadcrumb">
             <Text>{breadcrumb}</Text>
           </View>
         </View>
-        <View className='main-header-right'>
+        <View className="main-header-right">
           <StoreList
             shopList={shopList}
             shopInfo={shopInfo}
             changeShop={changeShop}
           />
+          <View className="hand download" onClick={goToDownloadCenter}>
+            下载中心 <DownloadOutlined />
+          </View>
+          <Divider type="vertical" />
           {userInfo ? (
-            <View className='main-header-tools main-header-userinfo'>
-              <Text>{userInfo.realName || ""}</Text>
-              <Avatar src={userInfo.faceImageUrl || ""} />
+            <View className="main-header-tools main-header-userinfo">
+              <Popover
+                // visible={true}
+                placement="bottomRight"
+                content={
+                  <RoleList
+                    shopInfo={shopInfo}
+                    logOutAction={logOutAction}
+                    cleanStorage={cleanStorageAction}
+                  />
+                }
+              >
+                <View>
+                  <Text className="user-real-name">
+                    {userInfo.realName || ""}
+                  </Text>
+                  <Avatar
+                    className="user-avater"
+                    src={userInfo.faceImageUrl || ""}
+                  />
+                </View>
+              </Popover>
             </View>
           ) : (
             ""

@@ -11,6 +11,11 @@ import {
   Modal as AntModal,
   Form as AntForm,
   Input as AntInput,
+  Popover as AntPopover,
+  Dropdown as AntDropdown,
+  Menu as AntMenu,
+  Col as AntCol,
+  Row as AntRow,
 } from "antd";
 
 export const Image = AntImage;
@@ -22,6 +27,11 @@ export const Divider = AntDivider;
 export const Modal = AntModal;
 export const Form = AntForm;
 export const Input = AntInput;
+export const Popover = AntPopover;
+export const Dropdown = AntDropdown;
+export const Menu = AntMenu;
+export const Col = AntCol;
+export const Row = AntRow;
 /**
  * icon
  */

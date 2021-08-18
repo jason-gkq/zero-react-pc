@@ -397,6 +397,15 @@ const modifyAuth = function* () {
   }
 };
 
+const takeLogout = function* () {
+  while (true) {
+    yield take(staticActions.user.logout);
+    yield call(httpsClient.post, `gateway/manage/common/api/user/logout`);
+    yield put(staticActions.user.setUser({ isLogin: false }));
+    navigate.goTo({ url: "/backend/common/login" });
+  }
+};
+
 export default function* staticSagas() {
   yield fork(modifyAuth);
   /**
@@ -406,6 +415,7 @@ export default function* staticSagas() {
   yield fork(goBack);
   yield fork(redirect);
   yield fork(reLaunch);
+  yield fork(takeLogout);
 
   /**
    * 系统信息初始化

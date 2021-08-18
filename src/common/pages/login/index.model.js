@@ -1,4 +1,4 @@
-import { createModel } from "@/zero/redux";
+import { createModel, store } from "@/zero/redux";
 import { put, call, select } from "redux-saga/effects";
 import { cookieStorage } from "@/zero/cache";
 import { httpsClient } from "@/zero/net";
@@ -12,7 +12,11 @@ export default createModel({
     params: {},
 
     loginTitle: "乐车邦员工管理后台",
+    codeDesc: "发送验证码",
+    codeDisabled: false,
     fDate: new Date().getFullYear(),
+
+    isForgetPwd: false,
   },
   config: {
     pageId: "10011",
@@ -31,6 +35,31 @@ export default createModel({
           params,
         })
       );
+    },
+    *changeCodeBtn({ $actions }) {
+      let num = 5;
+      let timer = setInterval(() => {
+        if (num > 0) {
+          num = num - 1;
+          store.dispatch(
+            $actions.setState({
+              codeDisabled: true,
+              codeDesc: `发送中（${num}）`,
+            })
+          );
+        } else {
+          clearInterval(timer);
+          store.dispatch(
+            $actions.setState({
+              codeDisabled: false,
+              codeDesc: `重发验证码`,
+            })
+          );
+        }
+      }, 1000);
+    },
+    *getCode({ $actions, $selectors, $globalActions }) {
+      yield put($actions.changeCodeBtn());
     },
     *requestSmsCode({ $selectors, $globalActions }) {
       try {

@@ -1,13 +1,13 @@
 .main-header {
   display: flex;
-  background: #fff;
+  background: #1890ff;
   padding: 0 10px;
   height: 48px;
   line-height: 48px;
   position: fixed;
   width: calc(100vw - 200px);
   z-index: 1;
-  font-size: 12px;
+  font-size: 14px;
 }
 // .main-header > div + div {
 //   margin-right: 10px;
@@ -32,6 +32,16 @@
   flex: 60%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+
+  .user-real-name {
+    color: #fff;
+  }
+
+  .user-avater {
+    margin-left: 12px;
+    margin-right: 8px;
+  }
 }
 
 .main-header-collapsed {
@@ -48,4 +58,33 @@
 
 .main-header-userinfo {
   padding: 0 5px;
+}
+.width-sm {
+  width: 160px;
+}
+.role-list-area {
+  max-height: 650px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+.role-name {
+  padding: 5px 12px;
+}
+
+.divider {
+  margin: 10px 0 !important;
+}
+.menu-list-area {
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+}
+.menu-list-area:hover {
+  background-color: #eee;
+}
+.margin-l-5 {
+  margin-left: 5px;
+}
+.download {
+  color: #fff;
 }

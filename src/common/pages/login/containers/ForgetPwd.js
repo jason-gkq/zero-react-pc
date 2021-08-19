@@ -14,14 +14,14 @@ export default connect(
   },
   (dispatch, { $model, $globalActions }) => {
     return {
-      onLoginAction() {
-        // dispatch($model.actions.requestSmsCode());
+      onLoginAction(e) {
+        dispatch($model.actions.resetPwd(e));
       },
       backLoginAction() {
         dispatch($model.actions.setState({ isForgetPwd: false }));
       },
-      getCodeAction() {
-        dispatch($model.actions.getCode());
+      getCodeAction(mobile) {
+        dispatch($model.actions.getCode(mobile));
       },
     };
   }

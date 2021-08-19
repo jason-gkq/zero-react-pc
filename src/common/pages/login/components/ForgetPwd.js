@@ -23,13 +23,16 @@ export default (props) => {
   if (!isForgetPwd) {
     return null;
   }
+  const [form] = Form.useForm();
   return (
     <View className="login_input_wrap">
       <Form
+        form={form}
         name="normal_login"
         className="login_form"
         size="large"
         initialValues={{ remember: true }}
+        onFinish={onLoginAction} //获取所有表单数据
       >
         <Form.Item>
           <Row>
@@ -44,7 +47,7 @@ export default (props) => {
           </Row>
         </Form.Item>
         <Form.Item
-          name="username"
+          name="mobile"
           rules={[
             { required: true, message: "请输入手机号码！" },
             {
@@ -83,8 +86,6 @@ export default (props) => {
             { required: true, message: "请输入确认密码！" },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                console.log("getFieldValue", getFieldValue());
-
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
@@ -102,7 +103,7 @@ export default (props) => {
         </Form.Item>
 
         <Form.Item
-          name="captchaCode"
+          name="code"
           rules={[{ required: true, message: "请填写验证码！" }]}
         >
           <Row justify="space-between" align="middle">
@@ -119,7 +120,10 @@ export default (props) => {
                 type="primary"
                 size="middle"
                 disabled={codeDisabled}
-                onClick={getCodeAction}
+                onClick={() => {
+                  const {mobile} = form.getFieldsValue()
+                  getCodeAction(mobile)
+                }}
               >
                 {codeDesc}
               </Button>
@@ -134,7 +138,7 @@ export default (props) => {
             type="primary"
             className="login-btn"
             size="large"
-            onClick={onLoginAction}
+            // onClick={onLoginAction}
           >
             登录
           </Button>

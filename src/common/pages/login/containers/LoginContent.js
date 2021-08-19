@@ -8,8 +8,8 @@ export default connect(
   },
   (dispatch, { $model, $globalActions }) => {
     return {
-      onLoginAction() {
-        dispatch($model.actions.requestSmsCode());
+      onLoginAction(e) {       
+        dispatch($model.actions.requestSmsCode(e));
       },
       showForgetAction() {
         dispatch($model.actions.setState({ isForgetPwd: true }));

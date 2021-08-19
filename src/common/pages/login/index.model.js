@@ -37,7 +37,7 @@ export default createModel({
       );
     },
     *changeCodeBtn({ $actions }) {
-      let num = 5;
+      let num = 60;
       let timer = setInterval(() => {
         if (num > 0) {
           num = num - 1;
@@ -58,21 +58,32 @@ export default createModel({
         }
       }, 1000);
     },
-    *getCode({ $actions, $selectors, $globalActions }) {
-      yield put($actions.changeCodeBtn());
-    },
-    *requestSmsCode({ $selectors, $globalActions }) {
+    *getCode({ $actions, $selectors, $globalActions }, { payload }) {
       try {
-        // const user = yield httpsClient.post(`gateway/user/smsLogin`, {
-        //   mobile: "13800000000",
-        //   code: "1111",
-        // });
+        const result = yield call(
+          httpsClient.post,
+          "gateway/manage/common/api/user/sendSecurityFindPwdSms",
+          {
+            mobile: payload,
+          }
+        );
+        yield put($actions.changeCodeBtn());
+      } catch (err) {
+        if (err.statusCode === '9135' || err.statusCode === '9136') {
+          
+        }
+        console.warn(err);
+      }
+    },
+    *requestSmsCode({ $selectors, $globalActions }, { payload }) {
+      try {
         const user = yield call(
           httpsClient.post,
           "gateway/manage/common/api/user/pwdLogin",
           {
-            loginName: "15000499260",
-            passwd: "12345678",
+            ...payload,
+            // loginName: "15000499260",
+            // passwd: "12345678",
           }
         );
         user["isLogin"] = false;
@@ -96,6 +107,21 @@ export default createModel({
       } catch (error) {
         cookieStorage.removeItem("token", "/", cookieStorage.getDomain());
         yield put($globalActions.user.setUser({ isLogin: false }));
+      }
+    },
+    *resetPwd({ $selectors, $globalActions }, { payload }) {
+      try {
+        const result = yield call(
+          httpsClient.post,
+          "gateway/manage/common/api/user/resetPwd",
+          {
+            ...payload
+          }
+        );
+        yield put($globalActions.navigate.redirect({ url: "/backend/common/login" }));
+       
+      } catch (error) {
+        console.warn('重置密码失败')
       }
     },
   },

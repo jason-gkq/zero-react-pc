@@ -17,7 +17,13 @@
 import React from "react";
 
 import "./index.less";
-import { RedoOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RedoOutlined,
+  CloseOutlined,
+  CheckOutlined,
+  ArrowRightOutlined,
+  CheckCircleTwoTone,
+} from "@ant-design/icons";
 
 // const icoSuccess = require("./icons/success.png");
 // const icoError = require("./icons/error.png");
@@ -94,6 +100,9 @@ export default class extends React.Component {
       status: STATUS_LOADING,
       showTips: false,
       tipsIndex: 0,
+
+      iconFill: "#333",
+      iconBg: "#FFF",
     };
 
     this.shadowCanvas = React.createRef();
@@ -101,7 +110,13 @@ export default class extends React.Component {
   }
 
   static defaultProps = {
-    imageUrl: "",
+    imageUrl: [
+      "https://seopic.699pic.com/photo/50046/5562.jpg_wh1200.jpg",
+      "https://www.isd.gov.hk/chi/images/gallery_calendar.jpg",
+      "https://www.isd.gov.hk/chi/images/gallery_yearbook.jpg",
+      "https://www.isd.gov.hk/chi/images/gallery_exhibitions.jpg",
+      "https://www.isd.gov.hk/chi/images/gallery_general.jpg",
+    ],
     imageWidth: 500,
     imageHeight: 300,
     fragmentSize: 80,
@@ -259,6 +274,7 @@ export default class extends React.Component {
         currX: 0, // 滑块当前 x,
         status: STATUS_LOADING,
       },
+
       this.props.onReload
     );
   };
@@ -278,24 +294,25 @@ export default class extends React.Component {
 
   render() {
     const { imageUrl, imageWidth, imageHeight, fragmentSize } = this.props;
-    const { offsetX, offsetY, currX, showTips, tipsIndex } = this.state;
+    const { offsetX, offsetY, currX, showTips, tipsIndex, status } = this.state;
     const tips = arrTips[tipsIndex];
+
     return (
-      <div className='image-code' style={{ width: imageWidth }}>
+      <div className="image-code" style={{ width: imageWidth }}>
         <div
-          className='image-container'
+          className="image-container"
           style={{ height: imageHeight, backgroundImage: `url("${imageUrl}")` }}
         >
           <canvas
             ref={this.shadowCanvas}
-            className='canvas'
+            className="canvas"
             width={fragmentSize}
             height={fragmentSize}
             style={{ left: offsetX + "px", top: offsetY + "px" }}
           />
           <canvas
             ref={this.fragmentCanvas}
-            className='canvas'
+            className="canvas"
             width={fragmentSize}
             height={fragmentSize}
             style={{ top: offsetY + "px", left: currX + "px" }}
@@ -309,36 +326,55 @@ export default class extends React.Component {
               style={{ backgroundImage: `url("${tips.ico}")` }}
             /> */}
             {tips.ico}
-            <span className='tips-text'>{tips.text}</span>
+            <span className="tips-text">{tips.text}</span>
           </div>
         </div>
 
-        <div className='reload-container'>
-          <div className='reload-wrapper' onClick={this.onReload}>
+        <div className="reload-container">
+          <div className="reload-wrapper" onClick={this.onReload}>
             <RedoOutlined />
             {/* <i
               className='reload-ico'
               style={{ backgroundImage: `url("${icoReload}")` }}
             /> */}
-            <span className='reload-tips'>刷新验证</span>
+            <span className="reload-tips">刷新验证</span>
           </div>
         </div>
 
         <div
-          className='slider-wrpper'
+          className="slider-wrpper"
           onMouseMove={this.onMoving}
           onMouseLeave={this.onMoveEnd}
         >
-          <div className='slider-bar'>按住滑块，拖动完成拼图</div>
+          <div className="slider-bar">按住滑块，拖动完成拼图</div>
           <div
-            className='slider-button'
+            className="slider-button"
+            onMouseEnter={() => {
+              this.setState({
+                iconFill: "#FFF",
+                iconBg: "#1890ff",
+              });
+            }}
+            onMouseLeave={() => {
+              this.setState({
+                iconFill: "#333",
+                iconBg: "#FFF",
+              });
+            }}
             onMouseDown={this.onMoveStart}
             onMouseUp={this.onMoveEnd}
             style={{
               left: currX + "px",
-              backgroundImage: `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAcAgMAAABuexVFAAAACVBMVEUAAADCwsL9/f1P0DqbAAAAAXRSTlMAQObYZgAAAB1JREFUGNNjCGVgYGANABKhyMwoEHMBkIgaZWIwAdyJJQnaJRg5AAAAAElFTkSuQmCC)`,
+              backgroundColor: status == 2 ? "#52c41a" : `${this.state.iconBg}`,
+              // backgroundImage: `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAcAgMAAABuexVFAAAACVBMVEUAAADCwsL9/f1P0DqbAAAAAXRSTlMAQObYZgAAAB1JREFUGNNjCGVgYGANABKhyMwoEHMBkIgaZWIwAdyJJQnaJRg5AAAAAElFTkSuQmCC)`,
             }}
-          />
+          >
+            {status == 2 ? (
+              <CheckCircleTwoTone twoToneColor="#52c41a" />
+            ) : (
+              <ArrowRightOutlined style={{ color: `${this.state.iconFill}` }} />
+            )}
+          </div>
         </div>
       </div>
     );

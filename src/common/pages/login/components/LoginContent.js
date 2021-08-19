@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import ForgetPwd from "../containers/ForgetPwd";
 
 export default (props) => {
-  const { onLoginAction, loginTitle, showForgetAction, isForgetPwd } = props;
+  const { onLoginAction, showForgetAction, isForgetPwd } = props;
   if (isForgetPwd) {
     return null;
   }
@@ -15,9 +15,10 @@ export default (props) => {
         className="login_form"
         size="large"
         initialValues={{ remember: true }}
+        onFinish={onLoginAction}
       >
         <Form.Item
-          name="username"
+          name="loginName"
           rules={[
             { required: true, message: "请输入手机号码！" },
             {
@@ -33,7 +34,7 @@ export default (props) => {
           />
         </Form.Item>
         <Form.Item
-          name="password"
+          name="passwd"
           rules={[{ required: true, message: " 请输入密码！" }]}
         >
           <Input.Password
@@ -53,7 +54,7 @@ export default (props) => {
             type="primary"
             className="login-btn"
             size="large"
-            onClick={onLoginAction}
+            htmlType="submit"//必须与Form表单的onFinish配合使用
           >
             登录
           </Button>

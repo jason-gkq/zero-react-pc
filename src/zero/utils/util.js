@@ -181,6 +181,10 @@ export function flatDeep(data, rel = []) {
 export function appendQuery(url, key, value) {
   var options = key;
 
+  if (isEmptyObject(options)) {
+    return url
+  }
+  
   if (typeof options == "string") {
     options = {};
     options[key] = value;
@@ -212,6 +216,18 @@ export function param(query, isEncode = true) {
   }
 
   return params.join("&");
+}
+
+export function isEmptyObject(obj) {
+  if (isObject(obj)) {
+    for (let key in obj) {
+      if (Object.prototype.call(obj, key)) {
+        return false
+      }
+    }
+    return true
+  }
+  return false
 }
 // define([], function() {
 //   /**

@@ -19,12 +19,12 @@ class Index extends Component {
         {/* <PageContent/> */}
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
-            <Loading msg={"我是一个home"} />
+            <Loading msg={"This is homePage"} />
           </div>
           <div onClick={this.props.goTo} className={styles.containerDiv}>
-            我是一个很多字div{" "}
+            go to demo
           </div>
-          <div className={styles.containerDiv}>我是一个更多字而且第三个div</div>
+          <div className={styles.containerDiv}>other</div>
         </div>
       </div>
     );

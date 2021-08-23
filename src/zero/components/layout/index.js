@@ -1,6 +1,6 @@
 import React, { Suspense, Fragment } from "react";
 import { connect } from "react-redux";
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import "./index.less";
 import { globalSelectors } from "../../redux";
 import { ConfigureMenu } from "../../navigate";
@@ -38,6 +38,7 @@ export default class extends React.Component {
 
   render() {
     const { $routes } = this.props;
+    
     const { collapsed, configureMenu } = this.state;
 
     return (
@@ -52,7 +53,9 @@ export default class extends React.Component {
           <Content>
             <Suspense fallback={<PageLoading />}>
               <Fragment>
-                <Switch>{$routes}</Switch>
+                <Switch>
+                  {$routes}                
+                </Switch>
               </Fragment>
             </Suspense>
           </Content>

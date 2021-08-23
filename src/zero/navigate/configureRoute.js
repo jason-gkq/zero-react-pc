@@ -3,6 +3,7 @@ import routes from "./routeData";
 import { Route } from "react-router-dom";
 import { sessionStorage } from "../cache";
 import { flatDeep } from "../utils";
+import { Exception } from "../components/index";
 
 const allPageRoute = [];
 let routerRules = [];
@@ -14,7 +15,7 @@ export function generateRoute() {
     .flat()
     .map((item) => {
       if (item.path.endsWith("/index")) {
-        indexRoute = <Route key='index' component={item.component} />;
+        indexRoute = <Route key="index" component={item.component} />;
       }
       allPageRoute.push(item.path);
       if (item.path.endsWith("/common/login")) {
@@ -23,8 +24,14 @@ export function generateRoute() {
         return <Route key={item.path} exact={true} {...item} />;
       }
     });
-  routeList.push(indexRoute);
-  return { routeList, fullRoutes };
+  // routeList.unshift(indexRoute);
+  routeList.push(
+    <Route path="*" key="*">
+      <Exception />
+    </Route>
+  );
+  const filterRoutes = routeList.filter((item) => item);
+  return { routeList: filterRoutes, fullRoutes };
 }
 
 export function injectRouterRules(rules) {

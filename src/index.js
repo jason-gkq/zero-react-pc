@@ -1,4 +1,5 @@
 // import 'babel-polyfill';
+import Zero from "@/zero/vendor/zero";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./app";

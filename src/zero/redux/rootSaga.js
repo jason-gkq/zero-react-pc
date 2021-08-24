@@ -24,10 +24,14 @@ import platform from "platform";
 
 import staticActions from "./rootAction";
 import { getEnv, getRoute } from "./rootSelector";
-import { cookieStorage, storage, sessionStorage } from "../cache";
+import {
+  cookieStorage,
+  sessionStorage,
+  setCommonData,
+  setAxiosBase,
+} from "../api";
 import { guid } from "../utils";
 import { navigate, injectRouterRules } from "../navigate";
-import { setCommonData, setAxiosBase, httpsClient } from "../net";
 import { themes } from "../core/themeContext";
 
 const initEnv = function* () {
@@ -266,7 +270,7 @@ const queryUserAuth = function* () {
         groupArr = groupKey.split("|");
       }
       userAuth = yield call(
-        httpsClient.post,
+        Zero.post,
         `gateway/manage/common/api/auth/queryUserAuth`,
         {
           groupKey: groupKey || null,
@@ -316,18 +320,14 @@ const changeShop = function* ({ payload: { shopInfo } }) {
       groupId: shopInfo.groupId,
     });
     const data = yield all([
-      call(httpsClient.post, "gateway/manage/common/api/menu/queryUserMenus", {
+      call(Zero.post, "gateway/manage/common/api/menu/queryUserMenus", {
         groupId: shopInfo.groupId,
         groupType: shopInfo.groupType,
       }),
-      call(
-        httpsClient.post,
-        "gateway/manage/common/api/routes/userRoutesByGroup",
-        {
-          groupId: shopInfo.groupId,
-          groupType: shopInfo.groupType,
-        }
-      ),
+      call(Zero.post, "gateway/manage/common/api/routes/userRoutesByGroup", {
+        groupId: shopInfo.groupId,
+        groupType: shopInfo.groupType,
+      }),
     ]);
 
     const menus = data[0] || [];
@@ -400,7 +400,7 @@ const modifyAuth = function* () {
 const takeLogout = function* () {
   while (true) {
     yield take(staticActions.user.logout);
-    yield call(httpsClient.post, `gateway/manage/common/api/user/logout`);
+    yield call(Zero.post, `gateway/manage/common/api/user/logout`);
     yield put(staticActions.user.setUser({ isLogin: false }));
     navigate.goTo({ url: "/backend/common/login" });
   }

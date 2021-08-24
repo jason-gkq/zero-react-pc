@@ -1,4 +1,4 @@
-import { isPlainObject } from "../utils";
+import { isPlainObject } from "../../utils";
 const environment = {
   prefixUnable: ["token", "__clientId"],
   prefix: process.env.productConfig.cachePrefix,

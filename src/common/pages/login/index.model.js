@@ -1,7 +1,6 @@
 import { createModel, store } from "@/zero/redux";
 import { put, call, select } from "redux-saga/effects";
-import { cookieStorage } from "@/zero/cache";
-import { httpsClient } from "@/zero/net";
+import { cookieStorage } from "@/zero/api";
 
 export default createModel({
   name: "login",
@@ -61,7 +60,7 @@ export default createModel({
     *getCode({ $actions, $selectors, $globalActions }, { payload }) {
       try {
         const result = yield call(
-          httpsClient.post,
+          Zero.post,
           "gateway/manage/common/api/user/sendSecurityFindPwdSms",
           {
             mobile: payload,
@@ -69,8 +68,7 @@ export default createModel({
         );
         yield put($actions.changeCodeBtn());
       } catch (err) {
-        if (err.statusCode === '9135' || err.statusCode === '9136') {
-          
+        if (err.statusCode === "9135" || err.statusCode === "9136") {
         }
         console.warn(err);
       }
@@ -78,7 +76,7 @@ export default createModel({
     *requestSmsCode({ $selectors, $globalActions }, { payload }) {
       try {
         const user = yield call(
-          httpsClient.post,
+          Zero.post,
           "gateway/manage/common/api/user/pwdLogin",
           {
             ...payload,
@@ -112,16 +110,17 @@ export default createModel({
     *resetPwd({ $selectors, $globalActions }, { payload }) {
       try {
         const result = yield call(
-          httpsClient.post,
+          Zero.post,
           "gateway/manage/common/api/user/resetPwd",
           {
-            ...payload
+            ...payload,
           }
         );
-        yield put($globalActions.navigate.redirect({ url: "/backend/common/login" }));
-       
+        yield put(
+          $globalActions.navigate.redirect({ url: "/backend/common/login" })
+        );
       } catch (error) {
-        console.warn('重置密码失败')
+        console.warn("重置密码失败");
       }
     },
   },

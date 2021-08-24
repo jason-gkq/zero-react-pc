@@ -18,10 +18,10 @@ class Login extends Component {
     const { loginTitle } = store.getState().login;
 
     return (
-      <View className="app-desktop">
-        <View className="login_container">
-          <View className="login_wrap">
-            <View className="login_title">{loginTitle}</View>
+      <View className='app-desktop'>
+        <View className='login_container'>
+          <View className='login_wrap'>
+            <View className='login_title'>{loginTitle}</View>
             <ForgetPwd $model={$model} $globalActions={$globalActions} />
             <LoginContent $model={$model} $globalActions={$globalActions} />
           </View>

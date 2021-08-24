@@ -1,5 +1,4 @@
 import { createModel } from "@/zero/redux";
-import { httpsClient } from "@/zero/net";
 import { put, select, call } from "redux-saga/effects";
 import { createSelector } from "reselect";
 

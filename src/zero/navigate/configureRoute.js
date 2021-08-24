@@ -1,7 +1,7 @@
 import React from "react";
 import routes from "./routeData";
 import { Route } from "react-router-dom";
-import { sessionStorage } from "../cache";
+import { sessionStorage } from "../api";
 import { flatDeep } from "../utils";
 import { Exception } from "../components/index";
 
@@ -15,7 +15,7 @@ export function generateRoute() {
     .flat()
     .map((item) => {
       if (item.path.endsWith("/index")) {
-        indexRoute = <Route key="index" component={item.component} />;
+        indexRoute = <Route key='index' component={item.component} />;
       }
       allPageRoute.push(item.path);
       if (item.path.endsWith("/common/login")) {
@@ -26,7 +26,7 @@ export function generateRoute() {
     });
   // routeList.unshift(indexRoute);
   routeList.push(
-    <Route path="*" key="*">
+    <Route path='*' key='*'>
       <Exception />
     </Route>
   );

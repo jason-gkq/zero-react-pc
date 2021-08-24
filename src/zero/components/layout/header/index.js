@@ -74,7 +74,6 @@ export default class extends Component {
       cleanStorageAction,
       goToDownloadCenter,
     } = this.props;
-
     const breadcrumb = configureMenu.getBreadcrumb(path);
     return (
       <Header
@@ -82,7 +81,7 @@ export default class extends Component {
           collapsed ? "main-header main-header-trigger" : "main-header"
         }
       >
-        <View className="main-header-left">
+        <View className='main-header-left'>
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -90,25 +89,25 @@ export default class extends Component {
               onClick: onCollapse,
             }
           )}
-          <View className="main-header-tools main-header-breadcrumb">
+          <View className='main-header-tools main-header-breadcrumb'>
             <Text>{breadcrumb}</Text>
           </View>
         </View>
-        <View className="main-header-right">
+        <View className='main-header-right'>
           <StoreList
             shopList={shopList}
             shopInfo={shopInfo}
             changeShop={changeShop}
           />
-          <View className="hand download" onClick={goToDownloadCenter}>
+          <View className='hand download' onClick={goToDownloadCenter}>
             下载中心 <DownloadOutlined />
           </View>
-          <Divider type="vertical" />
+          <Divider type='vertical' />
           {userInfo ? (
-            <View className="main-header-tools main-header-userinfo">
+            <View className='main-header-tools main-header-userinfo'>
               <Popover
                 // visible={true}
-                placement="bottomRight"
+                placement='bottomRight'
                 content={
                   <RoleList
                     shopInfo={shopInfo}
@@ -118,11 +117,11 @@ export default class extends Component {
                 }
               >
                 <View>
-                  <Text className="user-real-name">
+                  <Text className='user-real-name'>
                     {userInfo.realName || ""}
                   </Text>
                   <Avatar
-                    className="user-avater"
+                    className='user-avater'
                     src={userInfo.faceImageUrl || ""}
                   />
                 </View>

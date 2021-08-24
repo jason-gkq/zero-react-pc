@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { globalActions, globalSelectors } from "../redux";
-import { guardRoute } from "../navigate";
+import { guardRoute } from "../route";
 import { AppConfigContext } from "./configureContext";
 
 export default (pageModel) => (WrappedComponent) => {

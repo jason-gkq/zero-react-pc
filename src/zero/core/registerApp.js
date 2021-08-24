@@ -1,6 +1,7 @@
 import React from "react";
 import { store } from "../redux";
-import { history, generateRoute } from "../navigate";
+import { history } from "../api";
+import { generateRoute } from "../route";
 import "../style/index.less";
 
 export default (appModel) => (WrappedComponent) => {

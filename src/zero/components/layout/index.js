@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import "./index.less";
 import { globalSelectors } from "../../redux";
-import { ConfigureMenu } from "../../navigate";
+import { ConfigureMenu } from "../../route";
 import { Layout } from "antd";
 
 import Header from "./header";
@@ -38,7 +38,7 @@ export default class extends React.Component {
 
   render() {
     const { $routes } = this.props;
-    
+
     const { collapsed, configureMenu } = this.state;
 
     return (
@@ -53,9 +53,7 @@ export default class extends React.Component {
           <Content>
             <Suspense fallback={<PageLoading />}>
               <Fragment>
-                <Switch>
-                  {$routes}                
-                </Switch>
+                <Switch>{$routes}</Switch>
               </Fragment>
             </Suspense>
           </Content>

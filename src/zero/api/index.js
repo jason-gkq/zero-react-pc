@@ -8,3 +8,5 @@ export {
   setCommonData,
   instance,
 } from "./net/defaultAxios";
+
+export { navigate, history } from "./navigate";

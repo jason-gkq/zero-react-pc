@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history";
-import { appendQuery } from "../utils";
+import { appendQuery } from "../../utils";
 
 class configureNavigate {
   constructor() {

@@ -31,7 +31,7 @@ import {
   setAxiosBase,
 } from "../api";
 import { guid } from "../utils";
-import { navigate, injectRouterRules } from "../navigate";
+import { injectRouterRules } from "../route";
 import { themes } from "../core/themeContext";
 
 const initEnv = function* () {
@@ -69,6 +69,7 @@ const initEnv = function* () {
    */
   yield call(setAxiosBase, env);
   yield put(staticActions.env.setEnv({ ...env }));
+
   const themeInfo = themes[env.theme];
   Object.keys(themeInfo).forEach((key) => {
     document.documentElement.style.setProperty(key, themeInfo[key]);
@@ -202,7 +203,7 @@ const goTo = function* () {
     const { payload: { url, payload = {}, options = {} } = {} } = yield take(
       staticActions.navigate.goTo
     );
-    navigate.goTo({ url, payload, options });
+    Zero.goTo({ url, payload, options });
   }
 };
 
@@ -211,7 +212,7 @@ const goBack = function* () {
     const { payload: { delta, url = "" } = {} } = yield take(
       staticActions.navigate.goBack
     );
-    navigate.goBack({ delta, url });
+    Zero.goBack({ delta, url });
   }
 };
 
@@ -220,7 +221,7 @@ const redirect = function* () {
     const { payload: { url, payload = {}, options = {} } = {} } = yield take(
       staticActions.navigate.redirect
     );
-    navigate.redirect({ url, payload, options });
+    Zero.redirect({ url, payload, options });
   }
 };
 
@@ -230,7 +231,7 @@ const reLaunch = function* () {
       payload: { url = null, payload = {}, options = {} } = {},
     } = yield take(staticActions.navigate.reLaunch);
     if (url) {
-      yield navigate.redirect({ url, payload, options });
+      yield Zero.redirect({ url, payload, options });
     }
     window.location.reload();
   }
@@ -347,12 +348,12 @@ const changeShop = function* ({ payload: { shopInfo } }) {
     );
     const { currentPage } = yield select(getRoute);
     if (rules.includes(currentPage.route)) {
-      navigate.redirect({
+      Zero.redirect({
         url: currentPage.route,
         payload: currentPage.payload,
       });
     } else {
-      navigate.redirect({ url: "/index" });
+      Zero.redirect({ url: "/index" });
     }
   } catch (error) {
     const { groupInfo } = sessionStorage.get("userAuth") || {};
@@ -402,7 +403,7 @@ const takeLogout = function* () {
     yield take(staticActions.user.logout);
     yield call(Zero.post, `gateway/manage/common/api/user/logout`);
     yield put(staticActions.user.setUser({ isLogin: false }));
-    navigate.goTo({ url: "/backend/common/login" });
+    Zero.goTo({ url: "/backend/common/login" });
   }
 };
 

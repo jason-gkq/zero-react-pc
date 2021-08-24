@@ -10,7 +10,7 @@
 import axios, { Cancel } from "axios";
 import { guid, cloneDeep } from "../../utils/util";
 import cookieStorage from "../cache/cookieStorage";
-import navigate from "../../navigate/configureNavigate";
+import { navigate } from "../navigate";
 
 /* 不跳转登录页面白名单 */
 const loginWhiteListUrl = [

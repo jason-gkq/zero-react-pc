@@ -24,4 +24,5 @@ bin-release/
 
 dest
 
-src/zero/navigate/routeData.js
+src/zero/route/routeData.js
+

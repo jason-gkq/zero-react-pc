@@ -79,7 +79,11 @@ fs.writeFileSync(
   str.replace(/(\"\$)|(\$\")/g, "")
 );
 
-spawn.sync("prettier", [`${rootPath}/src/zero/route/routeData.js`, "--write"], {
-  stdio: "inherit",
-  shell: true,
-});
+spawn.sync(
+  "../node_modules/.bin/prettier",
+  [`${rootPath}/src/zero/route/routeData.js`, "--write"],
+  {
+    stdio: "inherit",
+    shell: true,
+  }
+);

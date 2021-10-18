@@ -5,10 +5,10 @@
   "main": "./src/pages/index/index.js",
   "scripts": {
     "start": "zero-react-scripts start env=local",
-    "build:dev": "zero-react-scripts build env=dev",
-    "build:uat": "zero-react-scripts build env=uat",
-    "build:pre": "zero-react-scripts build env=pre",
-    "build:prod": "zero-react-scripts build env=prod"
+    "build:dev": "../node_modules/.bin/zero-react-scripts build env=dev",
+    "build:uat": "../node_modules/.bin/zero-react-scripts build env=uat",
+    "build:pre": "../node_modules/.bin/zero-react-scripts build env=pre",
+    "build:prod": "../node_modules/.bin/zero-react-scripts build env=prod"
   },
   "repository": {
     "type": "git",

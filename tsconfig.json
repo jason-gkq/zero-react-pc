@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@/assets/*": ["public/assets/*"],
+      "@/src/*": ["src/*"],
+      "@/zero": ["src/zero"],
+      "@/zero/*": ["src/zero/*"],
+      "@/common": ["src/common"],
+      "@/common/*": ["src/common/*"]
+    }
+  },
+  "include": ["src"]
+}

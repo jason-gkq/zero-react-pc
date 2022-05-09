@@ -54,25 +54,34 @@ zero-react-m
 | - | - common // 公共组件&页面  
 | - | - pages // 业务页面  
 | - | - zero // 框架核心文件  
-| - | - app.js // 入口  
+| - | - app.tsx // 入口  
 | - | - app.less // 全局样式  
-| - | - app.model.js // 全局 model 配置  
-| - | - index.js  
-| - jsconfig.json
+| - | - app.model.ts // 全局 model 配置  
+| - | - index.tsx  
+| - tsconfig.json
 | - package.json
 
 新增页面目录结构示例：
 
 home // 页面目录名  
 │ - components // 页面组件目录，固定名称  
-│ - │ - DivTest.js // 组件文件，大驼峰  
+│ - │ - DivTest.tsx // 组件文件，大驼峰  
 │ - containers // 页面组件目录，固定名称  
-│ - │ - DivTest.js // 组件文件，大驼峰  
+│ - │ - DivTest.tsx // 组件文件，大驼峰  
 │ - index.less // 页面样式，固定名称  
-│ - index.model.js // 页面 model，固定名称  
-│ - index.js // 页面入口，固定名称
+│ - index.model.ts // 页面 model，固定名称  
+│ - index.tsx // 页面入口，固定名称
+| - hooks 业务逻辑抽取  
+| - service 接口请求以及 ts 接口和类型的编写
 
 ---
+
+## 接口使用规则
+
+1、接口请求使用的是 Axios，请求拦截可以做在 initHttpClient 中  
+2、接口契约和 mock 都采用 rapper，做需求拿到契约第一步首先配置 rapper，并运行对应更新接口契约命令
+
+更新契约命令：`yarn rapper`
 
 ### 参考官网
 

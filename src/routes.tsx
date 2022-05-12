@@ -1,17 +1,6 @@
 import React from "react";
 
 /**
- * 项目路由注册接口
- */
-export interface IRoutes {
-  Element?: React.ReactNode;
-  path: string;
-  index?: boolean;
-  isNoneLayout?: boolean;
-  children?: IRoutes[];
-}
-
-/**
  * 先菜单配置有问题，等修复之后废弃本地路由配置，改用接口
  * 菜单配置规则
  * 1. 菜单类型分为：目录、菜单和操作
@@ -26,116 +15,185 @@ export interface IRoutes {
  * 2. 多余配置了 controller 为叶子节点来管理查询
  *
  */
-export default (): IRoutes[] => {
-  return [
-    {
-      path: "login",
-      isNoneLayout: true,
-      Element: React.lazy(
-        () => import(/* webpackChunkName: 'login' */ "@/src/pages/login")
-      ),
-    },
-    {
-      path: "index",
-      index: true,
-      Element: React.lazy(
-        () => import(/* webpackChunkName: 'index' */ "@/src/pages/index")
-      ),
-    },
-    {
-      path: "system",
-      children: [
-        {
-          path: "user",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-user' */ "@/src/pages/system/user"
-              )
-          ),
-        },
-        {
-          path: "user/profile",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-user' */ "@/src/pages/system/user/profile"
-              )
-          ),
-        },
-        {
-          path: "role",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-role' */ "@/src/pages/system/role"
-              )
-          ),
-        },
-        {
-          path: "menu",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-menu' */ "@/src/pages/system/menu"
-              )
-          ),
-        },
-        {
-          path: "dept",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-dept' */ "@/src/pages/system/dept"
-              )
-          ),
-        },
-        {
-          path: "post",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-post' */ "@/src/pages/system/post"
-              )
-          ),
-        },
-        {
-          path: "dict",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-dict' */ "@/src/pages/system/dict"
-              )
-          ),
-        },
-        {
-          path: "dict/data",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-dict' */ "@/src/pages/system/dict/data"
-              )
-          ),
-        },
-        {
-          path: "config",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-config' */ "@/src/pages/system/config"
-              )
-          ),
-        },
-        {
-          path: "notice",
-          Element: React.lazy(
-            () =>
-              import(
-                /* webpackChunkName: 'system-notice' */ "@/src/pages/system/notice"
-              )
-          ),
-        },
-      ],
-    },
-  ];
+
+export default (): Record<string, React.ReactNode> => {
+  return {
+    "index/index": React.lazy(
+      () =>
+        import(
+          /* webpackChunkName: 'index' */ /* webpackPrefetch: true */ "@/src/pages/index"
+        )
+    ),
+    "system/user/profile/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-user' */ "@/src/pages/system/user/profile"
+        )
+    ),
+    "system/dict/data/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-dict' */ "@/src/pages/system/dict/data"
+        )
+    ),
+    "system/user/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-user' */ "@/src/pages/system/user"
+        )
+    ),
+    "system/role/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-role' */ "@/src/pages/system/role"
+        )
+    ),
+    "system/menu/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-menu' */ "@/src/pages/system/menu"
+        )
+    ),
+    "system/dept/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-dept' */ "@/src/pages/system/dept"
+        )
+    ),
+    "system/post/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-post' */ "@/src/pages/system/post"
+        )
+    ),
+    "system/dict/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-dict' */ "@/src/pages/system/dict"
+        )
+    ),
+    "system/config/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-config' */ "@/src/pages/system/config"
+        )
+    ),
+    "system/notice/index": React.lazy(
+      () =>
+        import(
+          /* webpackMode: "lazy" */ /* webpackChunkName: 'system-notice' */ "@/src/pages/system/notice"
+        )
+    ),
+  };
+  // return [
+  //   {
+  //     path: "login",
+  //     isNoneLayout: true,
+  //     Element: React.lazy(
+  //       () => import(/* webpackChunkName: 'login' */ "@/src/pages/login")
+  //     ),
+  //   },
+  //   {
+  //     path: "index",
+  //     index: true,
+  //     Element: React.lazy(
+  //       () => import(/* webpackChunkName: 'index' */ "@/src/pages/index")
+  //     ),
+  //   },
+  //   {
+  //     path: "system",
+  //     children: [
+  //       {
+  //         path: "user",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-user' */ "@/src/pages/system/user"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "user/profile",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-user' */ "@/src/pages/system/user/profile"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "role",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-role' */ "@/src/pages/system/role"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "menu",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-menu' */ "@/src/pages/system/menu"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "dept",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-dept' */ "@/src/pages/system/dept"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "post",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-post' */ "@/src/pages/system/post"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "dict",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-dict' */ "@/src/pages/system/dict"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "dict/data",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-dict' */ "@/src/pages/system/dict/data"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "config",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-config' */ "@/src/pages/system/config"
+  //             )
+  //         ),
+  //       },
+  //       {
+  //         path: "notice",
+  //         Element: React.lazy(
+  //           () =>
+  //             import(
+  //               /* webpackChunkName: 'system-notice' */ "@/src/pages/system/notice"
+  //             )
+  //         ),
+  //       },
+  //     ],
+  //   },
+  // ];
 };

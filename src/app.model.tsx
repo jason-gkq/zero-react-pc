@@ -10,7 +10,7 @@ import { cloneDeep, appendParam, guid } from "@/zero/utils";
 import type { MenuDataItem, ISagas } from "@/zero/types/zero";
 import { useToken } from "@/common/hooks";
 import initHttpClient from "./initHttpClient";
-// import useRoutes from "./routes";
+import useRoutes from "./routes";
 
 // import Icon, { createFromIconfontCN } from "@ant-design/icons";
 
@@ -44,7 +44,7 @@ const menuIcons = new Map([
   ["index", <HomeOutlined />],
   ["system", <SettingOutlined />],
 ]);
-
+const routeComponents = useRoutes();
 const getPageLazyComponent = (
   component: string
 ): React.ReactElement | undefined => {
@@ -54,12 +54,14 @@ const getPageLazyComponent = (
   if (component.endsWith("/Index")) {
     component = component.replace(/Index/, "index");
   }
-  const Element = React.lazy(
-    () =>
-      import(
-        /* webpackMode: "lazy" */ /* webpackChunkName: "[request]" */ /* webpackPrefetch: true */ `@/src/pages/${component}`
-      )
-  );
+
+  const Element: any = routeComponents[component];
+  // const Element = React.lazy(
+  //   () =>
+  //     import(
+  //       /* webpackMode: "lazy" */ /* webpackChunkName: "[request]" */ /* webpackPrefetch: true */ `@/src/pages/${component}`
+  //     )
+  // );
   if (!Element) {
     return;
   }

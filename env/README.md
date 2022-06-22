@@ -35,13 +35,13 @@
     {
       "ENV": "pre", // 当前环境变量标识 [local | dev | uat | pre | prod]
       "CDN_URL": "/", // cdn 地址，主要用于图片请求等地址使用
-      "FILE_SERVICE_URL": "api/", // 本地文件服务器
+      "FILE_SERVICE_URL": "file/", // 本地文件服务器
       // 接口请求地址，可以配置绝对地址，也可以配置相对地址
       "REQUEST": {
         // 接口请求标识
         "BASE": {
           // 当前标识对应的地址
-          "baseURL": "http://10.90.25.47:8095/",
+          "baseURL": "http://rap2api.taobao.org/",
           // 当前标识接口请求成功的code
           "successCode": 200
         }

@@ -31,7 +31,7 @@
     "@ant-design/pro-layout": "6.38.16",
     "@ant-design/pro-table": "2.78.2",
     "@reduxjs/toolkit": "1.8.3",
-    "antd": "4.21.7",
+    "antd": "4.22.1",
     "antd-img-crop": "4.2.3",
     "axios": "0.27.2",
     "core-js": "3.24.0",

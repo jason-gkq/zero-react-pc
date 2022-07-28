@@ -103,13 +103,13 @@ const getItems = (
         tempRoutes.push(
           <Route key={`${path}/*`} path={`${path}/*`}>
             <Route path='*' element={Element} />
-            {childrenRoutes}
+            {childrenRoutes as React.ReactNode}
           </Route>
         );
       } else {
         tempRoutes.push(
           <Route path={path} key={path}>
-            {childrenRoutes}
+            {childrenRoutes as React.ReactNode}
           </Route>
         );
       }

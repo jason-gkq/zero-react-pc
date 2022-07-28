@@ -16,7 +16,7 @@ import React from "react";
  *
  */
 
-export default (): Record<string, React.ReactNode> => {
+export default (): Record<string, React.LazyExoticComponent<any>> => {
   return {
     "index/index": React.lazy(
       () =>

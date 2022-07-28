@@ -35,7 +35,7 @@ const RoutesComponent = (props: {
             </React.Suspense>
           }
         >
-          {routes}
+          {routes as React.ReactNode}
           <Route
             path='*'
             key='*'
@@ -46,7 +46,7 @@ const RoutesComponent = (props: {
             }
           />
         </Route>
-        {noneLayoutRoutes}
+        {noneLayoutRoutes as React.ReactNode}
       </Route>
     </Routes>
   );

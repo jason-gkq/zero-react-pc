@@ -1,10 +1,13 @@
 // import "@babel/polyfill";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./app";
 import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root") as Element);
+root.render(<App />);
+
+// ReactDOM.render(<App />, document.getElementById("root"));
 if ((module as any).hot) (module as any).hot.accept();
 reportWebVitals((data) => {
   sessionStorage.setItem(data.name, JSON.stringify(data));

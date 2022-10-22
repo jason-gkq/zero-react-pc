@@ -4,7 +4,7 @@ import { RegisterPage } from "@/zero/core";
 import { MemoComponent } from "@/zero/components";
 import type { IProps } from "@/zero/types/zero";
 
-import ProTableContent from "./containers/Content";
+import ProTableContent from "./components/Content";
 
 @RegisterPage({ pageId: "2000" })
 export default class extends React.PureComponent<IProps, {}> {

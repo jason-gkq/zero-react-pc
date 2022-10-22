@@ -1,17 +1,19 @@
 {
   "name": "zero-react-pc",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "private": true,
   "main": "./src/pages/index/index.tsx",
   "scripts": {
     "start": "zero-react-scripts start env=local",
-    "build:dev": "zero-react-scripts build env=dev",
     "build:uat": "zero-react-scripts build env=uat",
     "build:pre": "zero-react-scripts build env=pre",
     "build:prod": "zero-react-scripts build env=prod",
     "build": "zero-react-scripts build env=prod",
-    "rapper": "node ./script/rapper.js"
+    "rapper": "node ./script/rapper.js",
+    "prepare": "husky install",
+    "prettier:check": "prettier --check ./src",
+    "prettier:write": "prettier --write ./src"
   },
   "repository": {
     "type": "git",
@@ -25,11 +27,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-card": "1.20.16",
-    "@ant-design/pro-descriptions": "1.11.14",
-    "@ant-design/pro-form": "1.71.2",
-    "@ant-design/pro-layout": "6.38.16",
-    "@ant-design/pro-table": "2.78.2",
+    "@ant-design/pro-components": "^1.1.21",
     "@reduxjs/toolkit": "1.8.3",
     "antd": "4.22.2",
     "antd-img-crop": "4.2.3",
@@ -79,7 +77,12 @@
     "@types/react-window": "^1.8.5",
     "@types/redux-actions": "^2.6.2",
     "@types/redux-logger": "^3.0.9",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "prettier": "2.7.1",
-    "zero-react-scripts": "0.6.5"
+    "zero-react-scripts": "0.6.13"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,less,css,md}": "prettier --write"
   }
 }

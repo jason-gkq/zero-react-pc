@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Zero React" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="<%= htmlWebpackPlugin.options.defaultTitle %>" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
-    <!--
+  <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
     -->
-    <title>Zero React</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <% 
+    for (var i=0; i<htmlWebpackPlugin.options.headScripts.length; i++) {
+      var script = htmlWebpackPlugin.options.headScripts[i];
+  %>
+  <script <% if(script.src){ %>src="<%= script.src %>" <% } %>>
+    <% if (script.content) { %>
+      <%= script.content %> 
+    <% } %>
+  </script>
+  <% } %>
+  <title><%= htmlWebpackPlugin.options.defaultTitle %></title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="<%= htmlWebpackPlugin.options.appName %>"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -29,5 +41,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

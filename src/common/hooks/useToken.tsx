@@ -1,17 +1,19 @@
-import { cookieStorage } from "@/zero/api";
+import { cookieStorage, useEnv } from "@/zero/api";
 
 export default () => {
+  const { appName } = useEnv();
+  const tokenName = `${appName}-token`;
   const setToken = (token: string) => {
-    cookieStorage.setItem("admin-token", token, Infinity);
+    cookieStorage.setItem(tokenName, token, Infinity);
     return true;
   };
 
   const getToken = () => {
-    return cookieStorage.getItem("admin-token");
+    return cookieStorage.getItem(tokenName);
   };
 
   const removeToken = () => {
-    cookieStorage.removeItem("admin-token");
+    cookieStorage.removeItem(tokenName);
     return true;
   };
   return { setToken, getToken, removeToken };

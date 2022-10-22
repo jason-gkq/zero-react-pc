@@ -1,7 +1,7 @@
 import React from "react";
 import { ConfigProvider } from "antd";
 
-import { ModalContextComponent } from "../components/business/NiceModal";
+import { ModalContextComponent } from "../components/basic/NiceModal";
 
 export const AppConfigContext = React.createContext({});
 AppConfigContext.displayName = "AppConfigContext";

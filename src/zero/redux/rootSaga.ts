@@ -16,16 +16,11 @@ import { all, put, call, select } from "redux-saga/effects";
 import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
 import { systemInfo, applicationEnv } from "../utils";
-import { themes } from "../core/themeContext";
 
 const initEnv = function* () {
   const { ...env } = yield select(getEnv);
   Object.assign(env, applicationEnv);
   yield put((staticActions as any).env.setEnv({ ...env }));
-  const themeInfo = themes[env?.layout.theme];
-  Object.keys(themeInfo).forEach((key) => {
-    document.documentElement.style.setProperty(key, themeInfo[key]);
-  });
 };
 
 const initSystem = function* () {

@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserHistory } from "history";
 import type { BrowserHistory } from "history";
 import { appendParam } from "../../utils";
@@ -12,12 +11,18 @@ class configureNavigate {
   history: BrowserHistory;
   maxHistoryLength: number;
   rootModelName: string;
+  indexPage: string;
   navigateHistory: Array<any> = [];
 
   constructor() {
-    this.history = createBrowserHistory();
+    this.history = createBrowserHistory({ window });
     this.maxHistoryLength = history.length;
-    this.rootModelName = (process as any).env.productConfig.appName;
+    const {
+      layout: { index },
+      appName,
+    } = process.env.productConfig as any;
+    this.rootModelName = appName;
+    this.indexPage = `/${appName}${index || "/index"}`;
     this.initHistory(this.history.location);
   }
 
@@ -30,55 +35,24 @@ class configureNavigate {
     if (!location) {
       return;
     }
-    let { pathname, search, state = {} } = location;
-    if (pathname === "/" || pathname === `/${this.rootModelName}`) {
-      pathname = `/${this.rootModelName}/index`;
+    let { pathname, search } = location;
+    if (
+      pathname === "/" ||
+      pathname === `/${this.rootModelName}` ||
+      pathname === `/${this.rootModelName}/`
+    ) {
+      pathname = this.indexPage;
+      this.navigateHistory.push({ url: pathname });
+      this.history.push(pathname);
     }
-    const url = search.includes("?")
-      ? `${pathname}${search}`
-      : `${pathname}?${search}`;
-    const initLocation = this.getLocation(url, state);
-
-    initLocation.pathname !== location.pathname &&
-      this.history.push(initLocation);
-    console.log("on lunch location::", initLocation);
-    this.navigateHistory.push(initLocation);
-    return;
-  };
-
-  private getLocation = (url: string, payload: any) => {
-    const urlArr = String(url).split("?");
-    const pathname = urlArr[0] || `/${this.rootModelName}/index`;
-    const state = payload || {};
-    const searchArr: any = [];
-    if (urlArr[1]) {
-      urlArr[1].split("&").reduce((state, v) => {
-        if (v && v.includes("=")) {
-          const temp = v.split("=");
-          state[temp[0]] = temp[1];
-          searchArr.push(`${temp[0]}=${temp[1]}`);
-        }
-        return state;
-      }, state);
+    if (search && search != "?") {
+      pathname = search.includes("?")
+        ? `${pathname}${search}`
+        : `${pathname}?${search}`;
     }
-    const key = `${pathname}:${JSON.stringify(state)}`;
-    const search = searchArr.join("&");
-    url = searchArr.length > 0 ? `${pathname}?${search}` : pathname;
-    return {
-      url,
-      pathname,
-      state,
-      key,
-    };
-  };
+    console.log("init-LLL", pathname);
 
-  goToModule = (url: string, payload?: any, options?: { target?: string }) => {
-    console.info(`https://${window.location.host}${url}`, "项目模块之间跳转");
-    window.open(
-      appendParam(`https://${window.location.host}${url}`, payload),
-      options && options.target ? "target" : "_self",
-      ""
-    );
+    this.navigateHistory.push({ url: pathname });
     return;
   };
 
@@ -87,7 +61,7 @@ class configureNavigate {
     payload?: any,
     options?: { replace?: boolean; target?: string }
   ) => {
-    url = url || `/${this.rootModelName}/index`;
+    url = url || this.indexPage;
     if (String(url).startsWith(`/`)) {
       if (options && options.replace) {
         this.redirect(url, payload);
@@ -96,14 +70,11 @@ class configureNavigate {
       if (!String(url).startsWith(`/${this.rootModelName}`)) {
         url = `/${this.rootModelName}${url}`;
       }
+      if (this.navigateHistory.length >= this.maxHistoryLength) {
+        this.navigateHistory = this.navigateHistory.slice(1);
+      }
+      this.navigateHistory.push({ url, payload });
       this.history.push(url, payload);
-      // const location = this.getLocation(url, payload);
-      // console.log(appendParam(url, payload));
-      // this.history.push(location);
-      // if (this.navigateHistory.length >= this.maxHistoryLength) {
-      //   this.navigateHistory = this.navigateHistory.slice(1);
-      // }
-      // this.navigateHistory.push(location);
       return;
     }
 
@@ -151,21 +122,31 @@ class configureNavigate {
     // }
 
     this.history.back();
-    // this.navigateHistory = this.navigateHistory.slice(0, -1);
+    this.navigateHistory = this.navigateHistory.slice(0, -1);
     return;
   };
 
-  redirect = (url?: string, payload?: any) => {
-    url = url || `/${this.rootModelName}/index`;
+  redirect = (
+    url?: string,
+    payload?: Record<string, any>,
+    options?: { isRedirect: boolean }
+  ) => {
+    url = url || this.indexPage;
     if (String(url).startsWith(`/`)) {
       if (!String(url).startsWith(`/${this.rootModelName}`)) {
         url = `/${this.rootModelName}${url}`;
       }
+      // if (options && options.isRedirect && !url.includes("redirect")) {
+      //   const { url: redirect } =
+      //     this.navigateHistory[this.navigateHistory.length - 1];
+      //   url = appendParam(url, { redirect });
+      // }
+      // console.log("begin", this.navigateHistory);
+
+      this.navigateHistory = this.navigateHistory.slice(0, -1);
+      this.navigateHistory.push({ url, payload });
       this.history.replace(url, payload);
-      // const location = this.getLocation(url, payload);
-      // this.navigateHistory = this.navigateHistory.slice(0, -1);
-      // this.navigateHistory.push(location);
-      // this.history.replace(location);
+      // console.log("end", this.navigateHistory);
       return;
     }
 
@@ -179,7 +160,7 @@ class configureNavigate {
   };
 
   reload = (url?: string) => {
-    url = url || `/${this.rootModelName}/index`;
+    url = url || this.indexPage;
     if (
       String(url).startsWith(`/`) &&
       !String(url).startsWith(`/${this.rootModelName}`)

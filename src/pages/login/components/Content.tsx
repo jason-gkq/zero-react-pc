@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import ProCard from "@ant-design/pro-card";
+import { ProCard, ProForm, ProFormText } from "@ant-design/pro-components";
 import { Exception, Loading } from "@/zero/components";
-import { navigate, HttpClient, localStorage } from "@/zero/api";
+import { navigate, HttpClient, localStorage, useEnv } from "@/zero/api";
 import { guid } from "@/zero/utils";
-import { connect } from "react-redux";
 import type { IProps } from "@/zero/types/zero";
-import { useToken } from "@/src/common/hooks";
+import { useToken } from "@/common/hooks";
 
 /**
  * 如果有 token
@@ -21,39 +20,74 @@ import { useToken } from "@/src/common/hooks";
  * @param props
  * @returns
  */
-export default ({ $payload }: { $payload: Record<string, any> }) => {
+export default (props: IProps) => {
+  const {
+    $payload: { code, hasLogin, state, redirect = "/index/index" },
+  } = props;
+  const { ssoLoginUrl } = useEnv();
   const [loginFlag, setLoginFlag] = useState(false);
   const { setToken, removeToken } = useToken();
-  const { state, redirect } = $payload;
-  // HttpClient.post(`login`, )
-  //       .then((res: any) => {
-  //         setToken(res.token);
-  //         const { redirect = "/index" } = $payload || {};
-  //         let redirectUrl = localStorage.get("redirect") || redirect;
-  //         navigate.reload(decodeURIComponent(redirectUrl));
-  //       })
-  //       .catch((e) => {
-  //         setLoginFlag(true);
-  //       });
   useEffect(() => {
-    // removeToken();
-    setToken("eyJhbGciOiJIUzU");
-    navigate.reload();
+    if (process.env.NODE_ENV === "development") {
+      return;
+    }
+    if (code && hasLogin) {
+      removeToken();
+      const uuid = state || guid();
+      HttpClient.post(`login?code=${code}&uuid=${uuid}`, { code, uuid })
+        .then((res: any) => {
+          setToken(res.token);
+          const redirectUrl = localStorage.get("redirect") || redirect;
+          navigate.reload(decodeURIComponent(redirectUrl));
+          localStorage.remove("redirect");
+        })
+        .catch((e) => {
+          setLoginFlag(true);
+        });
+      return;
+    } else {
+      localStorage.set("redirect", redirect);
+      navigate.redirect(`${ssoLoginUrl}${guid()}`);
+      return;
+    }
   }, []);
 
   return (
     <>
-      <ProCard layout='center' style={{ height: "100vh" }}>
-        {loginFlag ? (
-          <Exception
-            onClick={() => {
-              navigate.reload();
+      {process.env.NODE_ENV === "development" && (
+        <ProCard layout="center" style={{ height: "100vh" }}>
+          <ProForm
+            onFinish={async (values) => {
+              const { localToken } = values;
+              setToken(localToken);
+              const redirectUrl = redirect;
+              navigate.reload(redirectUrl);
             }}
-          />
-        ) : (
-          <Loading msg={"用户登录中"} />
-        )}
-      </ProCard>
+          >
+            <ProFormText
+              name={"localToken"}
+              label="Token"
+              extra="测试环境则填写测试环境token；mock则填写随机字符串即可；"
+              formItemProps={{
+                rules: [{ required: true, message: "必填" }],
+              }}
+            />
+          </ProForm>
+        </ProCard>
+      )}
+      {process.env.NODE_ENV != "development" && (
+        <ProCard layout="center" style={{ height: "100vh" }}>
+          {loginFlag ? (
+            <Exception
+              onClick={() => {
+                navigate.reload();
+              }}
+            />
+          ) : (
+            <Loading msg={"用户登录中"} />
+          )}
+        </ProCard>
+      )}
     </>
   );
 };

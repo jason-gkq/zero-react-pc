@@ -37,12 +37,12 @@ export default () => {
   window.addEventListener("unhandledrejection", function (e) {
     console.warn("addEventListener.unhandledrejection ：", e);
   });
-  window.addEventListener("resize", function () {
-    // if(window.innerWidth <= 800) {
-    //     div.style.display = 'none';
-    // } else {
-    //     div.style.display = 'block';
-    // }
-  });
+  // window.addEventListener("resize", function () {
+  // if(window.innerWidth <= 800) {
+  //     div.style.display = 'none';
+  // } else {
+  //     div.style.display = 'block';
+  // }
+  // });
   return true;
 };

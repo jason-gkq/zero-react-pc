@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import type { ProColumns } from "@ant-design/pro-table";
+import type { ProColumns } from "@ant-design/pro-components";
 import { Switch } from "antd";
 import type { IResQueryRoleList } from "../service/index.d";
 import { PermissionA } from "@/zero/components";
@@ -40,7 +40,7 @@ const useColumns = (
         valueEnum: dictNormalDisable.getEnum(),
         render: (_, record, index, action) => (
           <Switch
-            size='small'
+            size="small"
             disabled={record.admin}
             checkedChildren={dictNormalDisable.getLabel("0")}
             unCheckedChildren={dictNormalDisable.getLabel("1")}

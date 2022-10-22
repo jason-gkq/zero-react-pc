@@ -1,172 +1,71 @@
 import React from "react";
 import { put, call, select, all } from "redux-saga/effects";
-import { message } from "antd";
-import { Route } from "react-router-dom";
-import type { RouteProps } from "react-router-dom";
+import { message, Button } from "antd";
 import { createModel } from "@/zero/redux";
-import { HttpClient, sessionStorage, navigate } from "@/zero/api";
-import { PageLoading } from "@/zero/components";
-import { cloneDeep, appendParam, guid } from "@/zero/utils";
+import {
+  HttpClient,
+  localStorage,
+  sessionStorage,
+  navigate,
+  useEnv,
+} from "@/zero/api";
 import type { MenuDataItem, ISagas } from "@/zero/types/zero";
 import { useToken } from "@/common/hooks";
 import initHttpClient from "./initHttpClient";
-import useRoutes from "./routes";
-
+import Logo from "@/assets/logo/logo.svg";
 // import Icon, { createFromIconfontCN } from "@ant-design/icons";
 
 // const IconFont = createFromIconfontCN({
 //   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 // });
 
-import { HomeOutlined, SettingOutlined } from "@ant-design/icons";
-
 type ISagaPayload = {
   payload: any;
 };
 type IRoutes = {
-  alwaysShow: boolean;
   component: string;
-  hidden: string;
+  visible: string;
   meta: { title: string; icon: string };
-  name: string;
   path: string;
   redirect: string;
   children?: IRoutes[];
   [key: string]: any;
 };
 
-/**
- * 免登录白名单
- */
-// const loginWhiteListUrl: string[] = ["/admin/login", "/admin/login"];
-
-const menuIcons = new Map([
-  ["index", <HomeOutlined />],
-  ["system", <SettingOutlined />],
-]);
-const routeComponents = useRoutes();
-const getPageLazyComponent = (
-  component: string
-): React.ReactElement | undefined => {
-  if (component === "Layout") {
-    return;
-  }
-  if (component.endsWith("/Index")) {
-    component = component.replace(/Index/, "index");
-  }
-
-  const Element: any = routeComponents[component];
-  // const Element = React.lazy(
-  //   () =>
-  //     import(
-  //       /* webpackMode: "lazy" */ /* webpackChunkName: "[request]" */ /* webpackPrefetch: true */ `@/src/pages/${component}`
-  //     )
-  // );
-  if (!Element) {
-    return;
-  }
-  return (
-    <React.Suspense fallback={<PageLoading />}>
-      <Element />
-    </React.Suspense>
-  );
-};
-
-/**
- * 菜单组装数据格式为：MenuDataItem
- * @param routes
- * @returns
- */
-const getItems = (
-  routes: IRoutes[]
-): { routes: RouteProps[]; menus: MenuDataItem[] } => {
-  const tempRoutes: any = [];
-  const tempMenus: any[] = [];
+const routesFormat = (routes: IRoutes[]) => {
+  const newRoutes: MenuDataItem[] = [];
   for (let i = 0; i < routes.length; i++) {
-    let { path, hidden, meta, component, children } = routes[i];
+    let { path, visible, meta, children, redirect, component } = routes[i];
     path = (path && path.trim()) || "";
     if (path && path.startsWith("/")) {
       path = path.slice(1);
     }
-    const Element = getPageLazyComponent(component && component.trim());
     if (children && children.length > 0) {
-      const { routes: childrenRoutes, menus: childrenMenus } =
-        getItems(children);
-      tempMenus.push({
-        routes: childrenMenus,
+      const childreRoutes = routesFormat(children);
+      newRoutes.push({
+        children: childreRoutes,
+        component,
         path,
-        hideInMenu: Boolean(Number(hidden)),
+        redirect,
+        hideInMenu: Boolean(Number(visible)),
         name: meta.title && meta.title.trim(),
-        icon: menuIcons.has(meta.icon) && menuIcons.get(meta.icon),
+        icon: meta.title && meta.icon.trim(),
       });
-      if (Element) {
-        tempRoutes.push(
-          <Route key={`${path}/*`} path={`${path}/*`}>
-            <Route path='*' element={Element} />
-            {childrenRoutes as React.ReactNode}
-          </Route>
-        );
-      } else {
-        tempRoutes.push(
-          <Route path={path} key={path}>
-            {childrenRoutes as React.ReactNode}
-          </Route>
-        );
-      }
     } else {
-      tempMenus.push({
+      newRoutes.push({
         path,
-        hideInMenu: Boolean(Number(hidden)),
+        redirect,
+        component,
+        hideInMenu: Boolean(Number(visible)),
         name: meta.title && meta.title.trim(),
-        icon: menuIcons.has(meta.icon) && menuIcons.get(meta.icon),
+        icon: meta.title && meta.icon.trim(),
       });
-      tempRoutes.push(<Route path={path} key={path} element={Element} />);
     }
   }
-  return { routes: tempRoutes, menus: tempMenus };
+  return newRoutes;
 };
 
-const getRouterAndMenu = (
-  data: IRoutes[]
-): { routes: RouteProps[]; menus: MenuDataItem[] } => {
-  const cloneRoutes = cloneDeep(data);
-  cloneRoutes.unshift(
-    {
-      alwaysShow: true,
-      component: "index/index",
-      hidden: "0",
-      meta: { title: "首页", icon: "index" },
-      name: "Index",
-      path: "/index",
-      redirect: "noRedirect",
-    },
-    {
-      alwaysShow: true,
-      component: "system/user/profile/index",
-      hidden: "1",
-      meta: { title: "用户中心", icon: "" },
-      name: "System-User-Profile",
-      path: "/system/user/profile",
-      redirect: "noRedirect",
-    },
-    {
-      alwaysShow: true,
-      component: "system/dict/data/index",
-      hidden: "1",
-      meta: { title: "数据字典", icon: "" },
-      name: "System-Dict-data",
-      path: "/system/dict/data",
-      redirect: "noRedirect",
-    }
-  );
-  return getItems(cloneRoutes);
-};
-
-const Login = React.lazy(
-  () => import(/* webpackChunkName: 'login' */ "@/src/pages/login")
-);
-
-const { setToken, getToken, removeToken } = useToken();
+const { getToken, removeToken } = useToken();
 /**
  * @param name 此model为全局系统启动model，名称为 app 不可更改，需要保证唯一
  * @param isGlobal 固定值 true，不可修改
@@ -176,33 +75,35 @@ const { setToken, getToken, removeToken } = useToken();
  * @param user 用户信息
  * @param roles 角色信息
  * @param permissions 权限信息
- * @param menus 菜单格式必须符合：MenuDataItem
  * @param routes 路由为 react-router-dom 路由节点
  * @param noneLayoutRoutes 路由为 react-router-dom 路由节点，该节点下路由无layout，全屏展示，例如：登录
  */
 const model = createModel({
-  name: "app",
+  namespace: "app",
   isGlobal: true,
   // 初始state状态
   state: {
     appStatus: "loading",
+    layout: {
+      Logo: Logo,
+      profile: [
+        <Button
+          size="small"
+          type="link"
+          key={"个人中心"}
+          onClick={() => {
+            navigate.goTo("/system/profile");
+          }}
+        >
+          个人中心
+        </Button>,
+      ],
+    },
     errorInfo: {},
     user: {},
     roles: [],
     permissions: [],
     routes: [],
-    noneLayoutRoutes: [
-      <Route
-        path='login'
-        key='login'
-        element={
-          <React.Suspense fallback={<PageLoading />}>
-            <Login />
-          </React.Suspense>
-        }
-      />,
-    ],
-    menus: [],
     mixinMethods: {
       /**
        * 页面加载之前会调用该方法，返回true则为已登录，false为没有登录
@@ -224,9 +125,15 @@ const model = createModel({
         permissions: string[],
         checkPermissions: string[]
       ): boolean {
-        if (!checkPermissions || checkPermissions.length <= 0) {
+        if (
+          !permissions ||
+          permissions.length <= 0 ||
+          !checkPermissions ||
+          checkPermissions.length <= 0
+        ) {
           return false;
         }
+
         const exemptionPermission = "*:*:*";
         const hasPermissions = permissions.some((permission: string) => {
           return (
@@ -239,7 +146,7 @@ const model = createModel({
     },
   },
   reducers: {},
-  sagas: {
+  effects: {
     /**
      * 如果项目启动页为登录页（还包括其他无需登录页面）
      *    则直接完成启动流程，跳转至登录页
@@ -252,18 +159,20 @@ const model = createModel({
      * @param param1
      * @returns
      */
-    *onLunch(
-      { $actions, $globalSelectors }: ISagas,
-      { payload }: ISagaPayload
-    ) {
+    *onLunch({ $actions }: ISagas, { payload }: ISagaPayload) {
       console.log("app onLunch", payload);
-      const { ENV, REQUEST } = yield select($globalSelectors.getEnv);
+      const env = useEnv();
+      if (process.env.NODE_ENV === "development") {
+        env.setEnv(localStorage.get("env"));
+      }
+      if (env.apolloConf && env.apolloConf.length > 0) {
+        env.apolloConf.forEach((i: string) => env.setEnv((window as any)[i]));
+      }
       const { $route, $payload } = payload;
       /**
        * 设置http拦截器
        */
-      yield call(initHttpClient, REQUEST);
-
+      yield call(initHttpClient, env.REQUEST);
       /**
        * 如果启动页为登录页，则直接进入登录页
        * 用户信息等其他信息暂不获取
@@ -272,7 +181,7 @@ const model = createModel({
        *  2、登录页的路由一定要注册，如果路由信息从接口获取，则可以先把登录页面的路由注册完成
        *     登录完成会刷新浏览器再设置其他路由
        */
-      if (["/admin/login"].includes($route)) {
+      if ([`/${env.appName}/login`].includes($route)) {
         yield put(
           $actions.setState({
             appStatus: "success",
@@ -284,51 +193,32 @@ const model = createModel({
        * 如果启动时无token，则重定向到登录页面进行登录操作
        */
       let token = getToken();
-
       if (!token) {
-        let redirect = $payload.redirect;
-        if (!redirect) {
-          redirect = encodeURIComponent(appendParam($route, $payload));
-        }
-        navigate.redirect(`/login?redirect=${redirect}`);
         yield put(
           $actions.setState({
             appStatus: "success",
           })
         );
+        navigate.redirect(`/login`, undefined, { isRedirect: true });
         return;
       }
 
-      /**
-       * 采用静态配置路由，而没用接口 originRoutes 数据
-       * 原因：
-       * 1、静态配置路由可以配置webpackChunkName，单个页面可以为一个chunk，更合理
-       * 2、由于路由规则不一样，部分路由暂时不能对上
-       * 会引发的问题：
-       * 1、菜单配置的路由和本地静态路由必须对应
-       */
-      let originRoutes: IRoutes[] = sessionStorage.get("originRoutes");
-      if (!originRoutes || originRoutes.length <= 0) {
-        try {
-          const { data } = yield call(HttpClient.get, "getRouters");
-          sessionStorage.set("originRoutes", data);
-          originRoutes = data;
-        } catch (error: any) {
-          const { code = 500, msg = "网络异常，请重新登录！" } = error;
-          msg && message.error("网络异常，请重新登录！");
-          yield put(
-            $actions.setState({
-              appStatus: "error",
-              errorInfo: { code, msg },
-            })
-          );
-          yield put($actions.logout(payload));
-          return;
-        }
-      }
-
       try {
-        const { routes, menus } = getRouterAndMenu(originRoutes);
+        /**
+         * 采用静态配置路由，而没用接口 originRoutes 数据
+         * 原因：
+         * 1、静态配置路由可以配置webpackChunkName，单个页面可以为一个chunk，更合理
+         * 2、由于路由规则不一样，部分路由暂时不能对上
+         * 会引发的问题：
+         * 1、菜单配置的路由和本地静态路由必须对应
+         */
+        // let originRoutes: MenuDataItem[] = sessionStorage.get("originRoutes");
+        // if (!originRoutes || originRoutes.length <= 0) {
+        //   const { data } = yield call(HttpClient.get, "getRouters");
+        //   const newData = routesFormat(data);
+        //   sessionStorage.set("originRoutes", newData);
+        //   originRoutes = newData;
+        // }
 
         /**
          * 获取用户信息
@@ -349,21 +239,27 @@ const model = createModel({
             user,
             roles,
             permissions,
-            routes,
-            menus,
-            appStatus: "success",
+            // routes: originRoutes,
+            appStatus: "finish",
           })
         );
         console.log("app onLunch done");
       } catch (error: any) {
         const { code = 500, msg = "网络异常，请重新登录！" } = error;
-        msg && message.error("网络异常，请重新登录！");
+        message.error(msg || "网络异常，请重新登录！");
         yield put(
           $actions.setState({
-            appStatus: "error",
-            errorInfo: { code, msg },
+            appStatus: "finish",
+            errorInfo: {
+              code: 500,
+              msg,
+              onClick: () => {
+                navigate.redirect("/login");
+              },
+            },
           })
         );
+        navigate.goTo("/error");
         console.warn("app onLunch error", error);
         // yield put($actions.logout(payload));
       }
@@ -373,7 +269,7 @@ const model = createModel({
      * @param ISagas
      * @param { payload: {$route, $payload} } 当前页面路由和参数，可能为空
      */
-    *logout({ $actions, $globalSelectors }: ISagas, { payload }: ISagaPayload) {
+    *logout({ $actions }: ISagas, { payload }: ISagaPayload) {
       try {
         const token = getToken();
         /**
@@ -407,11 +303,12 @@ const model = createModel({
     getRoutes({ routes }: any) {
       return routes;
     },
-    getMenus({ menus }: any) {
-      return menus;
-    },
     getMixinMethods({ mixinMethods }: any) {
       return mixinMethods;
+    },
+    getLayout({ layout }: any) {
+      const env = useEnv();
+      return { ...layout, ...(env.layout || {}) };
     },
   },
 });

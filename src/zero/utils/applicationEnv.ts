@@ -2,7 +2,6 @@ import { cookieStorage } from "../api";
 import { guid } from "./util";
 
 class applicationEnv {
-  // info: any;
   readonly clientId: string;
   readonly parentSessionId = guid();
   readonly sessionId = this.parentSessionId;
@@ -23,6 +22,10 @@ class applicationEnv {
     this.clientId = clientId;
     Object.assign(this, process.env.productConfig);
   }
+
+  setEnv = (data: any) => {
+    Object.assign(this, data);
+  };
 }
 
 export default new applicationEnv();

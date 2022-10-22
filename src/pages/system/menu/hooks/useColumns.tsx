@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
-import type { ProColumns } from "@ant-design/pro-table";
-import { Switch } from "antd";
+import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryMenuList } from "../service/index.d";
 import { PermissionA } from "@/zero/components";
+import moment from "moment";
 
 const useColumns = (
   handleUpdate: Function,
   handleAdd: Function,
-  handleDelete: Function
+  handleDelete: Function,
+  treeData: any,
+  ref: any
 ) => {
   const columns: ProColumns<IResQueryMenuList>[] = useMemo(() => {
     return [
@@ -35,11 +37,6 @@ const useColumns = (
         hideInSearch: true,
       },
       {
-        title: "隐藏路由",
-        dataIndex: "hidden",
-        hideInSearch: true,
-      },
-      {
         title: "组件路径",
         dataIndex: "component",
         hideInSearch: true,
@@ -53,20 +50,32 @@ const useColumns = (
           "0": { text: "显示", status: "Success" },
           "1": { text: "隐藏", status: "Error" },
         },
-        // render: (text, record) => (
-        //   <Switch
-        //     size='small'
-        //     defaultChecked={!Boolean(Number(record.visible))}
-        //     checkedChildren='显示'
-        //     unCheckedChildren='隐藏'
-        //   />
-        // ),
       },
       {
         title: "创建时间",
         dataIndex: "createTime",
         hideInSearch: true,
-        valueType: "date",
+        hideInTable: false,
+        valueType: "dateTime",
+      },
+      {
+        title: "创建时间",
+        dataIndex: "createTime",
+        valueType: "dateRange",
+        hideInTable: true,
+        fieldProps: {
+          disabledDate: (current: any) => {
+            return current && current > moment().endOf("day");
+          },
+        },
+        search: {
+          transform: (value) => {
+            return {
+              beginTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
       },
       {
         title: "操作",
@@ -96,7 +105,7 @@ const useColumns = (
         ),
       },
     ];
-  }, []);
+  }, [JSON.stringify(treeData), ref.current]);
   return { columns };
 };
 

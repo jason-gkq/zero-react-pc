@@ -11,7 +11,7 @@ import {
   Select,
   message,
 } from "antd";
-import type { IUseSelectEnum } from "@/common/hooks";
+import type { IUseSelectEnum } from "@/zero/api";
 
 const { Option } = Select;
 
@@ -135,13 +135,13 @@ export default (props: IUpdateProps) => {
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        cancelText='取消'
-        okText='确定'
-        width='750px'
+        cancelText="取消"
+        okText="确定"
+        width="750px"
       >
         <Form form={form}>
           <Form.Item name={`userId`} label={`用户ID`} hidden={true}>
-            <Input placeholder='用户ID' />
+            <Input placeholder="用户ID" />
           </Form.Item>
           <Row gutter={24}>
             <Col span={12}>
@@ -155,7 +155,7 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Input placeholder='请输入用户昵称' />
+                <Input placeholder="请输入用户昵称" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -172,7 +172,7 @@ export default (props: IUpdateProps) => {
                 <TreeSelect
                   treeData={deptTreeData}
                   treeDefaultExpandAll
-                  placeholder='请选择归属部门'
+                  placeholder="请选择归属部门"
                 />
               </Form.Item>
             </Col>
@@ -187,7 +187,7 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Input placeholder='请输入手机号码' />
+                <Input placeholder="请输入手机号码" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -205,7 +205,7 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Input placeholder='请输入邮箱' />
+                <Input placeholder="请输入邮箱" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -219,12 +219,12 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Input placeholder='请输入用户名称' />
+                <Input placeholder="请输入用户名称" />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item name={`sex`} label={`用户性别`}>
-                <Select placeholder='请选择性别'>
+                <Select placeholder="请选择性别">
                   {dictUserSex.getOptions()}
                 </Select>
               </Form.Item>
@@ -240,14 +240,14 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Select placeholder='请选择状态'>
+                <Select placeholder="请选择状态">
                   {dictNormalDisable.getOptions()}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item name={`postIds`} label={`岗位`}>
-                <Select mode='multiple' placeholder='请选择岗位'>
+                <Select mode="multiple" placeholder="请选择岗位">
                   {postChldrens}
                 </Select>
               </Form.Item>
@@ -263,14 +263,14 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Select mode='multiple' placeholder='请选择角色'>
+                <Select mode="multiple" placeholder="请选择角色">
                   {roleChldrens}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item name={`remark`} label='备注'>
-                <Input.TextArea placeholder='请输入内容' />
+              <Form.Item name={`remark`} label="备注">
+                <Input.TextArea placeholder="请输入内容" />
               </Form.Item>
             </Col>
           </Row>

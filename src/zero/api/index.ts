@@ -30,6 +30,9 @@ export { useAppSelector } from "./hooks/useAppSelector";
  */
 export { useSingleton } from "./hooks/useSingleton";
 export { useMergeState } from "./hooks/useMergeState";
+
+export { default as useSelectEnum } from "./hooks/useSelectEnum";
+export type { IUseSelectEnum } from "./hooks/useSelectEnum";
 /**
  * hooks 通用hooks封装 ------------------ END ----------------------
  */

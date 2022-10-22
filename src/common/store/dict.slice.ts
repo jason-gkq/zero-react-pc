@@ -59,14 +59,14 @@ const enumDataCache: any = sessionStorage.get("dictenum") || {
 };
 
 export default createModel({
-  name: "dict",
+  namespace: "dict",
   isGlobal: true,
   state: {
     dictData: dictDataCache,
     enumData: enumDataCache,
   },
   reducers: {},
-  sagas: {
+  effects: {
     *getDictData(
       { $actions, $selectors }: ISagas,
       { payload }: { payload: string[] }

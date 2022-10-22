@@ -152,30 +152,28 @@ const fillActionMap = (actionMap: any, map: any) => {
 };
 
 export default function createDucks({
-  name,
+  namespace,
   state = {},
   initialize = false,
-  cache = true,
   isGlobal = true,
   actions: actionMap = {},
   reducers: reducerMap = {},
-  sagas: sagaMap = {},
+  effects: sagaMap = {},
   selectors = {},
 }: {
-  name: string;
+  namespace: string;
   state?: any;
   initialize?: boolean;
-  cache?: boolean;
   isGlobal?: boolean;
   actions?: any;
   reducers?: any;
-  sagas?: any;
+  effects?: any;
   selectors?: { [key: string]: any };
 }) {
   fillActionMap(actionMap, reducerMap);
   fillActionMap(actionMap, sagaMap);
 
-  const sliceAction = createActionsFromMap(actionMap, name);
+  const sliceAction = createActionsFromMap(actionMap, namespace);
 
   // const defaultSelectors: any = {};
   // if (isGlobal) {
@@ -187,32 +185,31 @@ export default function createDucks({
   // }
   // const getState = (state: any) => state[name];
 
-  const getInitState = (state: any) => state[name];
+  const getInitState = (state: any) => state[namespace];
   const sliceSelector = toLocalSelectors(selectors, getInitState);
   let { pageStatus, appStatus, ...initState } = state;
   let sliceReducer = createReducerFromMap(reducerMap, sliceAction, initState);
   const sliceSaga = createSagaFromMap(sagaMap, sliceAction, sliceSelector);
 
-  injectAsyncReducer(name, sliceReducer);
+  injectAsyncReducer(namespace, sliceReducer);
   let sagaTask: any = null;
   if (isGlobal) {
-    injectGlobalActions(sliceAction, name);
-    injectGlobalSelectors(sliceSelector, name);
-    sagaTask = sagaMiddleware.run(sliceSaga);
+    injectGlobalActions(sliceAction, namespace);
+    injectGlobalSelectors(sliceSelector, namespace);
+    // sagaTask = sagaMiddleware.run(sliceSaga);
   }
-
+  sagaTask = sagaMiddleware.run(sliceSaga);
   return {
-    name,
+    namespace,
     initialize,
-    cache,
     selectors: sliceSelector,
     actions: sliceAction,
     reducers: sliceReducer,
     removeReducer() {
-      removeAsyncReducer(name);
-      // if (__DEV__) {
-      // 	console.log(`reducer of ${name} has been removed`);
-      // }
+      removeAsyncReducer(namespace);
+      if (process.env.NODE_ENV === "development") {
+        console.log(`reducer of ${namespace} has been removed`);
+      }
     },
     _sagaTask: sagaTask,
     runSaga() {
@@ -220,6 +217,9 @@ export default function createDucks({
         return;
       }
       this._sagaTask = sagaMiddleware.run(sliceSaga);
+      if (process.env.NODE_ENV === "development") {
+        console.log(`saga of ${namespace} has been runned`);
+      }
     },
     cancelSaga() {
       if (!this._sagaTask) {
@@ -227,9 +227,9 @@ export default function createDucks({
       }
       this._sagaTask.cancel();
       this._sagaTask = null;
-      // if (__DEV__) {
-      console.log(`saga of ${name} has been canceled`);
-      // }
+      if (process.env.NODE_ENV === "development") {
+        console.log(`saga of ${namespace} has been canceled`);
+      }
     },
   };
 }

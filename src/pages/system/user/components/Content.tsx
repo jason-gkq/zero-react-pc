@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import ProCard from "@ant-design/pro-card";
+import { ProCard } from "@ant-design/pro-components";
 import { getTreeselect } from "../service";
 import type {
   IDeptTreeList,
@@ -8,7 +8,7 @@ import type {
 } from "../service/index.d";
 
 import Treeselect from "./Treeselect";
-import TableList from "../containers/TableList";
+import TableList from "./TableList";
 
 export default () => {
   const [deptId, setDeptId] = useState<number>();
@@ -60,8 +60,8 @@ export default () => {
   }, []);
 
   return (
-    <ProCard split='vertical'>
-      <ProCard colSpan='23%'>
+    <ProCard split="vertical">
+      <ProCard colSpan="23%">
         {useMemo(
           () => (
             <Treeselect

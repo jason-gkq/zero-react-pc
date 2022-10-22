@@ -4,18 +4,15 @@ import { Form, Input, Select, message, InputNumber, Tree } from "antd";
 import { NiceModal, useNiceModal } from "@/src/zero/components";
 import { addRole, updateRole } from "../service";
 import { IResGetTreeselect, IMenuTreeData } from "../service/index.d";
+import { SYS_COMMON_STATUS } from "@/common/enum/system";
+import { useSelectEnum } from "@/zero/api";
 
+const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
 export const ROLE_MODAL_ID = "system-role-modal";
 
 export default NiceModal.create(
   ROLE_MODAL_ID,
-  ({
-    modalInfo,
-    menuOptions,
-    menuCheckedKeys,
-    dictNormalDisable,
-    getDictData,
-  }: any) => {
+  ({ modalInfo, menuOptions, menuCheckedKeys }: any) => {
     const modal = useNiceModal(ROLE_MODAL_ID);
     const [expandedKeys, setExpandedKeys] = useState<never[]>([]);
     const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
@@ -74,10 +71,6 @@ export default NiceModal.create(
     }, [expandedKeys]);
 
     useEffect(() => {
-      getDictData();
-    }, []);
-
-    useEffect(() => {
       const getMenuTreeData = (
         menuOptions: IResGetTreeselect[],
         pIds: number[]
@@ -118,7 +111,7 @@ export default NiceModal.create(
         id={ROLE_MODAL_ID}
         title={modalInfo ? "修改角色" : "添加角色"}
         okText={"确定"}
-        cancelText='取消'
+        cancelText="取消"
         onOk={handleSubmit}
       >
         <Form form={form} initialValues={modalInfo} labelAlign={"left"}>
@@ -132,7 +125,7 @@ export default NiceModal.create(
               },
             ]}
           >
-            <Input placeholder='请输入角色名称' />
+            <Input placeholder="请输入角色名称" />
           </Form.Item>
           <Form.Item
             name={`roleKey`}
@@ -144,7 +137,7 @@ export default NiceModal.create(
               },
             ]}
           >
-            <Input placeholder='请输入权限字符' />
+            <Input placeholder="请输入权限字符" />
           </Form.Item>
           <Form.Item
             name={`roleSort`}
@@ -168,7 +161,7 @@ export default NiceModal.create(
               },
             ]}
           >
-            <Select placeholder='请选择状态'>
+            <Select placeholder="请选择状态">
               {dictNormalDisable.getOptions()}
             </Select>
           </Form.Item>
@@ -186,8 +179,8 @@ export default NiceModal.create(
             ></Tree>
           </Form.Item>
 
-          <Form.Item name={`remark`} label='备注'>
-            <Input.TextArea placeholder='请输入内容' />
+          <Form.Item name={`remark`} label="备注">
+            <Input.TextArea placeholder="请输入内容" />
           </Form.Item>
         </Form>
       </NiceModal>

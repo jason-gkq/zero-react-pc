@@ -1,27 +1,27 @@
-import React, { useRef, useEffect } from "react";
-import ProTable from "@ant-design/pro-table";
+import React, { useRef } from "react";
+import { ProTable } from "@ant-design/pro-components";
 import { Space } from "antd";
-import type { ActionType } from "@ant-design/pro-table";
+import type { ActionType } from "@ant-design/pro-components";
 import type { IResQueryRoleList } from "../service/index.d";
 import { queryRoleList } from "../service";
 import { PermissionA, PermissionButton, useNiceModal } from "@/zero/components";
-import type { ProFormInstance } from "@ant-design/pro-form";
+import type { ProFormInstance } from "@ant-design/pro-components";
 import { ROLE_MODAL_ID } from "./RoleModal";
-import RoleModal from "../containers/RoleModal";
+import RoleModal from "./RoleModal";
 import DataScopeModal, { ROLE_DATA_SCOPE_MODAL_ID } from "./DataScopeModal";
 
 import useColumns from "../hooks/useColumns";
 import useContentActions from "../hooks/useContentActions";
+import { SYS_COMMON_STATUS } from "@/common/enum/system";
+import { useSelectEnum } from "@/zero/api";
 
-export default ({ dictNormalDisable, getDictData }: any) => {
+const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
+
+export default () => {
   const formRef = useRef<ProFormInstance>();
   const { show: showRoleModal } = useNiceModal(ROLE_MODAL_ID);
   const { show: showRoleDataModal } = useNiceModal(ROLE_DATA_SCOPE_MODAL_ID);
   const ref: any = useRef<ActionType>();
-
-  useEffect(() => {
-    getDictData();
-  }, []);
 
   const {
     handleAdd,
@@ -77,8 +77,8 @@ export default ({ dictNormalDisable, getDictData }: any) => {
           density: false,
         }}
         search={{ defaultCollapsed: false }}
-        defaultSize='small'
-        dateFormatter='string'
+        defaultSize="small"
+        dateFormatter="string"
         tableAlertRender={({
           selectedRowKeys,
           selectedRows,
@@ -101,8 +101,8 @@ export default ({ dictNormalDisable, getDictData }: any) => {
           <Space size={6}>
             <PermissionButton
               permissions={["system:post:remove"]}
-              type='primary'
-              size='small'
+              type="primary"
+              size="small"
               onClick={() => {
                 const ids = selectedRows.map((item) => item.roleId);
                 handleDelete(ids);
@@ -114,8 +114,8 @@ export default ({ dictNormalDisable, getDictData }: any) => {
         )}
         toolBarRender={() => [
           <PermissionA
-            size='small'
-            type='primary'
+            size="small"
+            type="primary"
             permissions={["system:role:add"]}
             onClick={() => handleAdd()}
           >
@@ -123,8 +123,8 @@ export default ({ dictNormalDisable, getDictData }: any) => {
           </PermissionA>,
           <PermissionA
             permissions={["system:role:export"]}
-            size='small'
-            type='primary'
+            size="small"
+            type="primary"
             onClick={handleExport}
           >
             导出

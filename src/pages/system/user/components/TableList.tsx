@@ -1,40 +1,31 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
-import ProTable from "@ant-design/pro-table";
+import React, { useState, useRef, useMemo } from "react";
+import { ProTable } from "@ant-design/pro-components";
 import { Space, Modal, message } from "antd";
 import { PermissionButton } from "@/zero/components";
 import { useDownload } from "@/common/hooks";
 import { queryUserList, delUser, changeStatus, exportUser } from "../service";
-import type { ProFormInstance } from "@ant-design/pro-form";
-import type { ActionType } from "@ant-design/pro-table";
-import type { IUseSelectEnum } from "@/common/hooks";
+import type { ActionType, ProFormInstance } from "@ant-design/pro-components";
 import type { IResQueryUserList, IDeptTreeData } from "../service/index.d";
-
+import { SYS_COMMON_STATUS, SYS_USER_SEX } from "@/common/enum/system";
+import { useSelectEnum } from "@/zero/api";
 import Update from "./Update";
-import UploadUser from "./UploadUser";
 import useColumns from "../hooks/useColumns";
 
+const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
+const dictUserSex = useSelectEnum(SYS_USER_SEX, "value", "label");
 type IProps = {
   deptId?: number;
   deptTreeData: IDeptTreeData[];
-  dictNormalDisable: IUseSelectEnum;
-  dictUserSex: IUseSelectEnum;
-  getEnumData: Function;
 };
 
-export default (props: IProps) => {
+export default ({ deptId, deptTreeData }: IProps) => {
   const ref: any = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const { deptId, deptTreeData, dictNormalDisable, dictUserSex, getEnumData } =
-    props;
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isUploadModalVisible, setIsUploadModalVisible] =
     useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
-
-  useEffect(() => {
-    getEnumData();
-  }, []);
 
   const [delteUser, changeUserStatus, updateThen, exportSearchUser] =
     useMemo(() => {
@@ -68,7 +59,7 @@ export default (props: IProps) => {
             changeStatus({ userId: record.userId, status: status ? "0" : "1" })
               .then(() => {
                 message.success("操作成功");
-                (ref as any).current.reload();
+                ref.current.reload();
               })
               .catch((e) => {
                 message.error(e?.msg || "操作失败");
@@ -107,10 +98,6 @@ export default (props: IProps) => {
 
   return (
     <>
-      <UploadUser
-        isUploadModalVisible={isUploadModalVisible}
-        setIsUploadModalVisible={setIsUploadModalVisible}
-      />
       <Update
         isModalVisible={isModalVisible}
         deptTreeData={deptTreeData}
@@ -163,8 +150,8 @@ export default (props: IProps) => {
           density: false,
         }}
         search={{ defaultCollapsed: false }}
-        defaultSize='small'
-        dateFormatter='string'
+        defaultSize="small"
+        dateFormatter="string"
         tableAlertRender={({
           selectedRowKeys,
           selectedRows,
@@ -187,8 +174,8 @@ export default (props: IProps) => {
           <Space size={6}>
             <PermissionButton
               permissions={["system:user:remove"]}
-              type='primary'
-              size='small'
+              type="primary"
+              size="small"
               danger
               disabled={!Boolean(selectedRowKeys.length)}
               onClick={() => {
@@ -202,32 +189,14 @@ export default (props: IProps) => {
         toolBarRender={() => [
           <PermissionButton
             permissions={["system:user:add"]}
-            type='primary'
-            size='small'
+            type="primary"
+            size="small"
             onClick={() => {
               setUserId(undefined);
               setIsModalVisible(true);
             }}
           >
             新增
-          </PermissionButton>,
-          <PermissionButton
-            permissions={["system:user:import"]}
-            size='small'
-            type='primary'
-            onClick={() => {
-              setIsUploadModalVisible(true);
-            }}
-          >
-            导入
-          </PermissionButton>,
-          <PermissionButton
-            permissions={["system:user:export"]}
-            size='small'
-            type='primary'
-            onClick={exportSearchUser}
-          >
-            导出
           </PermissionButton>,
         ]}
       />

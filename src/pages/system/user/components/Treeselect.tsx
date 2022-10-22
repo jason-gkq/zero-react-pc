@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Tree, Input } from "antd";
-import { View } from "@/zero/components";
 import type { IDeptTreeList, IDeptTreeData } from "../service/index.d";
 
 type IProps = {
@@ -74,7 +73,7 @@ export default (props: IProps) => {
           index > -1 ? (
             <span>
               {beforeStr}
-              <span className='site-tree-search-value'>{searchValue}</span>
+              <span className="site-tree-search-value">{searchValue}</span>
               {afterStr}
             </span>
           ) : (
@@ -103,8 +102,8 @@ export default (props: IProps) => {
   }, [searchValue, expandedKeys]);
 
   return (
-    <View style={{ minHeight: "80vh" }}>
-      <Input.Search placeholder='请输入名称' onChange={onChange} />
+    <div style={{ minHeight: "80vh" }}>
+      <Input.Search placeholder="请输入名称" onChange={onChange} />
       <Tree
         onExpand={onExpand}
         // defaultExpandAll
@@ -116,6 +115,6 @@ export default (props: IProps) => {
         treeData={loop(deptTreeData)}
         // treeData={treeData}
       />
-    </View>
+    </div>
   );
 };

@@ -3,6 +3,8 @@ import { net, navigate, sessionStorage } from "@/zero/api";
 import { cloneDeep } from "@/zero/utils";
 import { useToken } from "@/common/hooks";
 
+let goLoginFlag = true;
+
 export default (
   REQUEST: Record<string, { baseURL: string; successCode: string }>
 ) => {
@@ -19,6 +21,12 @@ export default (
     }
 
     const { url } = config;
+    if (
+      String(url).startsWith("http://") ||
+      String(url).startsWith("https://")
+    ) {
+      return config;
+    }
     config["interceptInfo"] = REQUEST.BASE;
     config.baseURL = REQUEST.BASE.baseURL;
     if (url.includes(":")) {
@@ -37,6 +45,9 @@ export default (
       data,
       config: { interceptInfo },
     } = resp || {};
+    if (!interceptInfo) {
+      return Promise.resolve(resp);
+    }
     const { successCode } = interceptInfo;
     const code = Object.is(data.code, undefined) ? 500 : Number(data.code);
     if (code === Number(successCode)) {
@@ -47,20 +58,24 @@ export default (
        * 正常流程中接口返回需要登录则直接进入登录页面，由登录页面统一处理登录逻辑
        * 因为是sso，则根据以前系统逻辑直接跳转到sso登录页
        */
-      const { removeToken } = useToken();
-      removeToken();
-      sessionStorage.clearAll();
-      Modal.error({
-        title: "未登录",
-        content: "请先进行登录！",
-        okText: "去登录",
-        onOk: () => {
-          navigate.redirect("/login");
-        },
-      });
+      if (goLoginFlag) {
+        goLoginFlag = false;
+        const { removeToken } = useToken();
+        removeToken();
+        sessionStorage.clearAll();
+        Modal.error({
+          title: "未登录",
+          content: "请先进行登录！",
+          okText: "去登录",
+          onOk: () => {
+            goLoginFlag = true;
+            navigate.redirect("/login", undefined, { isRedirect: true });
+          },
+        });
+      }
+
       return Promise.reject({
-        msg: data.msg || "用户未登录",
-        code,
+        data: { msg: data.msg || "用户未登录", code },
       });
     }
     const cloneResp = cloneDeep(resp || {});

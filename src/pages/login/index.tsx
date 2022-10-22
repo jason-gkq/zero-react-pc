@@ -11,7 +11,6 @@ export default class extends React.PureComponent<IProps, {}> {
   }
 
   render(): React.ReactNode {
-    const { $payload } = this.props;
-    return <Content {...{ $payload }} />;
+    return <Content {...this.props} />;
   }
 }

@@ -1,4 +1,4 @@
-export { MenuDataItem } from "@ant-design/pro-layout";
+export { MenuDataItem } from "@ant-design/pro-components";
 
 export interface IConfig {
   isNeedLogin?: boolean;
@@ -16,14 +16,13 @@ export interface IPageConfig extends IConfig {
  * model配置契约
  */
 export interface IModel {
-  name: string;
+  namespace: string;
   initialize: boolean;
-  cache: boolean;
   selectors: any;
   actions: any;
   reducers: any;
   _sagaTask: any;
-  removeReducer: Function;
+  removeReducer?: Function;
   runSaga: Function;
   cancelSaga: Function;
 }
@@ -35,7 +34,7 @@ export type IProps = {
   $dispatch: Function;
   $globalActions: any;
   $globalSelectors: any;
-  $hasError: boolean;
+  $hasError?: number;
   $model?: any;
   $payload?: any;
   $route: string;

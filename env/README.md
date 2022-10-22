@@ -4,7 +4,6 @@
 
     - com 公共配置
     - local 本地环境
-    - dev 开发换，一般用于和接口联调等
     - uat 测试环境，用于测试人员进行测试
     - pre 堡垒环境，也叫仿真环境，一般是从生产集群服务器抽样发布进行功能或回归测试
     - prod 生产环境，正式生产环境
@@ -18,14 +17,11 @@
       // 项目唯一标识
       "appId": "100",
       // 模块名称，所有静态资源以及路由都会以该名称做前缀
-      "appName": "admin",
+      "appName": "唯一",
       // 缓存前缀标识，解决同源下的两个模块缓存变量冲突问题
-      "cachePrefix": "admin_",
+      "cachePrefix": "xxx_",
       // layout相关配置
-      "layout": {
-        "theme": "A",
-        "setting": {}
-      }
+      "layout": {}
     }
     ```
 
@@ -33,9 +29,8 @@
 
     ```json
     {
-      "ENV": "pre", // 当前环境变量标识 [local | dev | uat | pre | prod]
-      "CDN_URL": "/", // cdn 地址，主要用于图片请求等地址使用
-      "FILE_SERVICE_URL": "file/", // 本地文件服务器
+      "ENV": "pre", // 当前环境变量标识 [local | uat | pre | prod]
+      "FILE_SERVICE_URL": "/", // 本地文件服务器
       // 接口请求地址，可以配置绝对地址，也可以配置相对地址
       "REQUEST": {
         // 接口请求标识

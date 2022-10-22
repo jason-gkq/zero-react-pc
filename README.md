@@ -27,7 +27,7 @@ http://localhost:8080/
 #### 打包
 
 ```shell
-yarn build:dev
+yarn build
 yarn build:uat
 yarn build:pre
 yarn build:prod
@@ -35,8 +35,8 @@ yarn build:prod
 
 #### 目录说明
 
-zero-react-m  
-| - dest/web // 打包后代码目录  
+zero-react-pc  
+| - dest // 打包后代码目录  
 | - env // 项目业务参数配置  
 | - | - env.com.json // 各个环境公共参数  
 | - | - env.dev.json // 开发环境  

@@ -1,7 +1,6 @@
 import { applicationEnv } from "../../utils";
 
 type IEnvConfig = {
-  CDN_URL: string;
   ENV: string;
   FILE_SERVICE_URL: string;
   VERSION: string;
@@ -10,7 +9,7 @@ type IEnvConfig = {
   cachePrefix: string;
   clientId: string;
   digitalPlatform: string;
-  layout: { theme: string; setting: any };
+  layout: Record<string, any>;
   onLunchTime: number;
   parentSessionId: string;
   sessionId: string;
@@ -20,5 +19,5 @@ type IEnvConfig = {
 };
 
 export const useEnv = () => {
-  return applicationEnv as IEnvConfig;
+  return applicationEnv as any; // as IEnvConfig
 };

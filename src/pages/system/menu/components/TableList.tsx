@@ -1,21 +1,21 @@
-import React, { useRef } from "react";
-import ProTable from "@ant-design/pro-table";
+import React, { useCallback, useRef, useState } from "react";
+import { ProTable } from "@ant-design/pro-components";
 import { Modal, message } from "antd";
 import { queryMenuList, delMenu } from "../service";
-import type { ActionType } from "@ant-design/pro-table";
+import type { ActionType } from "@ant-design/pro-components";
 import type { IResQueryMenuList } from "../service/index.d";
 import { arrayToTree } from "@/zero/utils";
 import useColumns from "../hooks/useColumns";
 import { PermissionA, useNiceModal } from "@/zero/components";
 import { MODAL_ID } from "./MenuModal";
-import MenuModal from "../containers/MenuModal";
+import MenuModal from "./MenuModal";
 
 export default () => {
   const { show: showModal } = useNiceModal(MODAL_ID);
-  const ref = useRef<ActionType>();
-
+  const ref: any = useRef<ActionType>();
+  const [treeData, setTreeData] = useState([]);
   /* 查询菜单下拉树结构 */
-  const getTreeselect = async (params?: any) => {
+  const getTreeselect = useCallback(async (params?: any) => {
     const { data } = await queryMenuList(params);
     const res = arrayToTree(data, "menuId", "parentId");
     const deletEmpty = (data: any) => {
@@ -29,82 +29,97 @@ export default () => {
       return data;
     };
     return deletEmpty(res);
-  };
+  }, []);
   /** 修改按钮操作 */
-  const handleUpdate = async (row: IResQueryMenuList) => {
-    const treeData = await getTreeselect();
-    showModal({ modalInfo: row, menuOptions: treeData, tag: "update" }).then(
-      () => {
-        (ref as any).current.reloadAndRest();
-      }
-    );
-  };
+  const handleUpdate = useCallback(
+    (row: IResQueryMenuList) => {
+      showModal({ modalInfo: row, menuOptions: treeData, tag: "update" }).then(
+        () => {
+          ref.current.reloadAndRest();
+        }
+      );
+    },
+    [JSON.stringify(treeData), ref.current]
+  );
 
   /** 新增按钮操作 */
-  const handleAdd = async (row?: IResQueryMenuList) => {
-    const treeData = await getTreeselect();
-    showModal({
-      modalInfo: {
-        parentId: (row && row.menuId) || 0,
-        menuType: "M",
-      },
-      menuOptions: treeData,
-      tag: "add",
-    }).then(() => {
-      (ref as any).current.reloadAndRest();
-    });
-  };
+  const handleAdd = useCallback(
+    async (row?: IResQueryMenuList) => {
+      showModal({
+        modalInfo: {
+          parentId: (row && row.menuId) || 0,
+          menuType: "M",
+        },
+        menuOptions: treeData,
+        tag: "add",
+      }).then(() => {
+        ref.current.reloadAndRest();
+      });
+    },
+    [JSON.stringify(treeData), ref.current]
+  );
 
-  const handleDelete = async (row: IResQueryMenuList) => {
-    Modal.confirm({
-      title: '是否确认删除名称为"' + row.menuName + '"的数据项?',
-      okText: "确定",
-      cancelText: "取消",
-      onOk: () => {
-        delMenu(row.menuId)
-          .then(() => {
-            message.success("删除成功");
-            (ref as any).current.reloadAndRest();
-          })
-          .catch((e) => {
-            message.error(e?.msg || "删除失败");
-          });
-      },
-    });
-  };
+  const handleDelete = useCallback(
+    async (row: IResQueryMenuList) => {
+      Modal.confirm({
+        title: '是否确认删除名称为"' + row.menuName + '"的数据项?',
+        okText: "确定",
+        cancelText: "取消",
+        onOk: () => {
+          delMenu(row.menuId)
+            .then(() => {
+              message.success("删除成功");
+              ref.current.reloadAndRest();
+            })
+            .catch((e) => {
+              message.error(e?.msg || "删除失败");
+            });
+        },
+      });
+    },
+    [ref.current]
+  );
 
-  const { columns } = useColumns(handleUpdate, handleAdd, handleDelete);
+  const { columns } = useColumns(
+    handleUpdate,
+    handleAdd,
+    handleDelete,
+    treeData,
+    ref
+  );
   return (
     <>
       <ProTable<IResQueryMenuList>
+        tableClassName="page-content-min-height"
         actionRef={ref}
         columns={columns}
         rowKey={"menuId"}
         pagination={false}
         request={async (params: any, sort, fliter) => {
           const treeData = await getTreeselect(params);
+          setTreeData(treeData);
           return {
             data: treeData,
             success: true,
           };
         }}
+        search={{
+          filterType: "light",
+        }}
         onRequestError={(error) => {
           console.error(error);
         }}
-        options={{
-          fullScreen: false,
-          reload: false,
-          setting: false,
-          density: false,
+        cardProps={{
+          bodyStyle: { padding: "0 10px 10px 10px" },
         }}
-        search={{ defaultCollapsed: false }}
-        defaultSize='small'
-        dateFormatter='string'
+        options={false}
+        defaultSize="small"
+        dateFormatter="string"
         toolBarRender={() => [
           <PermissionA
-            size='small'
-            type='primary'
-            permissions={["system:role:add"]}
+            size="small"
+            type="primary"
+            permissions={["system:menu:add"]}
             onClick={handleAdd}
           >
             新增

@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import type { ProColumns } from "@ant-design/pro-table";
+import type { ProColumns } from "@ant-design/pro-components";
 import { Switch } from "antd";
 import type { IResQueryUserList } from "../service/index.d";
 import { PermissionA } from "@/zero/components";
-import type { IUseSelectEnum } from "@/common/hooks";
+import type { IUseSelectEnum } from "@/zero/api";
 
 const useColumns = (
   changeUserStatus: Function,
@@ -65,7 +65,7 @@ const useColumns = (
         valueEnum: dictNormalDisable.getEnum(),
         render: (_, record, index, action) => (
           <Switch
-            size='small'
+            size="small"
             // defaultChecked={!Boolean(Number(record.status))}
             disabled={record.admin}
             // checkedChildren='正常'

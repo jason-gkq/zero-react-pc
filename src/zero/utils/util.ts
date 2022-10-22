@@ -6,7 +6,10 @@
  * @param date
  * @returns
  */
-export function dateFormat(fmt: string, date: Date) {
+export function dateFormat(fmt: string, date: Date | string) {
+  if (!date) {
+    return "";
+  }
   date = new Date(date);
   let ret;
   const opt: { [key: string]: any } = {
@@ -251,6 +254,21 @@ export function isBoolean<T>(obj: T): boolean {
  * ===================== 复杂类型常用数据处理 BEGIN ======================
  */
 
+export function pick(obj: Record<string, any>, keys: any[]) {
+  let result: any = {};
+
+  if (!obj) {
+    return result;
+  }
+  keys.forEach((item) => {
+    if (Reflect.has(obj, item)) {
+      result[item] = obj[item];
+    }
+  });
+
+  return result;
+}
+
 function ext<T>(target: T, source: T): T {
   if (isObject(source) && isObject(target)) {
     for (let key in source) {
@@ -290,7 +308,7 @@ export function cloneDeep<T>(obj: T): T | any[] {
     return result;
   }
 
-  return ext({}, obj) as T;
+  return ext({} as T, obj) as T;
 }
 
 /**
@@ -389,7 +407,7 @@ export function arrayToTree(
  * [1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", {}]
  */
 export function unique(arr: any[]) {
-  var obj = {};
+  const obj = {};
   return arr.filter(function (item, index, arr) {
     return obj.hasOwnProperty(typeof item + item)
       ? false
@@ -492,6 +510,89 @@ export function deleteUndefined(data: any) {
     .filter((key) => data[key] !== null && data[key] !== undefined)
     .reduce((acc, key) => ({ ...acc, [key]: data[key] }), {});
 }
+
+/**
+  //  * 节流: 一定时间内，只触发一次回调
+  //  * 场景: 监听页面滚动
+  //  * @link [throttle](https://underscorejs.org/#throttle)
+  //  * @example
+  //  * let fn = util.debounce(function() {}, 300)
+  //  */
+// export function throttle(func: Function, wait: number, options: any) {
+//   var context, args, result
+//   var timeout = null
+//   var previous = 0
+//   if (!options) options = {}
+//   function later() {
+//     previous = options.leading === false ? 0 : Date.now()
+//     timeout = null
+//     result = applyToCall(func, context, args)
+//     if (!timeout) context = args = null
+//   }
+//   return function() {
+//     var now = Date.now()
+//     if (!previous && options.leading === false) previous = now
+//     var remaining = wait - (now - previous)
+//     context = this
+//     args = arguments
+//     if (remaining <= 0 || remaining > wait) {
+//       if (timeout) {
+//         clearTimeout(timeout)
+//         timeout = null
+//       }
+//       previous = now
+//       result = applyToCall(func, context, args)
+//       if (!timeout) context = args = null
+//     } else if (!timeout && options.trailing !== false) {
+//       timeout = setTimeout(later, remaining)
+//     }
+//     return result
+//   }
+// }
+
+// /**
+//  * 防抖动: 每次执行，自动清除上次的计时器，延迟指定时间后，执行回调
+//  * 场景: 监听input事件，动态返回查询结果
+//  * @link [throttle](https://underscorejs.org/#debounce)
+//  * @example
+//  * let fn = util.debounce(function() {}, 300)
+//  */
+// export function debounce(func: Function, wait: number, immediate = false) {
+//   let timeout: any = null;
+//   let args: any;
+//    let context: any;
+//    let timestamp: number;
+//    let result: any;
+
+//   function later() {
+//     var last = Date.now() - timestamp
+
+//     if (last < wait && last >= 0) {
+//       timeout = setTimeout(later, wait - last)
+//     } else {
+//       timeout = null
+//       if (!immediate) {
+//         result = applyToCall(func, context, args)
+//         if (!timeout) context = args = null
+//       }
+//     }
+//   }
+
+//   return function(...params: any) {
+//     context = this
+//     args = params
+//     timestamp = Date.now()
+//     var callNow = immediate && !timeout
+//     if (!timeout) timeout = setTimeout(later, wait)
+//     if (callNow) {
+//       result = applyToCall(func, context, args)
+
+//       context = args = null
+//     }
+
+//     return result
+//   }
+// }
 /**
  * ===================== URL参数处理 END ======================
  */
@@ -586,22 +687,6 @@ export function deleteUndefined(data: any) {
 //     }
 //   }
 
-//   function pick(obj, keys) {
-//     let result = {}
-
-//     if (!obj) {
-//       return result
-//     }
-
-//     keys.forEach(item => {
-//       if (Reflect.has(obj, item)) {
-//         result[item] = obj[item]
-//       }
-//     })
-
-//     return result
-//   }
-
 //   function extend(target, ...source) {
 //     source.forEach(item => {
 //       ext(target, item)
@@ -688,85 +773,6 @@ export function deleteUndefined(data: any) {
 
 //       done = 1
 //       result = applyToCall(fn, this, args)
-
-//       return result
-//     }
-//   }
-
-//   /**
-//    * 节流: 一定时间内，只触发一次回调
-//    * 场景: 监听页面滚动
-//    * @link [throttle](https://underscorejs.org/#throttle)
-//    * @example
-//    * let fn = util.debounce(function() {}, 300)
-//    */
-//   function throttle(func, wait, options) {
-//     var context, args, result
-//     var timeout = null
-//     var previous = 0
-//     if (!options) options = {}
-//     function later() {
-//       previous = options.leading === false ? 0 : Date.now()
-//       timeout = null
-//       result = applyToCall(func, context, args)
-//       if (!timeout) context = args = null
-//     }
-//     return function() {
-//       var now = Date.now()
-//       if (!previous && options.leading === false) previous = now
-//       var remaining = wait - (now - previous)
-//       context = this
-//       args = arguments
-//       if (remaining <= 0 || remaining > wait) {
-//         if (timeout) {
-//           clearTimeout(timeout)
-//           timeout = null
-//         }
-//         previous = now
-//         result = applyToCall(func, context, args)
-//         if (!timeout) context = args = null
-//       } else if (!timeout && options.trailing !== false) {
-//         timeout = setTimeout(later, remaining)
-//       }
-//       return result
-//     }
-//   }
-
-//   /**
-//    * 防抖动: 每次执行，自动清除上次的计时器，延迟指定时间后，执行回调
-//    * 场景: 监听input事件，动态返回查询结果
-//    * @link [throttle](https://underscorejs.org/#debounce)
-//    * @example
-//    * let fn = util.debounce(function() {}, 300)
-//    */
-//   function debounce(func, wait, immediate = false) {
-//     var timeout, args, context, timestamp, result
-
-//     function later() {
-//       var last = Date.now() - timestamp
-
-//       if (last < wait && last >= 0) {
-//         timeout = setTimeout(later, wait - last)
-//       } else {
-//         timeout = null
-//         if (!immediate) {
-//           result = applyToCall(func, context, args)
-//           if (!timeout) context = args = null
-//         }
-//       }
-//     }
-
-//     return function(...params) {
-//       context = this
-//       args = params
-//       timestamp = Date.now()
-//       var callNow = immediate && !timeout
-//       if (!timeout) timeout = setTimeout(later, wait)
-//       if (callNow) {
-//         result = applyToCall(func, context, args)
-
-//         context = args = null
-//       }
 
 //       return result
 //     }

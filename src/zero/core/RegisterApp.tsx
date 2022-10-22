@@ -1,10 +1,10 @@
 import React from "react";
 import { Provider } from "react-redux";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { history } from "../api/navigate";
 import { store as $store } from "../redux";
 import { PageLoading, Exception } from "../components";
 import ContextComponent from "./ConfigureContext";
-import CustomRouter from "./CustomRouter";
 import RoutesComponent from "./RoutesComponent";
 import useGlobalError from "./useGlobalError";
 import { paramToObject } from "../utils";
@@ -59,7 +59,9 @@ export default (appConfig: IConfig, appModel: IModel) =>
         let { pathname: $route, state: payload, search } = history.location;
         const $payload = paramToObject(search, payload);
 
-        $store.dispatch(appModel.actions.onLunch({ $route, $payload }));
+        $store.dispatch(
+          appModel.actions.onLunch({ $route, $payload, ...appConfig })
+        );
         if (super.componentDidMount) {
           super.componentDidMount();
         }
@@ -86,21 +88,11 @@ export default (appConfig: IConfig, appModel: IModel) =>
                 <PageLoading />
               </div>
             );
-          case "error":
-            return (
-              <div
-                style={{
-                  height: "100vh",
-                }}
-              >
-                <Exception {...errorInfo} />
-              </div>
-            );
           default:
             return (
-              <CustomRouter history={history}>
-                <RoutesComponent />
-              </CustomRouter>
+              <HistoryRouter history={history}>
+                <RoutesComponent errorInfo={errorInfo} />
+              </HistoryRouter>
             );
         }
       }

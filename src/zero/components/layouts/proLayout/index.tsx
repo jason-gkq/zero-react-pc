@@ -73,16 +73,14 @@ const Layout = (props: IProps) => {
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
     // fixSiderbar: true,
     fixSiderbar: true,
+    fixedHeader: true,
     navTheme: "light",
     layout: "mix",
     contentWidth: "Fluid",
-    headerHeight: 48,
-    primaryColor: "#1890ff",
     splitMenus: true,
   });
   useEffect(() => {
     setMenus(menusFormat(routes, appName, 1));
-    // console.log("menus????>>", routes);
   }, [JSON.stringify(routes)]);
 
   useEffect(() => {
@@ -113,13 +111,37 @@ const Layout = (props: IProps) => {
       }}
     >
       <ProLayout
+        token={{
+          header: {
+            colorBgHeader: "#292f33", //header 的背景颜色	 #001529
+            colorHeaderTitle: "#fff", // sider 的标题字体颜色
+            colorTextMenu: "rgba(255, 255, 255, 0.65)", // menuItem 的字体颜色	 #dfdfdf 旧版：rgba(255, 255, 255, 0.65)
+            colorTextMenuSelected: "#fff", // menuItem 的选中字体颜色
+            colorBgMenuItemHover: "#1890ff", // menuItem 的 hover 背景颜色
+            colorBgMenuItemSelected: "#1890ff", //menuItem 的选中背景颜色	 #22272b
+            // colorTextRightActionsItem: "#dfdfdf",
+            heightLayoutHeader: 48, // header 高度
+          },
+          sider: {
+            colorMenuBackground: "#fff", // menu 的背景颜色
+            colorMenuItemDivider: "#dfdfdf", // menuItem 分割线的颜色
+            colorTextMenu: "#595959", // menuItem 的字体颜色
+            colorTextMenuSelected: "rgba(42,122,251,1)", //menuItem 的选中字体颜色
+            colorBgMenuItemSelected: "rgba(230,243,254,1)", //menuItem 的选中背景颜色	 旧版：#1890ff 新版：rgba(230,243,254,1)
+            colorBgMenuItemHover: "rgba(230,243,254,1)",
+          },
+          pageContainer: {
+            paddingBlockPageContainerContent: 10,
+            paddingInlinePageContainerContent: 10,
+          },
+        }}
         title={layout.title}
         locale="zh-CN"
         logo={layout.Logo}
         menuDataRender={() => menus}
-        contentStyle={{
-          margin: "10px",
-        }}
+        // contentStyle={{
+        //   margin: "10px",
+        // }}
         // headerContentRender={() => <ProBreadcrumb />}
         // breadcrumbRender={(routers = []) => [
         //   {
@@ -195,9 +217,6 @@ export default connect(
       globalSelectors.getEnv(state);
     const layout = globalSelectors.app.getLayout(state) || {};
     const routes = globalSelectors.app.getRoutes(state);
-    // const menus = menusFormat(routes.concat(configRoutes), appName, 1);
-    // console.log(menus);
-
     return { routes: routes.concat(configRoutes), layout, appName };
   },
   (dispatch) => {

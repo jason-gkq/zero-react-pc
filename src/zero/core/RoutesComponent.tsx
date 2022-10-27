@@ -44,7 +44,7 @@ const getRouters = (
 ) => {
   const res: any[] = [];
   for (let i = 0; i < data.length; i++) {
-    const { children, path, isNoneLayout, component } = data[i];
+    const { children, path, isNoneLayout, component, layout } = data[i];
     // 获取树形结构的path路径，用于获取component
     const newprefix = prefix ? `${prefix}/${path}` : path;
     if (children && Array.isArray(children) && children.length > 0) {
@@ -59,18 +59,19 @@ const getRouters = (
         newprefix,
         newPIsLayout
       );
+      const Layout = layout && getPageLazyComponent(layout.trim());
       if (childrenRoutes.length > 0) {
         const Element = getPageLazyComponent(component && component.trim());
         if (Element) {
           res.push(
-            <Route key={`${path}/*`} path={`${path}/*`}>
+            <Route key={`${path}/*`} path={`${path}/*`} element={Layout}>
               <Route path="*" element={Element} />
               {childrenRoutes}
             </Route>
           );
         } else {
           res.push(
-            <Route path={path} key={`${path}${i}`}>
+            <Route path={path} key={`${path}${i}`} element={Layout}>
               {childrenRoutes}
             </Route>
           );

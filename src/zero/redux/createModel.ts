@@ -6,6 +6,7 @@ import {
   injectAsyncReducer,
   removeAsyncReducer,
   sagaMiddleware,
+  store,
 } from "./configureStore";
 
 import { globalActions, injectGlobalActions } from "./rootAction";
@@ -193,10 +194,13 @@ export default function createDucks({
 
   injectAsyncReducer(namespace, sliceReducer);
   let sagaTask: any = null;
+
   if (isGlobal) {
     injectGlobalActions(sliceAction, namespace);
     injectGlobalSelectors(sliceSelector, namespace);
-    // sagaTask = sagaMiddleware.run(sliceSaga);
+    if (sliceAction.onReady) {
+      store.dispatch(sliceAction.onReady());
+    }
   }
   sagaTask = sagaMiddleware.run(sliceSaga);
   return {

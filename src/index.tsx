@@ -1,4 +1,4 @@
-// import "@babel/polyfill";
+import "core-js";
 import "./zero/public-path";
 import React from "react";
 import { createRoot } from "react-dom/client";

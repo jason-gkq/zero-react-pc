@@ -64,7 +64,7 @@ export default (props: IUpdateProps) => {
             });
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {});
   };
 
   const handleCancel = () => {
@@ -77,9 +77,7 @@ export default (props: IUpdateProps) => {
       .then(({ msg }) => {
         setInitPassword(msg);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   }, []);
 
   useEffect(() => {

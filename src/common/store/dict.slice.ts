@@ -67,6 +67,9 @@ export default createModel({
   },
   reducers: {},
   effects: {
+    *onReady({ $actions, $selectors }: ISagas) {
+      console.log("onReady----------", $actions, $selectors);
+    },
     *getDictData(
       { $actions, $selectors }: ISagas,
       { payload }: { payload: string[] }

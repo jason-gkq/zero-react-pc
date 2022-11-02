@@ -94,7 +94,6 @@ export default (props: IProps) => {
           parentIds: item.parentIds,
         };
       });
-      // console.log(ids);
       // setExpandedKeys(ids);
       return rel;
     };

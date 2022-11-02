@@ -54,9 +54,7 @@ export default () => {
         setDeptTreeList(treeList);
         setDeptIds(defaultKdys);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   }, []);
 
   return (

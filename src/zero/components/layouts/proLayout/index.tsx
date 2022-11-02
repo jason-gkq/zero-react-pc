@@ -9,6 +9,7 @@ import { Avatar, Popover, Space, Button, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
 type IProps = {
+  configRoutes: any[];
   routes: any[];
   logout: Function;
   layout: Record<string, any>;
@@ -66,7 +67,7 @@ const menusFormat = (
 };
 
 const Layout = (props: IProps) => {
-  const { routes, logout, layout, appName } = props;
+  const { configRoutes, routes, logout, layout, appName } = props;
   const location = useLocation();
   const [menus, setMenus] = useState<MenuDataItem[]>([]);
   const [pathname, setPathname] = useState(location.pathname);
@@ -80,8 +81,9 @@ const Layout = (props: IProps) => {
     splitMenus: true,
   });
   useEffect(() => {
-    setMenus(menusFormat(routes, appName, 1));
-  }, [JSON.stringify(routes)]);
+    const newRoutes = routes.concat(configRoutes);
+    setMenus(menusFormat(newRoutes, appName, 1));
+  }, [JSON.stringify(routes), JSON.stringify(configRoutes)]);
 
   useEffect(() => {
     console.log(location);
@@ -217,7 +219,7 @@ export default connect(
       globalSelectors.getEnv(state);
     const layout = globalSelectors.app.getLayout(state) || {};
     const routes = globalSelectors.app.getRoutes(state);
-    return { routes: routes.concat(configRoutes), layout, appName };
+    return { configRoutes, routes, layout, appName };
   },
   (dispatch) => {
     return {

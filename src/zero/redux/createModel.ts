@@ -12,10 +12,12 @@ import {
 import { globalActions, injectGlobalActions } from "./rootAction";
 import { globalSelectors, injectGlobalSelectors } from "./rootSelector";
 
-export const isObject = (obj: any) =>
+const isObject = (obj: any) =>
   Object.prototype.toString.call(obj) === "[object Object]";
 
-export const toUpperCaseStyle = (map: any) =>
+const isFunction = (o: any) => typeof o === "function";
+
+const toUpperCaseStyle = (map: any) =>
   Object.entries(map).reduce((result: any, [key, val]) => {
     key = key.replace(/([A-Z])/g, "_$1").toUpperCase();
     if (isObject(val)) {
@@ -25,7 +27,7 @@ export const toUpperCaseStyle = (map: any) =>
     return result;
   }, {});
 
-export const createActionsFromMap = (map: any, prefix = "") => {
+const createActionsFromMap = (map: any, prefix = "") => {
   map = toUpperCaseStyle({
     initState: void 0,
     setState: void 0,
@@ -35,7 +37,7 @@ export const createActionsFromMap = (map: any, prefix = "") => {
 };
 
 // From: https://github.com/redux-utilities/redux-actions/blob/master/src/utils/flattenWhenNode.js
-export const flatten = (
+const flatten = (
   map: any,
   partialFlatMap: any = {},
   partialFlatActionType = ""
@@ -57,11 +59,7 @@ export const flatten = (
   return partialFlatMap;
 };
 
-export const createReducerFromMap = (
-  map: any,
-  actions: any,
-  initialState: any
-) => {
+const createReducerFromMap = (map: any, actions: any, initialState: any) => {
   map = flatten({
     initState() {
       return initialState;
@@ -152,6 +150,26 @@ const fillActionMap = (actionMap: any, map: any) => {
   });
 };
 
+function runSubscription(subs: any, actions: any) {
+  const funcs = [];
+  const nonFuncs = [];
+  for (const key in subs) {
+    if (Object.prototype.hasOwnProperty.call(subs, key)) {
+      const sub = subs[key];
+      const unlistener = sub({
+        dispatch: store.dispatch,
+        $actions: actions,
+      });
+      if (isFunction(unlistener)) {
+        funcs.push(unlistener);
+      } else {
+        nonFuncs.push(key);
+      }
+    }
+  }
+  return { funcs, nonFuncs };
+}
+// const unlisteners: any = {};
 export default function createDucks({
   namespace,
   state = {},
@@ -161,6 +179,7 @@ export default function createDucks({
   reducers: reducerMap = {},
   effects: sagaMap = {},
   selectors = {},
+  subscriptions,
 }: {
   namespace: string;
   state?: any;
@@ -170,6 +189,7 @@ export default function createDucks({
   reducers?: any;
   effects?: any;
   selectors?: { [key: string]: any };
+  subscriptions?: any;
 }) {
   fillActionMap(actionMap, reducerMap);
   fillActionMap(actionMap, sagaMap);
@@ -198,12 +218,10 @@ export default function createDucks({
   if (isGlobal) {
     injectGlobalActions(sliceAction, namespace);
     injectGlobalSelectors(sliceSelector, namespace);
-    if (sliceAction.onReady) {
-      store.dispatch(sliceAction.onReady());
-    }
   }
   sagaTask = sagaMiddleware.run(sliceSaga);
-  return {
+
+  const resModal = {
     namespace,
     initialize,
     selectors: sliceSelector,
@@ -236,4 +254,11 @@ export default function createDucks({
       }
     },
   };
+
+  if (subscriptions) {
+    //unlisteners[namespace] =
+    runSubscription(subscriptions, resModal.actions);
+  }
+
+  return resModal;
 }

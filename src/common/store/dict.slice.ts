@@ -1,4 +1,4 @@
-import { put, select } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { createModel } from "@/zero/redux";
 import { HttpClient, sessionStorage } from "@/zero/api";
 import type { ISagas } from "@/zero/types/zero";
@@ -58,17 +58,36 @@ const enumDataCache: any = sessionStorage.get("dictenum") || {
   1007: [], // '图片尺寸'
 };
 
-export default createModel({
+const dict = createModel({
   namespace: "dict",
   isGlobal: true,
   state: {
     dictData: dictDataCache,
     enumData: enumDataCache,
+    conter: 1,
   },
   reducers: {},
+  subscriptions: {
+    setup({ dispatch, $actions }: any) {
+      dispatch($actions.onReady({ conter: 1000 }));
+    },
+  },
   effects: {
-    *onReady({ $actions, $selectors }: ISagas) {
+    *onReady({ $actions, $selectors }: ISagas, { payload }: any) {
       console.log("onReady----------", $actions, $selectors);
+      console.log("888888*******************", payload);
+      yield call(getAll);
+      const { conter } = yield select($selectors.getState);
+      console.log("，，，22", conter);
+      yield put($actions.setState({ conter: conter + 20 }));
+    },
+    *onInit({ $actions, $selectors }: ISagas, { payload }: any) {
+      // console.log("onReady----------", $actions, $selectors);
+      // const { conter } = yield select($selectors.getState);
+      // console.log("888888*******************", conter);
+      // const { conter } = $selectors.getState();
+      // console.log("，，，22", conter);
+      // yield put($actions.setState({ conter: conter + 10 }));
     },
     *getDictData(
       { $actions, $selectors }: ISagas,
@@ -140,3 +159,4 @@ export default createModel({
     },
   },
 });
+export default dict;

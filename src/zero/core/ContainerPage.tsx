@@ -18,6 +18,8 @@ type IPropsRegisterPageComponent = {
 
 type IStateRegisterPageComponent = {
   hasError: number | undefined;
+  $route: string;
+  $payload: any;
 };
 
 export default (pageConfig: IPageConfig, pageModel?: IModel) =>
@@ -26,12 +28,7 @@ export default (pageConfig: IPageConfig, pageModel?: IModel) =>
       const methods = globalSelectors.app.getMixinMethods(state);
       const user = globalSelectors.app.getUser(state);
       const permissions = globalSelectors.app.getPermissions(state);
-      const { pathname: $route, search } = window.location;
-      const { usr: payload } = window.history.state;
-      const $payload = paramToObject(search, payload);
       return {
-        $route,
-        $payload,
         user,
         permissions,
         ...methods,
@@ -43,16 +40,12 @@ export default (pageConfig: IPageConfig, pageModel?: IModel) =>
     > {
       constructor(props: IPropsRegisterPageComponent, context: any) {
         super(props);
+        const { pathname: $route, search } = window.location;
+        const { usr: payload } = window.history.state;
+        const $payload = paramToObject(search, payload);
 
-        const {
-          dispatch,
-          $route,
-          $payload,
-          checkLogin,
-          checkPermission,
-          user,
-          permissions,
-        } = this.props;
+        const { dispatch, checkLogin, checkPermission, user, permissions } =
+          this.props;
 
         let { isNeedLogin } = context;
         if (Reflect.has(pageConfig, "isNeedLogin")) {
@@ -92,6 +85,8 @@ export default (pageConfig: IPageConfig, pageModel?: IModel) =>
 
         this.state = {
           hasError,
+          $route,
+          $payload,
         };
         // const { pageId } = pageConfig || {};
         // dispatch(
@@ -149,7 +144,7 @@ export default (pageConfig: IPageConfig, pageModel?: IModel) =>
         const { dispatch, user, permissions, checkPermission, ...restProps } =
           this.props;
         const newCheck = checkPermission.bind(null, permissions);
-        const { hasError } = this.state;
+        const { hasError, $route, $payload } = this.state;
         return (
           <WrappedComponent
             {...restProps}
@@ -158,6 +153,8 @@ export default (pageConfig: IPageConfig, pageModel?: IModel) =>
             $globalActions={globalActions}
             $globalSelectors={globalSelectors}
             $dispatch={dispatch}
+            $route={$route}
+            $payload={$payload}
             checkPermission={newCheck}
           />
         );

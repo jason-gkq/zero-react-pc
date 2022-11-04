@@ -164,8 +164,7 @@ const model = createModel({
       const env = useEnv();
       if (process.env.NODE_ENV === "development") {
         env.setEnv(localStorage.get("env"));
-      }
-      if (env.apolloConf && env.apolloConf.length > 0) {
+      } else if (env.apolloConf && env.apolloConf.length > 0) {
         env.apolloConf.forEach((i: string) => env.setEnv((window as any)[i]));
       }
       const { $route, $payload } = payload;

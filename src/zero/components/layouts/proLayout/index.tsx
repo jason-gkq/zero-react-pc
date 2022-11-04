@@ -67,7 +67,7 @@ const menusFormat = (
 };
 
 const Layout = (props: IProps) => {
-  const { configRoutes, routes, logout, layout, appName } = props;
+  const { routes, configRoutes, logout, layout, appName } = props;
   const location = useLocation();
   const [menus, setMenus] = useState<MenuDataItem[]>([]);
   const [pathname, setPathname] = useState(location.pathname);
@@ -137,6 +137,7 @@ const Layout = (props: IProps) => {
             paddingInlinePageContainerContent: 10,
           },
         }}
+        // pure={true}
         title={layout.title}
         locale="zh-CN"
         logo={layout.Logo}

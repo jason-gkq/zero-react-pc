@@ -70,6 +70,14 @@ class configureNavigate {
       if (!String(url).startsWith(`/${this.rootModelName}`)) {
         url = `/${this.rootModelName}${url}`;
       }
+      if (options && options.target && options.target === "target") {
+        window.open(
+          `${window.location.protocol}//${window.location.host}${url}`,
+          "target",
+          ""
+        );
+        return;
+      }
       if (this.navigateHistory.length >= this.maxHistoryLength) {
         this.navigateHistory = this.navigateHistory.slice(1);
       }

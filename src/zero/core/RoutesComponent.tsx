@@ -61,7 +61,7 @@ const getRouters = (
       );
       const Layout = layout && getPageLazyComponent(layout.trim());
       if (childrenRoutes.length > 0) {
-        const Element = getPageLazyComponent(component && component.trim());
+        const Element = component && getPageLazyComponent(component.trim());
         if (Element) {
           res.push(
             <Route key={`${path}/*`} path={`${path}/*`} element={Layout}>
@@ -137,17 +137,23 @@ const treeIterator = (tree: any[]) => {
 type IProps = {
   appName: string;
   routes: RouteProps[];
+  configRoutes: RouteProps[];
   errorInfo?: any;
 };
 
-const RoutesComponent = ({ appName, routes, errorInfo }: IProps) => {
+const RoutesComponent = ({
+  appName,
+  configRoutes,
+  routes,
+  errorInfo,
+}: IProps) => {
   const [treeRoutes, setTreeRoutes] = useState<any>();
   const [treeNoRoutes, setTreeNoRoutes] = useState<any>();
   useEffect(() => {
-    const treeData = treeIterator(routes);
+    const treeData = treeIterator(configRoutes.concat(routes));
     setTreeRoutes(getRouters(treeData, false));
     setTreeNoRoutes(getRouters(treeData, true));
-  }, [JSON.stringify(routes)]);
+  }, [JSON.stringify(routes), JSON.stringify(configRoutes)]);
 
   return (
     <Routes>
@@ -199,5 +205,5 @@ const RoutesComponent = ({ appName, routes, errorInfo }: IProps) => {
 export default connect((state) => {
   const { appName, routes: configRoutes = [] } = globalSelectors.getEnv(state);
   const routes = globalSelectors.app.getRoutes(state);
-  return { appName, routes: configRoutes.concat(routes) };
+  return { appName, configRoutes, routes };
 })(RoutesComponent);

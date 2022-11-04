@@ -6,6 +6,7 @@ import App from "./app";
 import reportWebVitals from "./reportWebVitals";
 
 const { appName } = process.env.productConfig as any;
+
 let root: any;
 function render(props: any) {
   const { container } = props;

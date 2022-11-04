@@ -86,7 +86,7 @@ class Net {
   instance: AxiosInstance;
 
   constructor() {
-    this.instance = axios.create({ timeout: 15000 });
+    this.instance = axios.create({ timeout: 15000 }); // , withCredentials: true
     this.instance.interceptors.request.use(
       this.requestHandler(),
       this.requestErrorHandler
@@ -133,7 +133,7 @@ class Net {
       let requestData = getRequestIdentify(config, true);
       removePending(requestData, true);
       costTimeLog[requestData] = Date.now();
-
+      // config["withCredentials"] = true;
       /**
        * 执行request - request拦截器
        *

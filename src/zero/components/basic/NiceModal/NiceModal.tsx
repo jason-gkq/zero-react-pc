@@ -12,7 +12,7 @@ function NiceModal({ id, children, ...rest }: IParams) {
       onCancel={() => modal.hide()}
       onOk={() => modal.hide()}
       afterClose={() => modal.hide(true)}
-      visible={!modal.hiding}
+      open={!modal.hiding}
       {...rest}
     >
       {children}

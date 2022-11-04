@@ -81,9 +81,9 @@
     "husky": ">=6",
     "lint-staged": ">=10",
     "prettier": "2.7.1",
-    "zero-react-scripts": "0.6.13"
+    "zero-react-scripts": "0.6.14"
   },
   "lint-staged": {
-    "*.{ts,tsx,less,css,md}": "prettier --write"
+    "src/**/*.{ts,tsx,less,json,css,md}": "prettier --write --ignore-unknown"
   }
 }

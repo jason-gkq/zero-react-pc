@@ -1,5 +1,5 @@
 import React from "react";
-import { PageContainer } from "@ant-design/pro-layout";
+import { PageContainer } from "@ant-design/pro-components";
 import { RegisterPage } from "@/zero/core";
 import { MemoComponent } from "@/zero/components";
 import type { IProps } from "@/zero/types/zero";

@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "4.7.0",
-    "@ant-design/pro-components": "2.3.23",
-    "@reduxjs/toolkit": "1.8.6",
-    "antd": "4.23.6",
+    "@ant-design/pro-components": "2.3.28",
+    "@reduxjs/toolkit": "1.9.0",
+    "antd": "4.24.1",
     "antd-img-crop": "4.2.8",
     "axios": "1.1.3",
     "core-js": "3.26.0",
@@ -40,18 +40,18 @@
     "react-dom": "18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-quill": "^2.0.0-beta.4",
-    "react-redux": "8.0.4",
-    "react-router-dom": "6.4.2",
-    "react-to-print": "2.14.7",
-    "react-window": "^1.8.6",
+    "react-redux": "8.0.5",
+    "react-router-dom": "6.4.3",
+    "react-to-print": "2.14.8",
+    "react-window": "^1.8.8",
     "redux": "4.2.0",
     "redux-actions": "2.6.5",
     "redux-batched-actions": "0.5.0",
     "redux-logger": "3.0.6",
     "redux-saga": "1.2.1",
-    "redux-thunk": "2.4.1",
+    "redux-thunk": "2.4.2",
     "require": "^2.4.20",
-    "reselect": "4.1.6",
+    "reselect": "4.1.7",
     "web-vitals": "3.0.4"
   },
   "browserslist": {
@@ -67,12 +67,12 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "29.2.0",
-    "@types/node": "18.11.4",
+    "@types/jest": "29.2.2",
+    "@types/node": "18.11.9",
     "@types/platform": "^1.3.4",
     "@types/quill": "^2.0.9",
-    "@types/react": "18.0.21",
-    "@types/react-dom": "18.0.6",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.8",
     "@types/react-redux": "7.1.24",
     "@types/react-router-dom": "^5.3.2",
     "@types/react-window": "^1.8.5",
@@ -81,7 +81,7 @@
     "husky": ">=6",
     "lint-staged": ">=10",
     "prettier": "2.7.1",
-    "zero-react-scripts": "0.6.14"
+    "zero-react-scripts": "1.0.0-beta.0"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,less,json,css,md}": "prettier --write --ignore-unknown"

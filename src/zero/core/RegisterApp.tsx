@@ -90,7 +90,7 @@ export default (appConfig: IConfig, appModel: IModel) =>
             );
           default:
             return (
-              <HistoryRouter history={history}>
+              <HistoryRouter history={history as any}>
                 <RoutesComponent errorInfo={errorInfo} />
               </HistoryRouter>
             );

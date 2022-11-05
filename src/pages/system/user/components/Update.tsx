@@ -130,7 +130,7 @@ export default (props: IUpdateProps) => {
     <>
       <Modal
         title={userId ? "更新用户信息" : "新增用户"}
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         cancelText="取消"

@@ -1,25 +1,14 @@
 import React from "react";
 import { PageContainer } from "@ant-design/pro-components";
-import { RegisterPage } from "@/zero/core";
-import { MemoComponent } from "@/zero/components";
+import { createPage } from "@/zero/core";
 import type { IProps } from "@/zero/types/zero";
 
 import Content from "./components/Content";
 
-@RegisterPage({ pageId: "1000" })
-export default class extends React.PureComponent<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  render(): React.ReactNode {
-    const { $payload } = this.props;
-    return (
-      <PageContainer pageHeaderRender={false}>
-        <MemoComponent>
-          <Content $payload={$payload} />
-        </MemoComponent>
-      </PageContainer>
-    );
-  }
-}
+export default createPage({ pageId: "1000" }, ({ $payload }: IProps) => {
+  return (
+    <PageContainer pageHeaderRender={false}>
+      <Content $payload={$payload} />
+    </PageContainer>
+  );
+});

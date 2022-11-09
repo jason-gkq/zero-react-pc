@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
-import { history } from "../api/navigate";
+import { history } from "../api/navigate/history";
 import { store as $store } from "../redux";
 import { PageLoading, Exception } from "../components";
 import ContextComponent from "./ConfigureContext";
@@ -52,7 +52,7 @@ export default (appConfig: IConfig, appModel: IModel) =>
               errorInfo,
             });
           }
-          if (appStatus === "success") {
+          if (appStatus === "finish") {
             unsubscribe();
           }
         });

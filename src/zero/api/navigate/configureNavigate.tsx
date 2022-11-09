@@ -1,29 +1,28 @@
-import { createBrowserHistory } from "history";
 import type { BrowserHistory } from "history";
 import { appendParam } from "../../utils";
-
+import { history } from "./history";
 type IGoBack = {
   delta?: string | number;
   url?: string;
 };
 
 class configureNavigate {
-  history: BrowserHistory;
+  // history: BrowserHistory;
   maxHistoryLength: number;
   rootModelName: string;
   indexPage: string;
   navigateHistory: Array<any> = [];
 
   constructor() {
-    this.history = createBrowserHistory({ window });
-    this.maxHistoryLength = history.length;
+    // this.history = history; //createBrowserHistory({ window });
+    this.maxHistoryLength = 50; //history.length;
     const {
       layout: { index },
       appName,
     } = process.env.productConfig as any;
     this.rootModelName = appName;
     this.indexPage = `/${appName}${index || "/index"}`;
-    this.initHistory(this.history.location);
+    this.initHistory(history.location);
   }
 
   private initHistory = (location: {
@@ -43,7 +42,7 @@ class configureNavigate {
     ) {
       pathname = this.indexPage;
       this.navigateHistory.push({ url: pathname });
-      this.history.push(pathname);
+      history.push(pathname);
     }
     if (search && search != "?") {
       pathname = search.includes("?")
@@ -82,7 +81,7 @@ class configureNavigate {
         this.navigateHistory = this.navigateHistory.slice(1);
       }
       this.navigateHistory.push({ url, payload });
-      this.history.push(url, payload);
+      history.push(url, payload);
       return;
     }
 
@@ -129,7 +128,7 @@ class configureNavigate {
     //   }
     // }
 
-    this.history.back();
+    history.back();
     this.navigateHistory = this.navigateHistory.slice(0, -1);
     return;
   };
@@ -153,7 +152,7 @@ class configureNavigate {
 
       this.navigateHistory = this.navigateHistory.slice(0, -1);
       this.navigateHistory.push({ url, payload });
-      this.history.replace(url, payload);
+      history.replace(url, payload);
       // console.log("end", this.navigateHistory);
       return;
     }

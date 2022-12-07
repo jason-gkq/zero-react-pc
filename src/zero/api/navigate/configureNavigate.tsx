@@ -1,27 +1,31 @@
-import type { BrowserHistory } from "history";
-import { appendParam } from "../../utils";
 import { history } from "./history";
+import { useEnv } from "../hooks/useEnv";
+
 type IGoBack = {
   delta?: string | number;
   url?: string;
 };
 
 class configureNavigate {
-  // history: BrowserHistory;
   maxHistoryLength: number;
   rootModelName: string;
   indexPage: string;
   navigateHistory: Array<any> = [];
 
   constructor() {
-    // this.history = history; //createBrowserHistory({ window });
-    this.maxHistoryLength = 50; //history.length;
+    this.maxHistoryLength = 50;
     const {
       layout: { index },
       appName,
-    } = process.env.productConfig as any;
+    } = useEnv();
+    // const {
+    //   layout: { index },
+    //   appName,
+    // } = process.env.productConfig as any;
+
     this.rootModelName = appName;
     this.indexPage = `/${appName}${index || "/index"}`;
+
     this.initHistory(history.location);
   }
 
@@ -57,7 +61,7 @@ class configureNavigate {
 
   goTo = (
     url?: string,
-    payload?: any,
+    payload?: Record<string, any> | null,
     options?: { replace?: boolean; target?: string }
   ) => {
     url = url || this.indexPage;
@@ -69,10 +73,10 @@ class configureNavigate {
       if (!String(url).startsWith(`/${this.rootModelName}`)) {
         url = `/${this.rootModelName}${url}`;
       }
-      if (options && options.target && options.target === "target") {
+      if (options && options.target) {
         window.open(
           `${window.location.protocol}//${window.location.host}${url}`,
-          "target",
+          options.target,
           ""
         );
         return;
@@ -87,11 +91,7 @@ class configureNavigate {
 
     if (String(url).startsWith("https:") || String(url).startsWith("http:")) {
       console.info(`${url}`, "站外跳转");
-      window.open(
-        appendParam(url, payload),
-        options && options.target ? "target" : "_self",
-        ""
-      );
+      window.open(url, (options && options.target) || "_self", "");
       return;
     }
     console.warn(`${url} 不符合规则，无法进行跳转。`);
@@ -135,7 +135,7 @@ class configureNavigate {
 
   redirect = (
     url?: string,
-    payload?: Record<string, any>,
+    payload?: Record<string, any> | null,
     options?: { isRedirect: boolean }
   ) => {
     url = url || this.indexPage;
@@ -159,7 +159,7 @@ class configureNavigate {
 
     if (String(url).startsWith("https:") || String(url).startsWith("http:")) {
       console.info("站外跳转", `${url}`);
-      window.location.replace(appendParam(url, payload));
+      window.location.replace(url);
       return;
     }
     console.warn(`${url} 不符合规则，无法进行跳转。`);

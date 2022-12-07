@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Provider } from "react-redux";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { history } from "../api/navigate/history";
-// import { createBrowserHistory } from "history";
-
 import { store as $store } from "../redux";
 import { PageLoading } from "../components";
 import ContextComponent from "./ConfigureContext";
@@ -40,7 +38,6 @@ const createApp = (appConfig: IConfig, appModel: IModel) => {
       appStatus: "loading",
       errorInfo: {},
     });
-    // const history = createBrowserHistory({ window });
 
     let { pathname: $route, state: payload, search } = history.location;
     const $payload = paramToObject(search, payload);

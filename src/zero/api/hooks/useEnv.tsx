@@ -1,23 +1,43 @@
-import { applicationEnv } from "../../utils";
+import { default as cookieStorage } from "../cache/cookieStorage";
+import { guid } from "../../utils";
+
+class applicationEnv {
+  readonly clientId: string;
+  readonly parentSessionId = guid();
+  readonly sessionId = this.parentSessionId;
+  readonly onLunchTime = Date.now();
+
+  constructor() {
+    let clientId = cookieStorage.getItem("__clientId");
+    if (!clientId) {
+      clientId = guid();
+      cookieStorage.setItem(
+        "__clientId",
+        clientId,
+        Infinity,
+        "/",
+        cookieStorage.getDomain()
+      );
+    }
+    this.clientId = clientId;
+    Object.assign(this, process.env.productConfig);
+  }
+
+  setEnv = (data: any) => {
+    Object.assign(this, data);
+  };
+}
+
+const env = new applicationEnv();
 
 type IEnvConfig = {
-  ENV: string;
-  FILE_SERVICE_URL: string;
-  VERSION: string;
-  appId: string;
-  appName: string;
-  cachePrefix: string;
   clientId: string;
-  digitalPlatform: string;
-  layout: Record<string, any>;
-  onLunchTime: number;
   parentSessionId: string;
   sessionId: string;
-  ssoLoginUrl: string;
-  uploadUrl: string;
+  onLunchTime: number;
   [key: string]: any;
 };
 
-export const useEnv = () => {
-  return applicationEnv as any; // as IEnvConfig
+export const useEnv = (): IEnvConfig => {
+  return env;
 };

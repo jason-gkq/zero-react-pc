@@ -19,6 +19,8 @@ import Logo from "@/assets/logo/logo.svg";
 //   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 // });
 
+const whiteRoutes = ["/login", "/tools"];
+
 type ISagaPayload = {
   payload: any;
 };
@@ -180,7 +182,7 @@ const model = createModel({
        *  2、登录页的路由一定要注册，如果路由信息从接口获取，则可以先把登录页面的路由注册完成
        *     登录完成会刷新浏览器再设置其他路由
        */
-      if ([`/${env.appName}/login`].includes($route)) {
+      if (whiteRoutes.map((i) => `/${env.appName}${i}`).includes($route)) {
         yield put(
           $actions.setState({
             appStatus: "success",

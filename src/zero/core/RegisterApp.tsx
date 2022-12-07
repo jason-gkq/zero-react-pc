@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { history } from "../api/navigate/history";
 import { store as $store } from "../redux";
-import { PageLoading, Exception } from "../components";
+import { PageLoading } from "../components";
 import ContextComponent from "./ConfigureContext";
 import RoutesComponent from "./RoutesComponent";
 import useGlobalError from "./useGlobalError";

@@ -15,16 +15,17 @@
 import { all, put, call, select } from "redux-saga/effects";
 import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
-import { systemInfo, applicationEnv } from "../utils";
+import { useEnv } from "../api/hooks/useEnv";
+import { useSystem } from "../api/hooks/useSystem";
 
 const initEnv = function* () {
   const { ...env } = yield select(getEnv);
-  Object.assign(env, applicationEnv);
+  Object.assign(env, useEnv());
   yield put((staticActions as any).env.setEnv({ ...env }));
 };
 
 const initSystem = function* () {
-  let system = systemInfo;
+  let system = useSystem();
   yield put((staticActions as any).system.setSystem(system));
 };
 

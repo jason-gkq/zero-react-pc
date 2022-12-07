@@ -20,12 +20,6 @@ export { default as PermissionButton } from "./Permission/PermissionButton";
 export { default as QuillEditor } from "./Quill";
 
 /**
- * 文件上传下载，暂时没有地方使用
- */
-export { default as UploadFile } from "./Upload/UploadFile";
-export { default as UploadImage } from "./Upload/UploadImage";
-
-/**
  * 组件二次封装
  */
 export { useNiceModal, NiceModal } from "./NiceModalRedex";

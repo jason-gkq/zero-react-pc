@@ -1,7 +1,27 @@
 .page-content-min-height {
-  min-height: calc(100vh - 143px);
+  min-height: calc(100vh - 68px);
 }
 
 .split-row-select-active {
   background-color: #e6f7ff;
+}
+
+// 兼容40.*版本edge以及360浏览器
+.ant-pro .ant-pro-layout .ant-pro-sider-mix {
+  margin-top: 48px;
+  inset-block-start: 0;
+}
+
+// 兼容40.*版本edge以及360浏览器
+.ant-pro .ant-layout-header.ant-pro-layout-header-fixed-header {
+  margin-left: -215px;
+}
+
+// 兼容40.*版本edge以及360浏览器
+.ant-pro .ant-pro-layout .ant-pro-sider-collapsed-button {
+  top: 18px;
+  right: -13px;
+  z-index: 10;
+  inset-block-start: 18px;
+  inset-inline-end: -13px;
 }

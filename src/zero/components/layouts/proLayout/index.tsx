@@ -66,6 +66,33 @@ const menusFormat = (
   return newRoutes;
 };
 
+const treeIterator = (tree: any[]) => {
+  const arr: any[] = [];
+  if (!Array.isArray(tree) || !tree.length) return arr;
+  tree.forEach((e: any) => {
+    const index = arr.findIndex((i) => i.path == e.path);
+    if (e.children) {
+      if (index > -1) {
+        arr[index] = {
+          ...e,
+          ...arr[index],
+          children: treeIterator([...arr[index].children, ...e.children]),
+        };
+      } else {
+        arr.push({ ...e, children: treeIterator(e.children) });
+      }
+    } else {
+      if (index < 0) {
+        arr.push({ ...e });
+      } else {
+        arr[index] = { ...e, ...arr[index] };
+      }
+    }
+  });
+
+  return arr;
+};
+
 const Layout = (props: IProps) => {
   const { routes, configRoutes, logout, layout, appName } = props;
   const location = useLocation();
@@ -81,12 +108,12 @@ const Layout = (props: IProps) => {
     splitMenus: true,
   });
   useEffect(() => {
-    const newRoutes = routes.concat(configRoutes);
+    const newRoutes = treeIterator(routes.concat(configRoutes));
     setMenus(menusFormat(newRoutes, appName, 1));
   }, [JSON.stringify(routes), JSON.stringify(configRoutes)]);
 
   useEffect(() => {
-    console.log(location);
+    // console.log(location);
     setPathname(location.pathname);
   }, [location.pathname]);
 

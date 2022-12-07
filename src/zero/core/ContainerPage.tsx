@@ -8,8 +8,6 @@ import type { IPageConfig, IModel } from "../types/zero";
 
 type IPropsRegisterPageComponent = {
   dispatch: any;
-  $route: any;
-  $payload: any;
   checkLogin: Function;
   checkPermission: Function;
   user: any;
@@ -40,6 +38,7 @@ export default (pageConfig: IPageConfig, pageModel?: IModel) =>
     > {
       constructor(props: IPropsRegisterPageComponent, context: any) {
         super(props);
+
         const { pathname: $route, search } = window.location;
         const { usr: payload } = window.history.state;
         const $payload = paramToObject(search, payload);

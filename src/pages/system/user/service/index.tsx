@@ -1,6 +1,6 @@
-import { HttpClient } from "@/zero/api";
-import type { IRes } from "@/zero/types/zero";
+import { HttpClient } from "@/zero";
 
+type IRes = any;
 import {
   IReqQueryUserList,
   IResQueryUserList,

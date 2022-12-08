@@ -1,8 +1,9 @@
 import React from "react";
 import { PageContainer } from "@ant-design/pro-components";
-import { createPage } from "@/zero/core";
-import type { IProps } from "@/zero/types/zero";
+import { createPage } from "@/zero";
 import "./index.less";
+
+type IProps = any;
 
 import Content from "./components/Content";
 

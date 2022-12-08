@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { dataScopeRole } from "../service";
 import type { IResGetDeptTreeSelect } from "../service/index.d";
 import { Form, Input, Select, message, Tree } from "antd";
-import { NiceModal, useNiceModal } from "@/src/zero/components";
+import { NiceModal, useNiceModal } from "@/zero";
 export const ROLE_DATA_SCOPE_MODAL_ID = "system-role-data-scope-modal";
 const { Option } = Select;
 
@@ -113,7 +113,7 @@ export default NiceModal.create(
         id={ROLE_DATA_SCOPE_MODAL_ID}
         title={modalInfo ? "修改角色" : "添加角色"}
         okText={"确定"}
-        cancelText='取消'
+        cancelText="取消"
         onOk={handleSubmit}
       >
         <Form.Item name={`roleName`} label={`角色名称`}>

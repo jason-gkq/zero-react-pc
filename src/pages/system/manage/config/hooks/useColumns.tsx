@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryConfigList } from "../service/index.d";
-import { PermissionA, useNiceModal } from "@/zero/components";
+import { PermissionA, useNiceModal } from "@/zero";
 import moment from "moment";
 
 const useColumns = (handleUpdate: any, handleDelete: any, dictYesNo: any) => {

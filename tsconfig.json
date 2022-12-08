@@ -22,8 +22,8 @@
     "paths": {
       "@/assets/*": ["public/assets/*"],
       "@/src/*": ["src/*"],
-      "@/zero": ["src/zero"],
-      "@/zero/*": ["src/zero/*"],
+      "@/zero": ["node_modules/zero-pc"],
+      "@/zero/*": ["node_modules/zero-pc/*"],
       "@/common": ["src/common"],
       "@/common/*": ["src/common/*"]
     }

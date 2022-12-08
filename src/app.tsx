@@ -1,4 +1,4 @@
-import { createApp } from "@/zero/core";
+import { createApp } from "@/zero";
 import model from "./app.model";
 import "./app.less";
 

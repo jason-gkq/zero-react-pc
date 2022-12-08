@@ -11,7 +11,7 @@ import {
   Select,
   message,
 } from "antd";
-import type { IUseSelectEnum } from "@/zero/api";
+import type { IUseSelectEnum } from "@/zero";
 
 const { Option } = Select;
 

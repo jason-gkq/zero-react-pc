@@ -2,14 +2,13 @@ import React, { useRef, useMemo } from "react";
 import { ProTable } from "@ant-design/pro-components";
 import { Space, Modal, message } from "antd";
 import type { ActionType } from "@ant-design/pro-components";
-import { PermissionButton, useNiceModal } from "@/zero/components";
+import { useEnv, useSelectEnum, PermissionButton, useNiceModal } from "@/zero";
 import ConfigModal, { MODAL_ID } from "./ConfigModal";
 import useColumns from "../hooks/useColumns";
 import type { IResQueryConfigList } from "../service/index.d";
 import { queryConfigList, getConfig, delConfig } from "../service";
 
 import { SYS_YES_NO } from "@/common/enum/system";
-import { useEnv, useSelectEnum } from "@/zero/api";
 
 const dictYesNo = useSelectEnum(SYS_YES_NO);
 

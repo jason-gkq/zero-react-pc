@@ -9,10 +9,15 @@ import {
   TreeSelect,
   message,
 } from "antd";
-import { NiceModal, useNiceModal } from "@/zero/components";
+import {
+  useSelectEnum,
+  useEnv,
+  useMergeState,
+  NiceModal,
+  useNiceModal,
+} from "@/zero";
 import type { IResQueryMenuList } from "../service/index.d";
 import { addMenu, updateMenu } from "../service/index";
-import { useSelectEnum, useEnv, useMergeState } from "@/zero/api";
 import { SYS_SHOW_HIDE } from "@/common/enum/system";
 
 const dictShowHide = useSelectEnum(SYS_SHOW_HIDE);
@@ -45,7 +50,7 @@ export default NiceModal.create(
     const dictComponentList = useSelectEnum(componentList);
     const tempObj: any = {};
     const dictRouteList = useSelectEnum(
-      [...componentList, ...routeList].filter((item) => {
+      [...componentList, ...routeList].filter((item: any) => {
         return tempObj[item.routes] ? false : (tempObj[item.routes] = true);
       }),
       "routes",

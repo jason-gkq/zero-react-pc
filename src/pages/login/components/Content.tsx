@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { ProCard, ProForm, ProFormText } from "@ant-design/pro-components";
-import { Exception, Loading } from "@/zero/components";
-import { navigate, HttpClient, localStorage, useEnv } from "@/zero/api";
-import { guid } from "@/zero/utils";
-import type { IProps } from "@/zero/types/zero";
+import {
+  Exception,
+  Loading,
+  navigate,
+  HttpClient,
+  localStorage,
+  useEnv,
+  guid,
+} from "@/zero";
 import { useToken } from "@/common/hooks";
 
 /**
@@ -20,7 +25,7 @@ import { useToken } from "@/common/hooks";
  * @param props
  * @returns
  */
-export default (props: IProps) => {
+export default (props: any) => {
   const {
     $payload: { code, hasLogin, state, redirect = "/index/index" },
   } = props;

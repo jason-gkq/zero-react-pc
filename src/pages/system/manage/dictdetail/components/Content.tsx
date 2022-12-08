@@ -8,8 +8,7 @@ import useColumns from "../hooks/useColumns";
 import useActions from "../hooks/useActions";
 import { MODAL_ID } from "./DictModal";
 import DictModal from "./DictModal";
-import { PermissionButton, useNiceModal } from "@/zero/components";
-import { useEnv } from "@/src/zero/api";
+import { useEnv, PermissionButton, useNiceModal } from "@/zero";
 
 export default ({ $payload }: any) => {
   const formRef = useRef<ProFormInstance>();

@@ -4,9 +4,8 @@ import { Modal, message } from "antd";
 import { queryMenuList, delMenu } from "../service";
 import type { ActionType } from "@ant-design/pro-components";
 import type { IResQueryMenuList } from "../service/index.d";
-import { arrayToTree } from "@/zero/utils";
 import useColumns from "../hooks/useColumns";
-import { PermissionA, useNiceModal } from "@/zero/components";
+import { arrayToTree, PermissionA, useNiceModal } from "@/zero";
 import { MODAL_ID } from "./MenuModal";
 import MenuModal from "./MenuModal";
 

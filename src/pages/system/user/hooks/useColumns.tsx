@@ -2,15 +2,14 @@ import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import { Switch } from "antd";
 import type { IResQueryUserList } from "../service/index.d";
-import { PermissionA } from "@/zero/components";
-import type { IUseSelectEnum } from "@/zero/api";
+import { PermissionA } from "@/zero";
 
 const useColumns = (
   changeUserStatus: Function,
   setUserId: Function,
   setIsModalVisible: Function,
   delteUser: Function,
-  dictNormalDisable: IUseSelectEnum
+  dictNormalDisable: any
 ) => {
   const columns: ProColumns<IResQueryUserList>[] = useMemo(() => {
     return [

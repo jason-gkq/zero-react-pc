@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryDictList } from "../service/index.d";
-import { PermissionA } from "@/zero/components";
-import { useSelectEnum } from "@/zero/api";
+import { useSelectEnum, PermissionA } from "@/zero";
 import { queryDictList } from "../../dict/service";
 
 const useColumns = (

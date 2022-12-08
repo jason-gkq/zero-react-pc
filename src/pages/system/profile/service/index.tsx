@@ -1,4 +1,4 @@
-import { HttpClient } from "@/zero/api";
+import { HttpClient } from "@/zero";
 
 import { IResGetUserProfile } from "./index.d";
 

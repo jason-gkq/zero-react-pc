@@ -1,10 +1,9 @@
 import React from "react";
 import { useCallback } from "react";
 import { Form, Input, Select, message } from "antd";
-import { NiceModal, useNiceModal, QuillEditor } from "@/zero/components";
+import { useSelectEnum, NiceModal, useNiceModal, QuillEditor } from "@/zero";
 import { addNotice, updateNotice } from "../service";
 export const MODAL_ID = "system-notice-modal";
-import { useSelectEnum } from "@/zero/api";
 import { SYS_COMMON_STATUS, SYS_NOTICE_TYPE } from "@/common/enum/system";
 
 const dictNoticeStatus = useSelectEnum(SYS_COMMON_STATUS);

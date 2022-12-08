@@ -1,13 +1,12 @@
 import React, { useState, useRef, useMemo } from "react";
 import { ProTable } from "@ant-design/pro-components";
 import { Space, Modal, message } from "antd";
-import { PermissionButton } from "@/zero/components";
+import { useSelectEnum, PermissionButton } from "@/zero";
 import { useDownload } from "@/common/hooks";
 import { queryUserList, delUser, changeStatus, exportUser } from "../service";
 import type { ActionType, ProFormInstance } from "@ant-design/pro-components";
 import type { IResQueryUserList, IDeptTreeData } from "../service/index.d";
 import { SYS_COMMON_STATUS, SYS_USER_SEX } from "@/common/enum/system";
-import { useSelectEnum } from "@/zero/api";
 import Update from "./Update";
 import useColumns from "../hooks/useColumns";
 

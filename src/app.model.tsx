@@ -1,15 +1,14 @@
 import React from "react";
 import { put, call, select, all } from "redux-saga/effects";
 import { message, Button } from "antd";
-import { createModel } from "@/zero/redux";
 import {
+  createModel,
   HttpClient,
   localStorage,
   sessionStorage,
   navigate,
   useEnv,
-} from "@/zero/api";
-import type { MenuDataItem, ISagas } from "@/zero/types/zero";
+} from "@/zero";
 import { useToken } from "@/common/hooks";
 import initHttpClient from "./initHttpClient";
 import Logo from "@/assets/logo/logo.svg";
@@ -18,7 +17,8 @@ import Logo from "@/assets/logo/logo.svg";
 // const IconFont = createFromIconfontCN({
 //   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 // });
-
+type MenuDataItem = any;
+type ISagas = any;
 const whiteRoutes = ["/login", "/tools"];
 
 type ISagaPayload = {

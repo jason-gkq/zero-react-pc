@@ -4,7 +4,12 @@ import { Space } from "antd";
 import type { ActionType } from "@ant-design/pro-components";
 import type { IResQueryRoleList } from "../service/index.d";
 import { queryRoleList } from "../service";
-import { PermissionA, PermissionButton, useNiceModal } from "@/zero/components";
+import {
+  useSelectEnum,
+  PermissionA,
+  PermissionButton,
+  useNiceModal,
+} from "@/zero";
 import type { ProFormInstance } from "@ant-design/pro-components";
 import { ROLE_MODAL_ID } from "./RoleModal";
 import RoleModal from "./RoleModal";
@@ -13,7 +18,6 @@ import DataScopeModal, { ROLE_DATA_SCOPE_MODAL_ID } from "./DataScopeModal";
 import useColumns from "../hooks/useColumns";
 import useContentActions from "../hooks/useContentActions";
 import { SYS_COMMON_STATUS } from "@/common/enum/system";
-import { useSelectEnum } from "@/zero/api";
 
 const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
 

@@ -1,4 +1,4 @@
-import { cookieStorage, useEnv } from "@/zero/api";
+import { cookieStorage, useEnv } from "@/zero";
 
 export default () => {
   const { appName } = useEnv();

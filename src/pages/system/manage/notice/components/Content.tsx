@@ -1,13 +1,12 @@
 import React, { useRef, useMemo } from "react";
 import { ProTable } from "@ant-design/pro-components";
-import { message, Space } from "antd";
+import { Space } from "antd";
 import type { ActionType } from "@ant-design/pro-components";
-import { PermissionButton, NiceModal, useNiceModal } from "@/zero/components";
+import { useEnv, PermissionButton, NiceModal, useNiceModal } from "@/zero";
 import NoticeModal, { MODAL_ID } from "./NoticeModal";
 import { queryNoticeList, getNotice, delNotice } from "../service";
 import type { IResQueryNoticeList } from "../service/index.d";
 import useColumns from "../hooks/useColumns";
-import { useEnv } from "@/src/zero/api";
 
 export default () => {
   const { show: showModal } = useNiceModal(MODAL_ID);

@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Form, Input, Space, message } from "antd";
 import { changePwd } from "../service";
-import { PermissionButton } from "@/zero/components";
+import { PermissionButton } from "@/zero";
 
 // 密码必须包含以下四类字符中的三类字符,长度 8-16 位: <br>
 //                                 ◎不能为默认密码<br>

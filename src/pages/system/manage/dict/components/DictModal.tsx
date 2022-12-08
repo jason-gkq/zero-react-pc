@@ -1,9 +1,8 @@
 import React, { useCallback } from "react";
 import { Form, Input, Select, message } from "antd";
-import { NiceModal, useNiceModal } from "@/src/zero/components";
 import { addType, updateType } from "../service";
 export const MODAL_ID = "system-dict-modal";
-import { useSelectEnum } from "@/zero/api";
+import { NiceModal, useNiceModal, useSelectEnum } from "@/zero";
 
 import { SYS_COMMON_STATUS } from "@/common/enum/system";
 

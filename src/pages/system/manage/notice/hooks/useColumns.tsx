@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryNoticeList } from "../service/index.d";
-import { PermissionA, useNiceModal } from "@/zero/components";
+import { useSelectEnum, PermissionA, useNiceModal } from "@/zero";
 import { MODAL_ID } from "../components/NoticeModal";
-import { useSelectEnum } from "@/zero/api";
 import { SYS_COMMON_STATUS, SYS_NOTICE_TYPE } from "@/common/enum/system";
 import moment from "moment";
 

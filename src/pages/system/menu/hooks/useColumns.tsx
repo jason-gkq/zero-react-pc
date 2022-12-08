@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryMenuList } from "../service/index.d";
-import { PermissionA } from "@/zero/components";
+import { PermissionA } from "@/zero";
 import moment from "moment";
 
 const useColumns = (

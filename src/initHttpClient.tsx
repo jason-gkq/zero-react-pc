@@ -1,6 +1,5 @@
 import { Modal } from "antd";
-import { net, navigate, sessionStorage } from "@/zero/api";
-import { cloneDeep } from "@/zero/utils";
+import { cloneDeep, net, navigate, sessionStorage } from "@/zero";
 import { useToken } from "@/common/hooks";
 
 let goLoginFlag = true;

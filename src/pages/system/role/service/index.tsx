@@ -1,4 +1,4 @@
-import { HttpClient } from "@/zero/api";
+import { HttpClient } from "@/zero";
 import {
   IReqQueryRoleList,
   IResQueryRoleList,
@@ -8,7 +8,6 @@ import {
   IResGetRole,
   IResGetDeptTreeSelect,
 } from "./index.d";
-import type { IRes } from "@/zero/types/zero";
 import { Models } from "../../../../rapper/index";
 
 /* 查询角色列表 */
@@ -38,12 +37,12 @@ export const menuTreeselect = async (
 };
 
 /* 新增角色 */
-export const addRole = async (payload: IResQueryRoleList): Promise<IRes> => {
+export const addRole = async (payload: IResQueryRoleList): Promise<any> => {
   return await HttpClient.post(`system/role`, payload);
 };
 
 /* 修改角色 */
-export const updateRole = async (payload: IResQueryRoleList): Promise<IRes> => {
+export const updateRole = async (payload: IResQueryRoleList): Promise<any> => {
   return await HttpClient.put(`system/role`, payload);
 };
 

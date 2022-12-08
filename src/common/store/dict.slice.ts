@@ -1,7 +1,6 @@
 import { call, put, select } from "redux-saga/effects";
-import { createModel } from "@/zero/redux";
-import { HttpClient, sessionStorage } from "@/zero/api";
-import type { ISagas } from "@/zero/types/zero";
+import { createModel, HttpClient, sessionStorage } from "@/zero";
+type ISagas = any;
 
 export type IDictItem = {
   createBy: string;

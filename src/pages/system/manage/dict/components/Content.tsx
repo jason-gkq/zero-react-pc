@@ -7,8 +7,7 @@ import type { IResQueryDictList } from "../service/index.d";
 import useColumns from "../hooks/useColumns";
 import { MODAL_ID } from "./DictModal";
 import DictModal from "./DictModal";
-import { PermissionButton, useNiceModal } from "@/zero/components";
-import { useEnv } from "@/src/zero/api";
+import { useEnv, PermissionButton, useNiceModal } from "@/zero";
 
 export default () => {
   const ref = useRef<ActionType>();

@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
 import { Form, Input, Select, message } from "antd";
-import { NiceModal, useNiceModal } from "@/src/zero/components";
 export const MODAL_ID = "system-config-modal";
 import { addConfig, updateConfig } from "../service/index";
 import { SYS_YES_NO } from "@/common/enum/system";
-import { useSelectEnum } from "@/zero/api";
+import { NiceModal, useNiceModal, useSelectEnum } from "@/zero";
 
 const dictYesNo = useSelectEnum(SYS_YES_NO);
 

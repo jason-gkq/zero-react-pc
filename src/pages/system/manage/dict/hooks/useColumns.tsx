@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
-import { Space } from "antd";
 import type { IResQueryDictList } from "../service/index.d";
-import { PermissionA } from "@/zero/components";
-import { navigate, useSelectEnum } from "@/zero/api";
+import { PermissionA, navigate, useSelectEnum } from "@/zero";
 import { SYS_COMMON_STATUS } from "@/common/enum/system";
 import moment from "moment";
 

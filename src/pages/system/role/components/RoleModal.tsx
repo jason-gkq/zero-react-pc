@@ -1,11 +1,10 @@
 import React from "react";
 import { useCallback, useMemo, useState, useEffect } from "react";
 import { Form, Input, Select, message, InputNumber, Tree } from "antd";
-import { NiceModal, useNiceModal } from "@/src/zero/components";
+import { useSelectEnum, NiceModal, useNiceModal } from "@/zero";
 import { addRole, updateRole } from "../service";
 import { IResGetTreeselect, IMenuTreeData } from "../service/index.d";
 import { SYS_COMMON_STATUS } from "@/common/enum/system";
-import { useSelectEnum } from "@/zero/api";
 
 const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
 export const ROLE_MODAL_ID = "system-role-modal";

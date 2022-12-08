@@ -1,4 +1,4 @@
-import { HttpClient } from "@/zero/api";
+import { HttpClient } from "@/zero";
 import { IResQueryNoticeList, IReqQueryNoticeList } from "./index.d";
 
 // 查询公告列表

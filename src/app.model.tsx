@@ -8,6 +8,8 @@ import {
   sessionStorage,
   navigate,
   useEnv,
+  ISagas,
+  IRouteMenuItem,
 } from "@/zero";
 import { useToken } from "@/common/hooks";
 import initHttpClient from "./initHttpClient";
@@ -17,8 +19,7 @@ import Logo from "@/assets/logo/logo.svg";
 // const IconFont = createFromIconfontCN({
 //   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 // });
-type MenuDataItem = any;
-type ISagas = any;
+
 const whiteRoutes = ["/login", "/tools"];
 
 type ISagaPayload = {
@@ -35,7 +36,7 @@ type IRoutes = {
 };
 
 const routesFormat = (routes: IRoutes[]) => {
-  const newRoutes: MenuDataItem[] = [];
+  const newRoutes: IRouteMenuItem[] = [];
   for (let i = 0; i < routes.length; i++) {
     let { path, visible, meta, children, redirect, component } = routes[i];
     path = (path && path.trim()) || "";
@@ -213,7 +214,7 @@ const model = createModel({
          * 会引发的问题：
          * 1、菜单配置的路由和本地静态路由必须对应
          */
-        // let originRoutes: MenuDataItem[] = sessionStorage.get("originRoutes");
+        // let originRoutes: IRouteMenuItem[] = sessionStorage.get("originRoutes");
         // if (!originRoutes || originRoutes.length <= 0) {
         //   const { data } = yield call(HttpClient.get, "getRouters");
         //   const newData = routesFormat(data);

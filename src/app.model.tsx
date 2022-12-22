@@ -183,7 +183,8 @@ const model = createModel({
        *  2、登录页的路由一定要注册，如果路由信息从接口获取，则可以先把登录页面的路由注册完成
        *     登录完成会刷新浏览器再设置其他路由
        */
-      if (whiteRoutes.map((i) => `/${env.appName}${i}`).includes($route)) {
+      const rootPath = env.appName ? `/${env.appName}` : "";
+      if (whiteRoutes.map((i) => `${rootPath}${i}`).includes($route)) {
         yield put(
           $actions.setState({
             appStatus: "success",

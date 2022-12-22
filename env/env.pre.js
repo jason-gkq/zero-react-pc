@@ -2,6 +2,6 @@ module.exports.defineConfig = () => ({
   ENV: "pre",
   FILE_SERVICE_URL: "/file",
   REQUEST: {
-    BASE: { baseURL: "http://pre.demo.com/", successCode: 200 },
+    BASE: { baseURL: "http://rap2api.taobao.org/app/mock/302222/", successCode: 200 },
   },
 });

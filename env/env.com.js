@@ -2,6 +2,9 @@ module.exports.defineConfig = () => ({
   appId: "100",
   appName: "admin",
   cachePrefix: "admin_",
+  route: {
+    type: "Browser", // Browser | Hash
+  },
   layout: {
     title: "管理中台",
     index: "/index/index",

@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import App from "./app";
 import reportWebVitals from "./reportWebVitals";
 
-const { appName } = process.env.productConfig as any;
+const { appName = "root" } = process.env.productConfig as any;
 
 let root: any;
 function render(props: any) {

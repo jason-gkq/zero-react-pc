@@ -7530,10 +7530,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zero-pc@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/zero-pc/-/zero-pc-1.1.0.tgz"
-  integrity sha512-5hQw/KGreG/zuqwMn15M6YLvmlY6+sKmPbt7uiMEkaFTEKAoBVj2elYHNHdo6MQUe0n6NIKqGzg9EPI7SJMb+g==
+zero-pc@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/zero-pc/-/zero-pc-1.3.0.tgz#7d8be1671fbd61e831c3ab0ed2d697e1e64f1b8b"
+  integrity sha512-7X1HPIwqFdQY87voKW8v1J9RHHWs/wYPtXUxLFA9yzZD4/PRQfc5a9XWLAlM84/s/109r4t9CjPHaaQ2iPAtuA==
   dependencies:
     axios "1.1.3"
     platform "^1.3.6"
@@ -7546,10 +7546,10 @@ zero-pc@1.1.0:
     require "^2.4.20"
     reselect "4.1.7"
 
-zero-react-scripts@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/zero-react-scripts/-/zero-react-scripts-1.1.0.tgz"
-  integrity sha512-+7RrdxD+1nifLL1IKT6ICEw5FASIRKaER3SH+zTZn4Esw68A2Y65EOxgns9Y/EipjoBR06i7S+Fxu+/FvTK4gg==
+zero-react-scripts@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/zero-react-scripts/-/zero-react-scripts-1.2.0.tgz#2c141139776eec5166757eef8a8077d83ef26a80"
+  integrity sha512-w8hKP6a2DB0cqbXoT7sbyrg6MMd0ljuRILne51Wm35sW66GKcdNI5nbnJc1PPzFEhWtK/ZAHoEbvirBli/z9kw==
   dependencies:
     "@babel/cli" "7.19.3"
     "@babel/core" "7.19.6"

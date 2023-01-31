@@ -16,7 +16,7 @@
 
 - [入口项目](https://github.com/jason-gkq/zero-main)
 - [核心框架包](https://github.com/jason-gkq/zero-pc)
-- [打包脚本](https://github.com/jason-gkq/zero-react-script)
+- [打包脚本](https://github.com/jason-gkq/zero-react-scripts)
 
 **此项目也可独立使用**
 

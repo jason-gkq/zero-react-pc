@@ -3,11 +3,15 @@ module.exports.defineConfig = () => ({
   appName: "admin",
   cachePrefix: "admin_",
   route: {
-    type: "Browser", // Browser | Hash
+    type: "Browser", // Browser | Hash 可以调整路由方式，如果选择hash则最好去掉appName，且调整publicUrlOrPath
+    showRoutesTab: true,
+    routesHistoryLength: 50,
   },
   layout: {
     title: "管理中台",
     index: "/index/index",
+    // settings 设置proLayout的布局样式
+    // token 设置框架样式
   },
   webpackConfig: {
     publicUrlOrPath: "/admin/",
@@ -72,7 +76,7 @@ module.exports.defineConfig = () => ({
           children: [
             { path: "config", hideInMenu: false, name: "参数设置" },
             { path: "dict", hideInMenu: false, name: "字典管理" },
-            { path: "dictdetail" },
+            { path: "dictdetail", hideInMenu: true, name: "字典详情" },
             { path: "notice", hideInMenu: false, name: "公告管理" },
           ],
         },

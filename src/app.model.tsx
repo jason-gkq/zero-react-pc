@@ -101,6 +101,7 @@ const model = createModel({
           个人中心
         </Button>,
       ],
+      rightContent: [], // 除头像之外的扩展信息
     },
     errorInfo: {},
     user: {},

@@ -7530,10 +7530,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zero-pc@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/zero-pc/-/zero-pc-1.5.1.tgz#596dfdc175f79f68a20ea2b662811eecbbe2e7be"
-  integrity sha512-XuV8yx3JOxxR9GV5yGQ4tI2XARNHtfHwUagy9NdwKB133u96P3AYegXm0GnEnOuAJesx0x0Vf8ZGwyi+kwYCTg==
+zero-pc@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/zero-pc/-/zero-pc-1.6.0.tgz#d4382f7f906ef96edcb1b32b7c75a451df08696f"
+  integrity sha512-BvyGjJnLEuPyIEciBp3HKutAixA+tBQVtygIsV/Bm/vuQ3emqBhDnZJ5lVW/UwvjrYNTv7cyPAMo1rBvlPsg8A==
   dependencies:
     axios "1.1.3"
     platform "^1.3.6"

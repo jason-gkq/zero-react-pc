@@ -16,7 +16,7 @@
 
 - [入口项目](https://github.com/jason-gkq/zero-main)
 - [核心框架包](https://github.com/jason-gkq/zero-pc)
-- [打包脚本](https://github.com/jason-gkq/zero-react-scripts)
+- [打包脚本](https://github.com/jason-gkq/szero-scripts)
 
 **此项目也可独立使用**
 
@@ -37,7 +37,7 @@ http://localhost:8080/
 
 ```shell
 yarn build
-yarn build:uat
+yarn build:test
 yarn build:pre
 yarn build:prod
 ```
@@ -52,7 +52,7 @@ zero-react-pc
 | - | - env.local.json // 本地  
 | - | - env.pre.json // 预发布  
 | - | - env.prod.json // 生产  
-| - | - env.uat.json // 测试  
+| - | - env.test.json // 测试  
 | - node_modules  
 | - public  
 | - | - assets // 媒体资源存放  
@@ -62,10 +62,9 @@ zero-react-pc
 | - src  
 | - | - common // 公共组件&页面  
 | - | - pages // 业务页面  
-| - | - zero // 框架核心文件  
 | - | - app.tsx // 入口  
 | - | - app.less // 全局样式  
-| - | - app.model.ts // 全局 model 配置  
+| - | - app.store.ts // 全局 store 配置  
 | - | - index.tsx  
 | - tsconfig.json
 | - package.json
@@ -75,10 +74,8 @@ zero-react-pc
 home // 页面目录名  
 │ - components // 页面组件目录，固定名称  
 │ - │ - DivTest.tsx // 组件文件，大驼峰  
-│ - containers // 页面组件目录，固定名称  
-│ - │ - DivTest.tsx // 组件文件，大驼峰  
 │ - index.less // 页面样式，固定名称  
-│ - index.model.ts // 页面 model，固定名称  
+│ - index.store.ts // 页面 model，固定名称  
 │ - index.tsx // 页面入口，固定名称
 | - hooks 业务逻辑抽取  
 | - service 接口请求以及 ts 接口和类型的编写

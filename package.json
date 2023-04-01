@@ -5,11 +5,11 @@
   "private": true,
   "main": "./src/pages/index/index.tsx",
   "scripts": {
-    "start": "zero-react-scripts start env=local",
-    "build:uat": "zero-react-scripts build env=uat",
-    "build:pre": "zero-react-scripts build env=pre",
-    "build:prod": "zero-react-scripts build env=prod",
-    "build": "zero-react-scripts build env=prod",
+    "start": "szero-scripts start env=local",
+    "build:test": "szero-scripts build env=test",
+    "build:pre": "szero-scripts build env=pre",
+    "build:prod": "szero-scripts build env=prod",
+    "build": "szero-scripts build env=prod",
     "rapper": "node ./script/rapper.js",
     "prepare": "husky install",
     "prettier:check": "prettier --check ./src",
@@ -76,7 +76,7 @@
     "husky": ">=6",
     "lint-staged": ">=10",
     "prettier": "2.7.1",
-    "zero-react-scripts": "1.2.0"
+    "szero-scripts": "1.0.1"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,less,json,css,md}": "prettier --write --ignore-unknown"

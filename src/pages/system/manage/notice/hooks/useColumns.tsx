@@ -4,7 +4,7 @@ import type { IResQueryNoticeList } from "../service/index.d";
 import { useSelectEnum, PermissionA, useNiceModal } from "@/zero";
 import { MODAL_ID } from "../components/NoticeModal";
 import { SYS_COMMON_STATUS, SYS_NOTICE_TYPE } from "@/common/enum/system";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const dictNoticeStatus = useSelectEnum(SYS_COMMON_STATUS);
 const dictNoticeType = useSelectEnum(SYS_NOTICE_TYPE);
@@ -56,7 +56,7 @@ const useColumns = (handleUpdate: any, handleDelete: any) => {
         hideInTable: true,
         fieldProps: {
           disabledDate: (current: any) => {
-            return current && current > moment().endOf("day");
+            return current && current > dayjs().endOf("day");
           },
         },
         search: {

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryMenuList } from "../service/index.d";
 import { PermissionA } from "@/zero";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const useColumns = (
   handleUpdate: Function,
@@ -65,7 +65,7 @@ const useColumns = (
         hideInTable: true,
         fieldProps: {
           disabledDate: (current: any) => {
-            return current && current > moment().endOf("day");
+            return current && current > dayjs().endOf("day");
           },
         },
         search: {

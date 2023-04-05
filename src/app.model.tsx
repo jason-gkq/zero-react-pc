@@ -203,7 +203,7 @@ const model = createModel({
             appStatus: "success",
           })
         );
-        navigate.redirect(`/login`, undefined, { isRedirect: true });
+        navigate.redirect(`/login`);
         return;
       }
 

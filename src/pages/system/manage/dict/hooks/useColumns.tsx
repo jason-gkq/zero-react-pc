@@ -3,7 +3,7 @@ import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryDictList } from "../service/index.d";
 import { PermissionA, navigate, useSelectEnum } from "@/zero";
 import { SYS_COMMON_STATUS } from "@/common/enum/system";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const dictCommonStatus = useSelectEnum(SYS_COMMON_STATUS);
 
@@ -66,7 +66,7 @@ const useColumns = (handleUpdate: Function, handleDelete: Function) => {
         hideInTable: true,
         fieldProps: {
           disabledDate: (current: any) => {
-            return current && current > moment().endOf("day");
+            return current && current > dayjs().endOf("day");
           },
         },
         search: {

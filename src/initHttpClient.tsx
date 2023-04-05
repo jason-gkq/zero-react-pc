@@ -68,7 +68,7 @@ export default (
           okText: "去登录",
           onOk: () => {
             goLoginFlag = true;
-            navigate.redirect("/login", undefined, { isRedirect: true });
+            navigate.redirect("/login");
           },
         });
       }

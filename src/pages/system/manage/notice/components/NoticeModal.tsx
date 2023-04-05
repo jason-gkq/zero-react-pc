@@ -1,7 +1,7 @@
 import React from "react";
 import { useCallback } from "react";
 import { Form, Input, Select, message } from "antd";
-import { useSelectEnum, NiceModal, useNiceModal, QuillEditor } from "@/zero";
+import { useSelectEnum, NiceModal, useNiceModal } from "@/zero";
 import { addNotice, updateNotice } from "../service";
 export const MODAL_ID = "system-notice-modal";
 import { SYS_COMMON_STATUS, SYS_NOTICE_TYPE } from "@/common/enum/system";
@@ -122,7 +122,7 @@ export default NiceModal.create(MODAL_ID, ({ modalInfo }: any) => {
           <Select placeholder="请选择">{dictNoticeStatus.getOptions()}</Select>
         </Form.Item>
         <Form.Item name={`noticeContent`} label="内容">
-          <QuillEditor></QuillEditor>
+          <Input placeholder="请输入公告名称" />
         </Form.Item>
       </Form>
     </NiceModal>

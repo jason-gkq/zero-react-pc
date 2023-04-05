@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { IResQueryConfigList } from "../service/index.d";
 import { PermissionA, useNiceModal } from "@/zero";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const useColumns = (handleUpdate: any, handleDelete: any, dictYesNo: any) => {
   const { show: showModal } = useNiceModal("system-config-modal");
@@ -61,7 +61,7 @@ const useColumns = (handleUpdate: any, handleDelete: any, dictYesNo: any) => {
         hideInTable: true,
         fieldProps: {
           disabledDate: (current: any) => {
-            return current && current > moment().endOf("day");
+            return current && current > dayjs().endOf("day");
           },
         },
         search: {

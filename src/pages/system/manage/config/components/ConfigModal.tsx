@@ -139,7 +139,10 @@ export default NiceModal.create(MODAL_ID, ({ modalInfo }: any) => {
           rules={[{ required: true }]}
           initialValue="Y"
         >
-          <Select placeholder="请选择系统内置">{dictYesNo.getOptions()}</Select>
+          <Select
+            placeholder="请选择系统内置"
+            options={dictYesNo.getOptions()}
+          />
         </Form.Item>
         <Form.Item
           name={`remark`}

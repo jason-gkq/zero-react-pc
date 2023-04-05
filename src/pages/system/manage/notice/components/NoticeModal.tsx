@@ -111,7 +111,7 @@ export default NiceModal.create(MODAL_ID, ({ modalInfo }: any) => {
           rules={[{ required: true }]}
           initialValue="1"
         >
-          <Select placeholder="请选择">{dictNoticeType.getOptions()}</Select>
+          <Select placeholder="请选择" options={dictNoticeType.getOptions()} />
         </Form.Item>
         <Form.Item
           name={`status`}
@@ -119,7 +119,10 @@ export default NiceModal.create(MODAL_ID, ({ modalInfo }: any) => {
           rules={[{ required: true }]}
           initialValue="0"
         >
-          <Select placeholder="请选择">{dictNoticeStatus.getOptions()}</Select>
+          <Select
+            placeholder="请选择"
+            options={dictNoticeStatus.getOptions()}
+          />
         </Form.Item>
         <Form.Item name={`noticeContent`} label="内容">
           <Input placeholder="请输入公告名称" />

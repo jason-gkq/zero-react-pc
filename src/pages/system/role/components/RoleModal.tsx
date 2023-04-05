@@ -160,9 +160,10 @@ export default NiceModal.create(
               },
             ]}
           >
-            <Select placeholder="请选择状态">
-              {dictNormalDisable.getOptions()}
-            </Select>
+            <Select
+              placeholder="请选择状态"
+              options={dictNormalDisable.getOptions()}
+            />
           </Form.Item>
           <Form.Item name={`menuIds`} label={`菜单权限`}>
             <Tree

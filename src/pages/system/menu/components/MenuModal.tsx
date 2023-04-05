@@ -320,9 +320,10 @@ export default NiceModal.create(
                     },
                   ]}
                 >
-                  <Select placeholder="请选择">
-                    {dictShowHide.getOptions()}
-                  </Select>
+                  <Select
+                    placeholder="请选择"
+                    options={dictShowHide.getOptions()}
+                  />
                 </Form.Item>
               </Col>
             )}
@@ -362,18 +363,20 @@ export default NiceModal.create(
                     },
                   ]}
                 >
-                  <Select placeholder="请选择组件路径">
-                    {dictComponentList && dictComponentList.getOptions()}
-                  </Select>
+                  <Select
+                    placeholder="请选择组件路径"
+                    options={dictComponentList.getOptions()}
+                  />
                 </Form.Item>
               </Col>
             )}
             {["M"].includes(menuType) && (
               <Col span={12}>
                 <Form.Item name={`redirect`} label={`重定向地址`}>
-                  <Select placeholder="请选择重定向地址">
-                    {dictRouteList && dictRouteList.getOptions()}
-                  </Select>
+                  <Select
+                    placeholder="请选择重定向地址"
+                    options={dictRouteList.getOptions()}
+                  />
                 </Form.Item>
               </Col>
             )}

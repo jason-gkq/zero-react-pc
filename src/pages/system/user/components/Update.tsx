@@ -222,9 +222,10 @@ export default (props: IUpdateProps) => {
             </Col>
             <Col span={12}>
               <Form.Item name={`sex`} label={`用户性别`}>
-                <Select placeholder="请选择性别">
-                  {dictUserSex.getOptions()}
-                </Select>
+                <Select
+                  placeholder="请选择性别"
+                  options={dictUserSex.getOptions()}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -238,9 +239,10 @@ export default (props: IUpdateProps) => {
                   },
                 ]}
               >
-                <Select placeholder="请选择状态">
-                  {dictNormalDisable.getOptions()}
-                </Select>
+                <Select
+                  placeholder="请选择状态"
+                  options={dictNormalDisable.getOptions()}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>

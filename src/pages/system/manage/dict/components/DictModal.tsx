@@ -118,7 +118,10 @@ export default NiceModal.create(MODAL_ID, ({ modalInfo }: any) => {
           initialValue="0"
           rules={[{ required: true }]}
         >
-          <Select placeholder="请选择">{dictCommonStatus.getOptions()}</Select>
+          <Select
+            placeholder="请选择"
+            options={dictCommonStatus.getOptions()}
+          />
         </Form.Item>
         <Form.Item
           name={`remark`}

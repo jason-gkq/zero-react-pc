@@ -1,14 +1,13 @@
-import { Modal } from "antd";
-import { cloneDeep, net, navigate, sessionStorage } from "@/zero";
+import { cloneDeep, net } from "@/zero";
 import { useToken } from "@/common/hooks";
 
-let goLoginFlag = true;
+const { getToken, removeToken } = useToken();
 
 export default (
-  REQUEST: Record<string, { baseURL: string; successCode: string }>
+  REQUEST: Record<string, { baseURL: string; successCode: string }>,
+  cb: () => Promise<any>
 ) => {
   net.interceptors.request.use((config) => {
-    const { getToken } = useToken();
     const token = getToken();
     if (token) {
       config.headers["Authorization"] = token;
@@ -55,26 +54,12 @@ export default (
     if ([401].includes(code)) {
       /**
        * 正常流程中接口返回需要登录则直接进入登录页面，由登录页面统一处理登录逻辑
-       * 因为是sso，则根据以前系统逻辑直接跳转到sso登录页
        */
-      if (goLoginFlag) {
-        goLoginFlag = false;
-        const { removeToken } = useToken();
-        removeToken();
-        sessionStorage.clearAll();
-        Modal.error({
-          title: "未登录",
-          content: "请先进行登录！",
-          okText: "去登录",
-          onOk: () => {
-            goLoginFlag = true;
-            navigate.redirect("/login");
-          },
+      return cb().then(() => {
+        return Promise.reject({
+          ...resp,
+          data: { msg: data.msg || "用户未登录", code },
         });
-      }
-
-      return Promise.reject({
-        data: { msg: data.msg || "用户未登录", code },
       });
     }
     const cloneResp = cloneDeep(resp || {});

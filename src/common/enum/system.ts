@@ -118,22 +118,8 @@ export const SYS_GROUP_TYPE = [
 ];
 export const SYS_NEWS_TYPE = [
   //消息类型
-  { value: "1", label: "公告相关" },
-  { value: "2", label: "投教相关" },
-  { value: "3", label: "新股新债" },
-  { value: "4", label: "配股配债" },
-  { value: "5", label: "融资融券" },
-  { value: "6", label: "期权" },
-  { value: "7", label: "持仓股提醒" },
-  { value: "8", label: "基金理财" },
-  { value: "9", label: "证件相关" },
-  { value: "10", label: "风测相关" },
-  { value: "11", label: "活动推荐" },
-  { value: "12", label: "卡劵提醒" },
-  { value: "13", label: "PC客户端" },
-  { value: "14", label: "APP客户端" },
-  { value: "15", label: "维护变动" },
-  { value: "16", label: "营业部提醒" },
+  { value: "1", label: "公告" },
+  { value: "15", label: "维护" },
 ];
 export const SYS_NEWS_CLASS = [
   { value: "1", label: "质询提醒" },

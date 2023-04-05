@@ -23,7 +23,6 @@
       "@/assets/*": ["public/assets/*"],
       "@/src/*": ["src/*"],
       "@/zero": ["node_modules/zero-pc"],
-      "@/zero/*": ["node_modules/zero-pc/*"],
       "@/common": ["src/common"],
       "@/common/*": ["src/common/*"]
     }

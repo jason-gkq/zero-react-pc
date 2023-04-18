@@ -29,7 +29,7 @@ const iconStyles: CSSProperties = {
 
 export default (props: ICProps) => {
   const {
-    $payload: { redirect = "/index/index" },
+    params: { redirect = "/index/index" },
   } = props;
   const [loginType, setLoginType] = useState<LoginType>("account");
   const { setToken } = useToken();

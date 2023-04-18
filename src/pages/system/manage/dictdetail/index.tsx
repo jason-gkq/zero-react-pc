@@ -4,10 +4,10 @@ import { createPage, ICProps } from "@/zero";
 
 import Content from "./components/Content";
 
-export default createPage({ pageId: "1000" }, ({ $payload }: ICProps) => {
+export default createPage({ pageId: "1000" }, ({ params }: ICProps) => {
   return (
     <PageContainer pageHeaderRender={false}>
-      <Content $payload={$payload} />
+      <Content $payload={params} />
     </PageContainer>
   );
 });

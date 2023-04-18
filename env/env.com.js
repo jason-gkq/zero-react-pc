@@ -10,8 +10,9 @@ module.exports.defineConfig = () => ({
   layout: {
     title: "管理中台",
     index: "/index/index",
-    // settings 设置proLayout的布局样式
-    // token 设置框架样式
+  },
+  modules: {
+    admin: {},
   },
   webpackConfig: {
     publicUrlOrPath: "/admin/",

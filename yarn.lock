@@ -1810,48 +1810,49 @@
     "@svgr/plugin-jsx" "^7.0.0"
     "@svgr/plugin-svgo" "^7.0.0"
 
-"@szero/cache@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@szero/cache/-/cache-1.3.1.tgz#69bbea1ac92d3c85d0cb01447dbd9c29f6685822"
-  integrity sha512-DkOSKu7ENGg2LBz0n1PUmc6ld5GGPiJUion5ZSxFuhd/CdeljmL5BFI7Cr1l+rG72BJU3JkjILMUmRVFMcWtOA==
+"@szero/cache@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@szero/cache/-/cache-1.4.0.tgz#1fd2a3d09b75c47e8270398249f52c25fa4d05e5"
+  integrity sha512-fLnxEKklWDR7hCQwZWICtmuV0hSbOoSryH5kNZVKlsMTgf8H9pNZJJI9qxxQlqy9xp6zs4i8TQq2NqP8OtR7ZA==
 
-"@szero/hooks@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@szero/hooks/-/hooks-1.3.2.tgz#2d0cc5fefc1b073c93eae1274ba49bf92efa73ea"
-  integrity sha512-jP5mqunmbc+YLWvHhN0nbPyfF84O67u4iw7xXMrPHxoxnLFAsuPETOHHSmOeTi7vBp/bh7lay8bwv4P3WJ5mFw==
+"@szero/hooks@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@szero/hooks/-/hooks-1.4.0.tgz#ae7fa040d7693019c7760d4fa7ab0e4d8b4d4259"
+  integrity sha512-sLSU6zJ0W2rI8Xe3XwugUK/t9rVz2jR5QRDPQwuttScm2Dwjujf4e+RS4VZslqcoKvh5aR5HOfIBGan3saZ32g==
   dependencies:
+    "@szero/cache" "^1.4.0"
     platform "^1.3.6"
 
-"@szero/navigate@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@szero/navigate/-/navigate-1.3.3.tgz#20b7bb45cd4a8230421dffc9e027c123afe65c76"
-  integrity sha512-WeystwVD+LO0t+F9hRqUXlyaGiwYtChYfbX3VV7x4QcZURVnqaUAWlzCjZtMJ2b2EVnc8+eBa+zmjz3Q5nmCLg==
+"@szero/navigate@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@szero/navigate/-/navigate-1.4.0.tgz#ae417eb316188ccae09fa31ea0fb2599ac110f29"
+  integrity sha512-Zpfx4dXG9MeI51OmxS7B5lwPmSU3pfX5QtMyjWa285xzlZWyy7raUD3xwAFxGKrv0mIDptaSOMiUEWglGksdgw==
   dependencies:
-    "@szero/hooks" "^1.3.2"
+    "@szero/hooks" "^1.4.0"
     history "^5.3.0"
 
-"@szero/net@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@szero/net/-/net-1.3.1.tgz#e4bbff09b654dbf4441e9db5415fba1b5cf52ff0"
-  integrity sha512-AlUML/v2iqcDcYAgDaIUOfuJlg40hi4MNnYJ88qfS2BzFnrgDSl56dR7wHKyLpR+QOBLJ/6jYlUoV+R6HM7+kg==
+"@szero/net@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@szero/net/-/net-1.4.0.tgz#93bac6c71fa20e43e64131b23ae4501bd9b8597b"
+  integrity sha512-XI2mlmh9FDElbNjLUeHFVfJ1K5xBAy5HHjYelAtv3Qynz0hAAYBOnxBz9tG1l3zPYDijyZ3tmxNrzouZomyy8w==
   dependencies:
-    "@szero/utils" "^1.3.1"
+    "@szero/utils" "^1.4.0"
 
-"@szero/pc@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@szero/pc/-/pc-1.0.5.tgz#4289b26ec95536de9cfa32e21ff890eb6c5c2338"
-  integrity sha512-TbDa5K5pbfeaLTO40liJgkivHXjFP8M7TJRsUklY5S+LYOHZrCUDONV0CXatVBVlMgvH2dI8pwlbBhMr8XxafA==
+"@szero/pc@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@szero/pc/-/pc-1.0.7.tgz#6646c3effd296255f5c03775d44a94ba6de3e199"
+  integrity sha512-2Z6j6N5/nUOXAJGOMjIx5uTwDWOdG+6fueJzEeRuzR55zGBSRT/Xt7fL6qhM0J+IaJ1E1hWTnFripMTWqwop9A==
   dependencies:
-    "@szero/cache" "^1.3.1"
-    "@szero/hooks" "^1.3.2"
-    "@szero/navigate" "^1.3.3"
-    "@szero/net" "^1.3.1"
-    "@szero/utils" "^1.3.1"
+    "@szero/cache" "^1.4.0"
+    "@szero/hooks" "^1.4.0"
+    "@szero/navigate" "^1.4.0"
+    "@szero/net" "^1.4.0"
+    "@szero/utils" "^1.4.0"
 
-"@szero/utils@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@szero/utils/-/utils-1.3.1.tgz#99e469ba10c85cbac9ff94e9651614fcfa86b4f8"
-  integrity sha512-aroaqnvXcQX0NnoDNodAlxiFfUWSJbJqktTlPAOk+TFudhx/Z/CoCihdo3cmhOemLTfn4Nn974bWMuiL5m9QEw==
+"@szero/utils@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@szero/utils/-/utils-1.4.0.tgz#e0f663db850e1e9f1eb86891bd03aa3e413efb91"
+  integrity sha512-gtR+bpIMmnwPIVz8dfpIwDO7SXCVhjgt/f3AeneCT6gsKlH5cQRUoiy78xILk4Xqu56dGYny479lRHaVLWE8Sw==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"

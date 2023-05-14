@@ -49,9 +49,8 @@ export default (props: ICProps) => {
         }
         onFinish={async (values) => {
           setToken("111111111111111");
-          const redirectUrl = redirect;
           // navigate.reload(redirectUrl);
-          navigate.redirect(redirectUrl);
+          navigate.redirect(redirect);
         }}
       >
         <Tabs

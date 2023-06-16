@@ -170,7 +170,7 @@ export class AppStore {
    * 统一页面拦截
    * @returns
    */
-  pageBeforeOnLoad() {
+  pageBeforeOnLoad({ pageStore, params, route, pageConfig }: any) {
     return true;
   }
   checkPermission() {

@@ -7,8 +7,4 @@ module.exports.defineConfig = () => ({
       successCode: 200,
     },
   },
-  webpackConfig: {
-    port: 3200,
-    host: "localhost",
-  },
 });

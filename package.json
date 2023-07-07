@@ -50,7 +50,7 @@
     "husky": ">=8.0.3",
     "lint-staged": ">=13.2.0",
     "prettier": "2.8.7",
-    "szero-scripts": "1.0.7"
+    "szero-scripts": "1.1.0"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,less,json,css,md}": "prettier --write --ignore-unknown"

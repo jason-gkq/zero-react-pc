@@ -7252,10 +7252,10 @@ swr@^2.0.0:
   dependencies:
     use-sync-external-store "^1.2.0"
 
-szero-scripts@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/szero-scripts/-/szero-scripts-1.0.7.tgz#2caa18731947ba4de625cc6e0350bca112cf4a48"
-  integrity sha512-UZ5YbBWA0FplYSWyz44Wm7g0E/o/tJkPc9efNrlNCK37aGnSbuIbhzU84f/irihoQZ1m5a+33ucWR/NmFItvtw==
+szero-scripts@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/szero-scripts/-/szero-scripts-1.1.0.tgz#1dbe78f9b098df22dbb961ba9c987bc43d5b9b64"
+  integrity sha512-uIcRSNqvPIzAnuUtA27EFW2s+U+/yy037MjHQBc1qC1iY9D6NEo3qJzHmTygeax9GB5sKcpjmF6jyiDnsgHXsQ==
   dependencies:
     "@babel/cli" "7.21.0"
     "@babel/core" "7.21.4"

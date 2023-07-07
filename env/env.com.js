@@ -11,11 +11,12 @@ module.exports.defineConfig = () => ({
     title: "管理中台",
     index: "/index/index",
   },
-  modules: {
-    admin: {},
-  },
   webpackConfig: {
     publicUrlOrPath: "/admin/",
+    devServer: {
+      port: 3200,
+      host: "localhost",
+    },
   },
   routes: [
     {

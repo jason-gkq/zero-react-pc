@@ -60,49 +60,10 @@ export type IResQueryUserList = {
   userName: string;
 };
 
-export type IReqGetTreeselect = {};
-
-export type IResGetTreeselect = {
-  label: string;
-  id: number;
-  children?: IResGetTreeselect[];
-};
-
-export type IPost = {
-  createBy: string;
-  createTime: string;
-  dataScope: string;
-  flag: false;
-  params: any;
-  postCode: string;
-  postId: number;
-  postName: string;
-  postSort: string;
-  remark: string;
-  searchValue: string;
-  status: string;
-  updateBy: string;
-  updateTime: string;
-};
-
 export type IResGetUser = {
   data?: IResQueryUserList;
   postIds?: number[];
-  posts: IPost[];
+  posts: any;
   roleIds?: number[];
   roles: IRole[];
-};
-
-export type IDeptTreeList = {
-  key: number;
-  title: string;
-  parentIds: number[];
-};
-
-export type IDeptTreeData = {
-  key: number;
-  value: number;
-  title: string;
-  parentIds: number[];
-  children?: IDeptTreeData[];
 };

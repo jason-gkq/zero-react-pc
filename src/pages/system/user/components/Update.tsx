@@ -1,17 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { getUser, addUser, updateUser, getConfigKey } from "../service";
-import type { IDeptTreeData } from "../service/index.d";
-import {
-  Modal,
-  Form,
-  Input,
-  TreeSelect,
-  Row,
-  Col,
-  Select,
-  message,
-} from "antd";
-import type { IUseSelectEnum } from "@/zero";
+import React, { useEffect, useState } from 'react';
+import { getUser, addUser, updateUser } from '../service';
+import { Modal, Form, Input, Row, Col, Select, message } from 'antd';
+import type { IUseSelectEnum } from '@/zero';
 
 const { Option } = Select;
 
@@ -19,7 +9,6 @@ type IUpdateProps = {
   isModalVisible: boolean;
   setIsModalVisible: Function;
   userId?: number;
-  deptTreeData: IDeptTreeData[];
   dictUserSex: IUseSelectEnum;
   dictNormalDisable: IUseSelectEnum;
 };
@@ -29,13 +18,11 @@ export default (props: IUpdateProps) => {
     isModalVisible,
     setIsModalVisible,
     userId,
-    deptTreeData,
     dictUserSex,
     dictNormalDisable,
   } = props;
   const [postChldrens, setPostChldrens] = useState<React.ReactNode[]>();
   const [roleChldrens, setRoleChldrens] = useState<React.ReactNode[]>([]);
-  const [initPassword, setInitPassword] = useState<string>();
   const [form] = Form.useForm();
 
   const handleOk = () => {
@@ -43,24 +30,24 @@ export default (props: IUpdateProps) => {
       .validateFields()
       .then((data) => {
         if (data.userId) {
-          updateUser(Object.assign(data, { password: "" }))
+          updateUser(Object.assign(data, { password: '' }))
             .then((response) => {
-              message.success("修改成功");
+              message.success('修改成功');
               setIsModalVisible(true);
               form.resetFields();
             })
             .catch((e) => {
-              message.error(e?.msg || "修改失败");
+              message.error(e?.msg || '修改失败');
             });
         } else {
-          addUser(Object.assign(data, { password: initPassword }))
+          addUser(Object.assign(data))
             .then((response) => {
-              message.success("新增成功");
+              message.success('新增成功');
               setIsModalVisible(true);
               form.resetFields();
             })
             .catch((e) => {
-              message.error(e?.msg || "新增失败");
+              message.error(e?.msg || '新增失败');
             });
         }
       })
@@ -73,21 +60,13 @@ export default (props: IUpdateProps) => {
   };
 
   useEffect(() => {
-    getConfigKey("sys.user.initPassword")
-      .then(({ msg }) => {
-        setInitPassword(msg);
-      })
-      .catch((e) => {});
-  }, []);
-
-  useEffect(() => {
-    const payload = userId || "";
+    const payload = userId || '';
     isModalVisible &&
       getUser(payload)
         .then(({ data, postIds, posts, roleIds, roles }) => {
           const postChldrens: React.ReactNode[] = [];
           posts &&
-            posts.forEach((item) => {
+            posts.forEach((item: any) => {
               postChldrens.push(
                 <Option key={item.postId}>{item.postName}</Option>
               );
@@ -119,8 +98,8 @@ export default (props: IUpdateProps) => {
         .catch((e) => {
           const msg =
             e?.msg || userId
-              ? "用户信息获取失败，请刷新页面重新操作"
-              : "获取配置失败，请刷新重试";
+              ? '用户信息获取失败，请刷新页面重新操作'
+              : '获取配置失败，请刷新重试';
           message.error(msg);
           setIsModalVisible(false);
         });
@@ -129,17 +108,17 @@ export default (props: IUpdateProps) => {
   return (
     <>
       <Modal
-        title={userId ? "更新用户信息" : "新增用户"}
+        title={userId ? '更新用户信息' : '新增用户'}
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        cancelText="取消"
-        okText="确定"
-        width="750px"
+        cancelText='取消'
+        okText='确定'
+        width='750px'
       >
         <Form form={form}>
           <Form.Item name={`userId`} label={`用户ID`} hidden={true}>
-            <Input placeholder="用户ID" />
+            <Input placeholder='用户ID' />
           </Form.Item>
           <Row gutter={24}>
             <Col span={12}>
@@ -149,29 +128,11 @@ export default (props: IUpdateProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户昵称!",
+                    message: '请输入用户昵称!',
                   },
                 ]}
               >
-                <Input placeholder="请输入用户昵称" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name={`deptId`}
-                label={`归属部门`}
-                rules={[
-                  {
-                    required: true,
-                    message: "请选择归属部门!",
-                  },
-                ]}
-              >
-                <TreeSelect
-                  treeData={deptTreeData}
-                  treeDefaultExpandAll
-                  placeholder="请选择归属部门"
-                />
+                <Input placeholder='请输入用户昵称' />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -181,11 +142,11 @@ export default (props: IUpdateProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "请输入手机号码!",
+                    message: '请输入手机号码!',
                   },
                 ]}
               >
-                <Input placeholder="请输入手机号码" />
+                <Input placeholder='请输入手机号码' />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -195,15 +156,15 @@ export default (props: IUpdateProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "请输入邮箱!",
+                    message: '请输入邮箱!',
                   },
                   {
-                    type: "email",
-                    message: "请输入正确的邮箱!",
+                    type: 'email',
+                    message: '请输入正确的邮箱!',
                   },
                 ]}
               >
-                <Input placeholder="请输入邮箱" />
+                <Input placeholder='请输入邮箱' />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -213,17 +174,17 @@ export default (props: IUpdateProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户名称!",
+                    message: '请输入用户名称!',
                   },
                 ]}
               >
-                <Input placeholder="请输入用户名称" />
+                <Input placeholder='请输入用户名称' />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item name={`sex`} label={`用户性别`}>
                 <Select
-                  placeholder="请选择性别"
+                  placeholder='请选择性别'
                   options={dictUserSex.getOptions()}
                 />
               </Form.Item>
@@ -235,19 +196,19 @@ export default (props: IUpdateProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "请选择状态!",
+                    message: '请选择状态!',
                   },
                 ]}
               >
                 <Select
-                  placeholder="请选择状态"
+                  placeholder='请选择状态'
                   options={dictNormalDisable.getOptions()}
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item name={`postIds`} label={`岗位`}>
-                <Select mode="multiple" placeholder="请选择岗位">
+                <Select mode='multiple' placeholder='请选择岗位'>
                   {postChldrens}
                 </Select>
               </Form.Item>
@@ -259,18 +220,18 @@ export default (props: IUpdateProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "请选择角色!",
+                    message: '请选择角色!',
                   },
                 ]}
               >
-                <Select mode="multiple" placeholder="请选择角色">
+                <Select mode='multiple' placeholder='请选择角色'>
                   {roleChldrens}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item name={`remark`} label="备注">
-                <Input.TextArea placeholder="请输入内容" />
+              <Form.Item name={`remark`} label='备注'>
+                <Input.TextArea placeholder='请输入内容' />
               </Form.Item>
             </Col>
           </Row>

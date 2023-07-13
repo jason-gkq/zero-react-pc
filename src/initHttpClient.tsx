@@ -1,5 +1,4 @@
-import { cloneDeep, net } from "@/zero";
-import { useToken } from "@/common/hooks";
+import { cloneDeep, net, useToken } from '@/zero';
 
 const { getToken, removeToken } = useToken();
 
@@ -10,27 +9,27 @@ export default (
   net.interceptors.request.use((config) => {
     const token = getToken();
     if (token) {
-      config.headers["Authorization"] = token;
+      config.headers['Authorization'] = token;
     }
-    if (["post", "put", "patch"].includes(config.method)) {
+    if (['post', 'put', 'patch'].includes(config.method)) {
       Object.assign(config.headers, {
-        "Content-Type": "application/json;charset=utf-8",
+        'Content-Type': 'application/json;charset=utf-8',
       });
     }
 
     const { url } = config;
     if (
-      String(url).startsWith("http://") ||
-      String(url).startsWith("https://")
+      String(url).startsWith('http://') ||
+      String(url).startsWith('https://')
     ) {
       return config;
     }
-    config["interceptInfo"] = REQUEST.BASE;
+    config['interceptInfo'] = REQUEST.BASE;
     config.baseURL = REQUEST.BASE.baseURL;
-    if (url.includes(":")) {
-      const [tempBase, tempUrl] = url.split(":");
+    if (url.includes(':')) {
+      const [tempBase, tempUrl] = url.split(':');
       if (REQUEST[tempBase]) {
-        config["interceptInfo"] = REQUEST[tempBase];
+        config['interceptInfo'] = REQUEST[tempBase];
         config.baseURL = REQUEST[tempBase].baseURL;
       }
       config.url = tempUrl;
@@ -58,16 +57,16 @@ export default (
       return cb().then(() => {
         return Promise.reject({
           ...resp,
-          data: { msg: data.msg || "用户未登录", code },
+          data: { msg: data.msg || '用户未登录', code },
         });
       });
     }
     const cloneResp = cloneDeep(resp || {});
     let result = {
-      msg: data.msg || data.desc || "服务器内部错误",
+      msg: data.msg || data.desc || '服务器内部错误',
       code,
     };
-    cloneResp["data"] = result;
+    cloneResp['data'] = result;
     return Promise.reject(cloneResp);
   });
   return true;

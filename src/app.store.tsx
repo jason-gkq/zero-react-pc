@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction } from 'mobx';
 import {
   HttpClient,
   localStorage,
@@ -6,17 +6,17 @@ import {
   navigate,
   useEnv,
   IRouteMenuItem,
-} from "@/zero";
-import { useToken } from "@/common/hooks";
-import initHttpClient from "./initHttpClient";
-import Logo from "@/assets/logo/logo.svg";
+  useToken,
+} from '@/zero';
+import initHttpClient from './initHttpClient';
+import Logo from '@/assets/logo/logo.svg';
 // import Icon, { createFromIconfontCN } from "@ant-design/icons";
 
 // const IconFont = createFromIconfontCN({
 //   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 // });
 
-const whiteRoutes = ["/login", "/tools"];
+const whiteRoutes = ['/login', '/tools'];
 
 type IOptions = {
   route: string;
@@ -38,8 +38,8 @@ const routesFormat = (routes: IRoutes[]) => {
   const newRoutes: IRouteMenuItem[] = [];
   for (let i = 0; i < routes.length; i++) {
     let { path, visible, meta, children, redirect, component } = routes[i];
-    path = (path && path.trim()) || "";
-    if (path && path.startsWith("/")) {
+    path = (path && path.trim()) || '';
+    if (path && path.startsWith('/')) {
       path = path.slice(1);
     }
     if (children && children.length > 0) {
@@ -71,7 +71,7 @@ const { getToken, removeToken } = useToken();
 const env = useEnv();
 
 export class AppStore {
-  appStatus: "loading" | "error" | "success" = "loading";
+  appStatus: 'loading' | 'error' | 'success' = 'loading';
   errorInfo: any;
   user = {};
   roles = [];
@@ -80,11 +80,11 @@ export class AppStore {
   launchInfo = {};
   layout = {
     logo: Logo,
-    title: "中台项目",
+    title: '中台项目',
   };
   constructor() {
-    if (process.env.NODE_ENV === "development") {
-      env.setEnv({ ...(localStorage.get("env") || {}) });
+    if (process.env.NODE_ENV === 'development') {
+      env.setEnv({ ...(localStorage.get('env') || {}) });
     }
     /**
      * 设置http拦截器
@@ -96,7 +96,7 @@ export class AppStore {
   }
   /* 静默授权获取凭证code */
   *onLaunch(options: IOptions) {
-    console.log("app onLunch start", options);
+    console.log('app onLunch start', options);
     const { params, route } = options;
     yield runInAction(() => {
       this.launchInfo = options;
@@ -112,7 +112,7 @@ export class AppStore {
      */
     if (whiteRoutes.includes(route)) {
       yield runInAction(() => {
-        this.appStatus = "success";
+        this.appStatus = 'success';
       });
       return;
     }
@@ -122,7 +122,7 @@ export class AppStore {
     let token = getToken();
     if (!token) {
       yield runInAction(() => {
-        this.appStatus = "success";
+        this.appStatus = 'success';
       });
       navigate.redirect(`/login`);
       return;
@@ -135,22 +135,22 @@ export class AppStore {
      * 会引发的问题：
      * 1、菜单配置的路由和本地静态路由必须对应
      */
-    let originRoutes: IRouteMenuItem[] = sessionStorage.get("originRoutes");
+    let originRoutes: IRouteMenuItem[] = sessionStorage.get('originRoutes');
     if (!originRoutes || originRoutes.length <= 0) {
-      const { data } = yield HttpClient.get("getRouters");
+      const { data } = yield HttpClient.get('getRouters');
       const newData = routesFormat(data);
-      sessionStorage.set("originRoutes", newData);
+      sessionStorage.set('originRoutes', newData);
       originRoutes = newData;
     }
     /**
      * 获取用户信息
      */
-    let userAuth = sessionStorage.get("userInfo");
+    let userAuth = sessionStorage.get('userInfo');
     try {
       if (!userAuth) {
-        const result: Promise<any> = yield HttpClient.get("getUserInfo");
+        const result: Promise<any> = yield HttpClient.get('getUserInfo');
         userAuth = result;
-        sessionStorage.set("userInfo", result);
+        sessionStorage.set('userInfo', result);
       }
     } catch (error) {
       userAuth = {};
@@ -158,13 +158,13 @@ export class AppStore {
     const { permissions, roles, user } = yield userAuth;
 
     yield runInAction(() => {
-      this.appStatus = "success";
+      this.appStatus = 'success';
       this.user = user;
       this.permissions = permissions;
       this.roles = roles;
       this.routes = originRoutes;
     });
-    console.log("app onLunch end");
+    console.log('app onLunch end');
   }
   /**
    * 统一页面拦截
@@ -184,7 +184,7 @@ export class AppStore {
        * 调用登出接口
        */
       if (token) {
-        await HttpClient.post("logout");
+        await HttpClient.post('logout');
       }
     } catch (error) {}
 

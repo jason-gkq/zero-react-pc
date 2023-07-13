@@ -49,13 +49,6 @@ const useColumns = (
         },
       },
       {
-        title: '部门',
-        dataIndex: 'deptName',
-        hideInSearch: true,
-        ellipsis: true,
-        renderText: (text, record) => record.dept && record.dept.deptName,
-      },
-      {
         title: '状态',
         dataIndex: 'status',
         valueType: 'select',

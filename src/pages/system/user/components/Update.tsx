@@ -83,14 +83,12 @@ export default (props: IUpdateProps) => {
           data &&
             form.setFieldsValue({
               userId: data.userId,
-              deptId: data.deptId,
               nickName: data.nickName,
               phonenumber: data.phonenumber,
               email: data.email,
               userName: data.userName,
               sex: data.sex,
               status: data.status,
-              postIds: postIds?.map(String),
               roleIds: roleIds?.map(String),
               remark: data.remark,
             });
@@ -204,13 +202,6 @@ export default (props: IUpdateProps) => {
                   placeholder='请选择状态'
                   options={dictNormalDisable.getOptions()}
                 />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name={`postIds`} label={`岗位`}>
-                <Select mode='multiple' placeholder='请选择岗位'>
-                  {postChldrens}
-                </Select>
               </Form.Item>
             </Col>
             <Col span={12}>

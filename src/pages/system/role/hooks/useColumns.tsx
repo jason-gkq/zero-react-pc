@@ -25,12 +25,6 @@ const useColumns = (
         dataIndex: 'roleKey',
       },
       {
-        title: '显示顺序',
-        dataIndex: 'roleSort',
-        hideInSearch: true,
-        width: 80,
-      },
-      {
         title: '状态',
         dataIndex: 'status',
         valueType: 'select',

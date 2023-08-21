@@ -1,12 +1,12 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import {
   HttpClient,
-  localStorage,
   sessionStorage,
   navigate,
   useEnv,
   IRouteMenuItem,
   useToken,
+  cloneDeep,
 } from '@/zero';
 import initHttpClient from './initHttpClient';
 import Logo from '@/assets/logo/logo.svg';
@@ -83,9 +83,6 @@ export class AppStore {
     title: '中台项目',
   };
   constructor() {
-    if (process.env.NODE_ENV === 'development') {
-      env.setEnv({ ...(localStorage.get('env') || {}) });
-    }
     /**
      * 设置http拦截器
      */
@@ -138,7 +135,13 @@ export class AppStore {
     let originRoutes: IRouteMenuItem[] = sessionStorage.get('originRoutes');
     if (!originRoutes || originRoutes.length <= 0) {
       const { data } = yield HttpClient.get('getRouters');
-      const newData = routesFormat(data);
+      const newData = [
+        {
+          path: env.appName,
+          isRouteRoot: true,
+          children: cloneDeep(env.routes), //routesFormat(data).concat(env.routes),
+        },
+      ];
       sessionStorage.set('originRoutes', newData);
       originRoutes = newData;
     }
@@ -187,7 +190,6 @@ export class AppStore {
         await HttpClient.post('logout');
       }
     } catch (error) {}
-
     /**
      * 初始化全局数据
      * 清理session中业务数据

@@ -4,7 +4,7 @@ const { getToken, removeToken } = useToken();
 
 export default (
   REQUEST: Record<string, { baseURL: string; successCode: string }>,
-  cb: () => Promise<any>
+  cb: () => Promise<any>,
 ) => {
   net.interceptors.request.use((config) => {
     const token = getToken();
@@ -16,6 +16,7 @@ export default (
         'Content-Type': 'application/json;charset=utf-8',
       });
     }
+    console.log('plugin, rrrrr');
 
     const { url } = config;
     if (

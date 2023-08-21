@@ -1,3 +1,7 @@
+const { ModuleFederationPlugin } = require('webpack').container;
+// const deps = require('../package.json').dependencies;
+const deps = require('../node_modules/@szero/pc/package.json').dependencies;
+
 module.exports.defineConfig = () => ({
   appId: '100',
   appName: 'admin',
@@ -14,7 +18,7 @@ module.exports.defineConfig = () => ({
   webpackConfig: {
     publicUrlOrPath: '/admin/',
     devServer: {
-      port: 3200,
+      port: 8080,
       host: 'localhost',
     },
     privateConfig: {
@@ -27,13 +31,52 @@ module.exports.defineConfig = () => ({
     //   globalObject: "window",
     //   // jsonpFunction: `webpackJsonp_doms`,
     // },
+    plugins: [
+      new ModuleFederationPlugin({
+        name: 'master',
+        shared: {
+          // ...deps,
+          react: { singleton: true, eager: true, requiredVersion: deps.react },
+          'react-dom': {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['react-dom'],
+          },
+          'react-router-dom': {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['react-router-dom'],
+          },
+          mobx: {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['mobx'],
+          },
+          'mobx-react-lite': {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['mobx-react-lite'],
+          },
+          antd: {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['antd'],
+          },
+          '@ant-design/pro-components': {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['@ant-design/pro-components'],
+          },
+          '@szero/pc': {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['@szero/pc'],
+          },
+        },
+      }),
+    ],
   },
   routes: [
-    {
-      path: 'login',
-      name: '登录',
-      isNoneLayout: true,
-    },
     {
       path: 'index',
       name: '首页',
@@ -51,11 +94,26 @@ module.exports.defineConfig = () => ({
       ],
     },
     {
-      path: 'news/*',
+      path: 'news',
       component: 'common/plugins',
       name: '消息',
       hideInMenu: false,
       icon: 'HomeOutlined',
+      isPlugin: true,
+      children: [
+        {
+          path: 'user',
+          hideInMenu: false,
+          icon: 'UserOutlined',
+          name: '用户列表',
+        },
+        {
+          path: 'roles',
+          hideInMenu: false,
+          icon: 'RobotOutlined',
+          name: '角色管理',
+        },
+      ],
     },
     {
       path: 'system',
@@ -64,11 +122,6 @@ module.exports.defineConfig = () => ({
       hideInMenu: false,
       redirect: '/system/user',
       children: [
-        {
-          path: 'profile',
-          hideInMenu: true,
-          name: '个人中心',
-        },
         {
           path: 'user',
           hideInMenu: false,
@@ -87,7 +140,17 @@ module.exports.defineConfig = () => ({
           icon: 'RobotOutlined',
           name: '角色管理',
         },
+        {
+          path: 'profile',
+          hideInMenu: true,
+          name: '个人中心',
+        },
       ],
+    },
+    {
+      path: 'login',
+      name: '登录',
+      isNoneLayout: true,
     },
   ],
 });

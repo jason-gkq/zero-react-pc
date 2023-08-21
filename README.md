@@ -1,6 +1,6 @@
 ## 项目简介
 
-一个项目从技术选型到承载着大量的业务上线是一个复杂的过程，从项目生命周期管理、页面生命周期管理到 api 和组件的封装以及 css 的规划，随着业务复杂度和页面的增多对应复杂度会成几何倍数增加，如果没有合理的规划，项目越来越难以开发和维护，此项目适用于 PC 端，是基于业务开发过程中总结得出，在技术框架基础上做了业务框架的规划，技术栈采用 `react` `react-router` `redux` `redux-saga` `axios` `antd-mobile` `webpack`，项目分为配置文件、媒体资源以及源码存放，源码中又有公共页面以及组件、业务代码编写以及业务框架抽成以及封装。如果后期项目过大需要做分项目和分模块，则可以把业务框架单独放置一个仓库，各个项目引用该仓库进行多个项目公用公司内部框架。
+一个项目从技术选型到承载着大量的业务上线是一个复杂的过程，从项目生命周期管理、页面生命周期管理到 api 和组件的封装以及 css 的规划，随着业务复杂度和页面的增多对应复杂度会成几何倍数增加，如果没有合理的规划，项目越来越难以开发和维护，此项目适用于 PC 端，是基于业务开发过程中总结得出，在技术框架基础上做了业务框架的规划，技术栈采用 `react` `react-router` `mobx` `axios` `antd` `webpack`，项目分为配置文件、媒体资源以及源码存放，源码中又有公共页面以及组件、业务代码编写以及业务框架抽成以及封装。如果后期项目过大需要做分项目和分模块，则可以把业务框架单独放置一个仓库，各个项目引用该仓库进行多个项目公用公司内部框架。
 
 ## 中台建设
 
@@ -38,7 +38,7 @@ http://localhost:8080/
 ```shell
 yarn build
 yarn build:test
-yarn build:pre
+yarn build:uat
 yarn build:prod
 ```
 
@@ -47,16 +47,14 @@ yarn build:prod
 zero-react-pc  
 | - dest // 打包后代码目录  
 | - env // 项目业务参数配置  
-| - | - env.com.json // 各个环境公共参数  
-| - | - env.dev.json // 开发环境  
-| - | - env.local.json // 本地  
-| - | - env.pre.json // 预发布  
-| - | - env.prod.json // 生产  
-| - | - env.test.json // 测试  
+| - | - env.com.js // 各个环境公共参数  
+| - | - env.local.js // 本地  
+| - | - env.uat.js // 预发布  
+| - | - env.prod.js // 生产  
+| - | - env.test.js // 测试  
 | - node_modules  
 | - public  
 | - | - assets // 媒体资源存放  
-| - | - themes // 多主题配置  
 | - | - index.html // html 模板  
 | - | - manifest.json  
 | - src  
@@ -71,7 +69,7 @@ zero-react-pc
 
 新增页面目录结构示例：
 
-home // 页面目录名  
+index // 页面目录名  
 │ - components // 页面组件目录，固定名称  
 │ - │ - DivTest.tsx // 组件文件，大驼峰  
 │ - index.less // 页面样式，固定名称  

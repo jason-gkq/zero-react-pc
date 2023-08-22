@@ -1,6 +1,6 @@
-import React from "react";
-import { put, call, select, all } from "redux-saga/effects";
-import { message, Button } from "antd";
+import React from 'react';
+import { put, call, select, all } from 'redux-saga/effects';
+import { message, Button } from 'antd';
 import {
   createModel,
   HttpClient,
@@ -10,17 +10,13 @@ import {
   useEnv,
   ISagas,
   IRouteMenuItem,
-} from "@/zero";
-import { useToken } from "@/common/hooks";
-import initHttpClient from "./initHttpClient";
-import Logo from "@/assets/logo/logo.svg";
-// import Icon, { createFromIconfontCN } from "@ant-design/icons";
+  cloneDeep,
+  useToken,
+} from '@/zero';
+import initHttpClient from './initHttpClient';
+import Logo from '@/assets/logo/logo.svg';
 
-// const IconFont = createFromIconfontCN({
-//   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
-// });
-
-const whiteRoutes = ["/login", "/tools"];
+const whiteRoutes = ['/login', '/tools'];
 
 type ISagaPayload = {
   payload: any;
@@ -39,8 +35,8 @@ const routesFormat = (routes: IRoutes[]) => {
   const newRoutes: IRouteMenuItem[] = [];
   for (let i = 0; i < routes.length; i++) {
     let { path, visible, meta, children, redirect, component } = routes[i];
-    path = (path && path.trim()) || "";
-    if (path && path.startsWith("/")) {
+    path = (path && path.trim()) || '';
+    if (path && path.startsWith('/')) {
       path = path.slice(1);
     }
     if (children && children.length > 0) {
@@ -82,20 +78,20 @@ const { getToken, removeToken } = useToken();
  * @param noneLayoutRoutes 路由为 react-router-dom 路由节点，该节点下路由无layout，全屏展示，例如：登录
  */
 const model = createModel({
-  namespace: "app",
+  namespace: 'app',
   isGlobal: true,
   // 初始state状态
   state: {
-    appStatus: "loading",
+    appStatus: 'loading',
     layout: {
       Logo: Logo,
       profile: [
         <Button
-          size="small"
-          type="link"
-          key={"个人中心"}
+          size='small'
+          type='link'
+          key={'个人中心'}
           onClick={() => {
-            navigate.goTo("/system/profile");
+            navigate.goTo('/system/profile');
           }}
         >
           个人中心
@@ -138,7 +134,7 @@ const model = createModel({
           return false;
         }
 
-        const exemptionPermission = "*:*:*";
+        const exemptionPermission = '*:*:*';
         const hasPermissions = permissions.some((permission: string) => {
           return (
             exemptionPermission === permission ||
@@ -164,10 +160,10 @@ const model = createModel({
      * @returns
      */
     *onLunch({ $actions }: ISagas, { payload }: ISagaPayload) {
-      console.log("app onLunch", payload);
+      console.log('app onLunch', payload);
       const env = useEnv();
-      if (process.env.NODE_ENV === "development") {
-        env.setEnv(localStorage.get("env"));
+      if (process.env.NODE_ENV === 'development') {
+        env.setEnv(localStorage.get('env'));
       } else if (env.apolloConf && env.apolloConf.length > 0) {
         env.apolloConf.forEach((i: string) => env.setEnv((window as any)[i]));
       }
@@ -184,11 +180,11 @@ const model = createModel({
        *  2、登录页的路由一定要注册，如果路由信息从接口获取，则可以先把登录页面的路由注册完成
        *     登录完成会刷新浏览器再设置其他路由
        */
-      const rootPath = env.appName ? `/${env.appName}` : "";
+      const rootPath = env.appName ? `/${env.appName}` : '';
       if (whiteRoutes.map((i) => `${rootPath}${i}`).includes($route)) {
         yield put(
           $actions.setState({
-            appStatus: "success",
+            appStatus: 'success',
           })
         );
         return;
@@ -200,7 +196,7 @@ const model = createModel({
       if (!token) {
         yield put(
           $actions.setState({
-            appStatus: "success",
+            appStatus: 'success',
           })
         );
         navigate.redirect(`/login`);
@@ -216,55 +212,64 @@ const model = createModel({
          * 会引发的问题：
          * 1、菜单配置的路由和本地静态路由必须对应
          */
-        // let originRoutes: IRouteMenuItem[] = sessionStorage.get("originRoutes");
-        // if (!originRoutes || originRoutes.length <= 0) {
-        //   const { data } = yield call(HttpClient.get, "getRouters");
-        //   const newData = routesFormat(data);
-        //   sessionStorage.set("originRoutes", newData);
-        //   originRoutes = newData;
-        // }
+        let originRoutes: IRouteMenuItem[] = sessionStorage.get('originRoutes');
+        if (!originRoutes || originRoutes.length <= 0) {
+          const { data } = yield call(HttpClient.get, 'getRouters');
+          const newData = [
+            {
+              path: env.appName,
+              isRouteRoot: true,
+              children: cloneDeep(env.routes), //routesFormat(data).concat(env.routes),
+            },
+          ];
+          // const newData = routesFormat(data);
+          sessionStorage.set('originRoutes', newData);
+          originRoutes = newData;
+        }
 
         /**
          * 获取用户信息
          */
-        let userAuth = sessionStorage.get("userInfo");
+        let userAuth = sessionStorage.get('userInfo');
         if (!userAuth) {
           const result: Promise<any> = yield call(
             HttpClient.get,
-            "getUserInfo"
+            'getUserInfo'
           );
           userAuth = result;
-          sessionStorage.set("userInfo", result);
+          sessionStorage.set('userInfo', result);
         }
 
         const { permissions, roles, user } = userAuth;
+        console.log(originRoutes, '--->>');
+
         yield put(
           $actions.setState({
             user,
             roles,
             permissions,
-            // routes: originRoutes,
-            appStatus: "finish",
+            routes: originRoutes,
+            appStatus: 'finish',
           })
         );
-        console.log("app onLunch done");
+        console.log('app onLunch done');
       } catch (error: any) {
-        const { code = 500, msg = "网络异常，请重新登录！" } = error;
-        message.error(msg || "网络异常，请重新登录！");
+        const { code = 500, msg = '网络异常，请重新登录！' } = error;
+        message.error(msg || '网络异常，请重新登录！');
         yield put(
           $actions.setState({
-            appStatus: "finish",
+            appStatus: 'finish',
             errorInfo: {
               code: 500,
               msg,
               onClick: () => {
-                navigate.redirect("/login");
+                navigate.redirect('/login');
               },
             },
           })
         );
-        navigate.goTo("/error");
-        console.warn("app onLunch error", error);
+        navigate.goTo('/error');
+        console.warn('app onLunch error', error);
         // yield put($actions.logout(payload));
       }
     },
@@ -280,7 +285,7 @@ const model = createModel({
          * 调用登出接口
          */
         if (token) {
-          yield call(HttpClient.post, "logout");
+          yield call(HttpClient.post, 'logout');
         }
       } catch (error) {}
 

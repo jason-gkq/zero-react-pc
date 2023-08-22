@@ -1,13 +1,13 @@
-import React from "react";
-import { useCallback, useMemo, useState, useEffect } from "react";
-import { Form, Input, Select, message, InputNumber, Tree } from "antd";
-import { useSelectEnum, NiceModal, useNiceModal } from "@/zero";
-import { addRole, updateRole } from "../service";
-import { IResGetTreeselect, IMenuTreeData } from "../service/index.d";
-import { SYS_COMMON_STATUS } from "@/common/enum/system";
+import React from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
+import { Form, Input, Select, message, InputNumber, Tree } from 'antd';
+import { useSelectEnum, NiceModal, useNiceModal } from '@/zero';
+import { addRole, updateRole } from '../service';
+import { IResGetTreeselect, IMenuTreeData } from '../service/index.d';
+import { SYS_COMMON_STATUS } from '@/common/enum/system';
 
-const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
-export const ROLE_MODAL_ID = "system-role-modal";
+const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, 'value', 'label');
+export const ROLE_MODAL_ID = 'system-role-modal';
 
 export default NiceModal.create(
   ROLE_MODAL_ID,
@@ -36,24 +36,24 @@ export default NiceModal.create(
             updateRole(requestData)
               .then((res) => {
                 form.resetFields();
-                message.success("修改成功");
+                message.success('修改成功');
                 modal.resolve({ ...modalInfo, ...form.getFieldsValue() });
                 modal.hide();
               })
               .catch((e) => {
-                message.error(e?.msg || "修改失败");
+                message.error(e?.msg || '修改失败');
               });
           } else {
             /* 新增 */
             addRole(requestData)
               .then((response) => {
                 form.resetFields();
-                message.success("新增成功");
+                message.success('新增成功');
                 modal.resolve({ ...modalInfo, ...form.getFieldsValue() });
                 modal.hide();
               })
               .catch((e) => {
-                message.error(e?.msg || "新增失败");
+                message.error(e?.msg || '新增失败');
               });
           }
         })
@@ -76,7 +76,7 @@ export default NiceModal.create(
       ) => {
         if (!menuOptions) return;
         return menuOptions.reduce((list: any, item: IResGetTreeselect) => {
-          if (Reflect.has(item, "children")) {
+          if (Reflect.has(item, 'children')) {
             list.push({
               key: item.id,
               value: item.id,
@@ -108,23 +108,23 @@ export default NiceModal.create(
     return (
       <NiceModal
         id={ROLE_MODAL_ID}
-        title={modalInfo ? "修改角色" : "添加角色"}
-        okText={"确定"}
-        cancelText="取消"
+        title={modalInfo ? '修改角色' : '添加角色'}
+        okText={'确定'}
+        cancelText='取消'
         onOk={handleSubmit}
       >
-        <Form form={form} initialValues={modalInfo} labelAlign={"left"}>
+        <Form form={form} initialValues={modalInfo} labelAlign={'left'}>
           <Form.Item
             name={`roleName`}
             label={`角色名称`}
             rules={[
               {
                 required: true,
-                message: "请输入角色名称!",
+                message: '请输入角色名称!',
               },
             ]}
           >
-            <Input placeholder="请输入角色名称" />
+            <Input placeholder='请输入角色名称' />
           </Form.Item>
           <Form.Item
             name={`roleKey`}
@@ -132,11 +132,11 @@ export default NiceModal.create(
             rules={[
               {
                 required: true,
-                message: "请输入权限字符!",
+                message: '请输入权限字符!',
               },
             ]}
           >
-            <Input placeholder="请输入权限字符" />
+            <Input placeholder='请输入权限字符' />
           </Form.Item>
           <Form.Item
             name={`roleSort`}
@@ -144,7 +144,7 @@ export default NiceModal.create(
             rules={[
               {
                 required: true,
-                message: "请输入角色顺序!",
+                message: '请输入角色顺序!',
               },
             ]}
           >
@@ -156,12 +156,12 @@ export default NiceModal.create(
             rules={[
               {
                 required: true,
-                message: "请选择状态!",
+                message: '请选择状态!',
               },
             ]}
           >
             <Select
-              placeholder="请选择状态"
+              placeholder='请选择状态'
               options={dictNormalDisable.getOptions()}
             />
           </Form.Item>
@@ -179,8 +179,8 @@ export default NiceModal.create(
             ></Tree>
           </Form.Item>
 
-          <Form.Item name={`remark`} label="备注">
-            <Input.TextArea placeholder="请输入内容" />
+          <Form.Item name={`remark`} label='备注'>
+            <Input.TextArea placeholder='请输入内容' />
           </Form.Item>
         </Form>
       </NiceModal>

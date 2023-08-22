@@ -1,48 +1,37 @@
-import React, { useRef } from "react";
-import { ProTable } from "@ant-design/pro-components";
-import { Space } from "antd";
-import type { ActionType } from "@ant-design/pro-components";
-import type { IResQueryRoleList } from "../service/index.d";
-import { queryRoleList } from "../service";
+import React, { useRef } from 'react';
+import { ProTable } from '@ant-design/pro-components';
+import { Space } from 'antd';
+import type { ActionType } from '@ant-design/pro-components';
+import type { IResQueryRoleList } from '../service/index.d';
+import { queryRoleList } from '../service';
 import {
   useSelectEnum,
   PermissionA,
   PermissionButton,
   useNiceModal,
-} from "@/zero";
-import type { ProFormInstance } from "@ant-design/pro-components";
-import { ROLE_MODAL_ID } from "./RoleModal";
-import RoleModal from "./RoleModal";
-import DataScopeModal, { ROLE_DATA_SCOPE_MODAL_ID } from "./DataScopeModal";
+} from '@/zero';
+import type { ProFormInstance } from '@ant-design/pro-components';
+import { ROLE_MODAL_ID } from './RoleModal';
+import RoleModal from './RoleModal';
 
-import useColumns from "../hooks/useColumns";
-import useContentActions from "../hooks/useContentActions";
-import { SYS_COMMON_STATUS } from "@/common/enum/system";
+import useColumns from '../hooks/useColumns';
+import useContentActions from '../hooks/useContentActions';
+import { SYS_COMMON_STATUS } from '@/common/enum/system';
 
-const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
+const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, 'value', 'label');
 
 export default () => {
   const formRef = useRef<ProFormInstance>();
   const { show: showRoleModal } = useNiceModal(ROLE_MODAL_ID);
-  const { show: showRoleDataModal } = useNiceModal(ROLE_DATA_SCOPE_MODAL_ID);
   const ref: any = useRef<ActionType>();
 
-  const {
-    handleAdd,
-    handleUpdate,
-    handleExport,
-    handleDelete,
-    handleDataScope,
-    changeUserStatus,
-  } = useContentActions(ref, formRef, showRoleModal, showRoleDataModal);
-
-  const { columns } = useColumns(
-    handleUpdate,
-    handleDataScope,
-    handleDelete,
-    changeUserStatus,
-    dictNormalDisable
+  const { handleAdd, handleUpdate, handleDelete } = useContentActions(
+    ref,
+    formRef,
+    showRoleModal
   );
+
+  const { columns } = useColumns(handleUpdate, handleDelete, dictNormalDisable);
 
   return (
     <>
@@ -51,7 +40,7 @@ export default () => {
         actionRef={ref}
         formRef={formRef}
         columns={columns}
-        rowKey={"roleId"}
+        rowKey={'roleId'}
         pagination={{
           showSizeChanger: true,
           showQuickJumper: true,
@@ -81,8 +70,8 @@ export default () => {
           density: false,
         }}
         search={{ defaultCollapsed: false }}
-        defaultSize="small"
-        dateFormatter="string"
+        defaultSize='small'
+        dateFormatter='string'
         tableAlertRender={({
           selectedRowKeys,
           selectedRows,
@@ -104,9 +93,9 @@ export default () => {
         }) => (
           <Space size={6}>
             <PermissionButton
-              permissions={["system:post:remove"]}
-              type="primary"
-              size="small"
+              permissions={['system:post:remove']}
+              type='primary'
+              size='small'
               onClick={() => {
                 const ids = selectedRows.map((item) => item.roleId);
                 handleDelete(ids);
@@ -118,25 +107,16 @@ export default () => {
         )}
         toolBarRender={() => [
           <PermissionA
-            size="small"
-            type="primary"
-            permissions={["system:role:add"]}
+            size='small'
+            type='primary'
+            permissions={['system:role:add']}
             onClick={() => handleAdd()}
           >
             新增
           </PermissionA>,
-          <PermissionA
-            permissions={["system:role:export"]}
-            size="small"
-            type="primary"
-            onClick={handleExport}
-          >
-            导出
-          </PermissionA>,
         ]}
       />
       <RoleModal />
-      <DataScopeModal />
     </>
   );
 };

@@ -1,94 +1,51 @@
-import React, { useState, useRef, useMemo } from "react";
-import { ProTable } from "@ant-design/pro-components";
-import { Space, Modal, message } from "antd";
-import { useSelectEnum, PermissionButton } from "@/zero";
-import { useDownload } from "@/common/hooks";
-import { queryUserList, delUser, changeStatus, exportUser } from "../service";
-import type { ActionType, ProFormInstance } from "@ant-design/pro-components";
-import type { IResQueryUserList, IDeptTreeData } from "../service/index.d";
-import { SYS_COMMON_STATUS, SYS_USER_SEX } from "@/common/enum/system";
-import Update from "./Update";
-import useColumns from "../hooks/useColumns";
+import React, { useState, useRef, useMemo } from 'react';
+import { ProTable } from '@ant-design/pro-components';
+import { Space, Modal, message } from 'antd';
+import { useSelectEnum, PermissionButton } from '@/zero';
+import { queryUserList, delUser } from '../service';
+import type { ActionType, ProFormInstance } from '@ant-design/pro-components';
+import type { IResQueryUserList } from '../service/index.d';
+import { SYS_COMMON_STATUS, SYS_USER_SEX } from '@/common/enum/system';
+import Update from './Update';
+import useColumns from '../hooks/useColumns';
 
-const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, "value", "label");
-const dictUserSex = useSelectEnum(SYS_USER_SEX, "value", "label");
-type IProps = {
-  deptId?: number;
-  deptTreeData: IDeptTreeData[];
-};
+const dictNormalDisable = useSelectEnum(SYS_COMMON_STATUS, 'value', 'label');
+const dictUserSex = useSelectEnum(SYS_USER_SEX, 'value', 'label');
 
-export default ({ deptId, deptTreeData }: IProps) => {
+export default () => {
   const ref: any = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [isUploadModalVisible, setIsUploadModalVisible] =
-    useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
 
-  const [delteUser, changeUserStatus, updateThen, exportSearchUser] =
-    useMemo(() => {
-      const updateThen = (flag: boolean) => {
-        flag && ref.current.reloadAndRest();
-        setIsModalVisible(false);
-      };
-      const delteUser = (userIds: string) => {
-        Modal.confirm({
-          title: `是否确认删除用户编号为“${userIds}”的用户?`,
-          okText: "确定",
-          cancelText: "取消",
-          onOk: () => {
-            delUser(userIds)
-              .then(() => {
-                message.success("删除成功");
-                ref.current.reloadAndRest();
-              })
-              .catch((e) => {
-                message.error(e?.msg || "删除失败");
-              });
-          },
-        });
-      };
-      const changeUserStatus = (record: IResQueryUserList, status: boolean) => {
-        Modal.confirm({
-          title: `确定要${status ? "启用" : "停用"}用户：${record.userName}？`,
-          okText: "确定",
-          cancelText: "取消",
-          onOk: () => {
-            changeStatus({ userId: record.userId, status: status ? "0" : "1" })
-              .then(() => {
-                message.success("操作成功");
-                ref.current.reload();
-              })
-              .catch((e) => {
-                message.error(e?.msg || "操作失败");
-              });
-          },
-        });
-      };
+  const [delteUser, updateThen] = useMemo(() => {
+    const updateThen = (flag: boolean) => {
+      flag && ref.current.reloadAndRest();
+      setIsModalVisible(false);
+    };
+    const delteUser = (userIds: string) => {
+      Modal.confirm({
+        title: `是否确认删除用户编号为“${userIds}”的用户?`,
+        okText: '确定',
+        cancelText: '取消',
+        onOk: () => {
+          delUser(userIds)
+            .then(() => {
+              message.success('删除成功');
+              ref.current.reloadAndRest();
+            })
+            .catch((e) => {
+              message.error(e?.msg || '删除失败');
+            });
+        },
+      });
+    };
 
-      const exportSearchUser = () => {
-        Modal.confirm({
-          title: `是否确认导出所有用户数据项?`,
-          okText: "确定",
-          cancelText: "取消",
-          onOk: () => {
-            exportUser(formRef.current?.getFieldsValue())
-              .then((response) => {
-                useDownload(response.msg || "");
-              })
-              .catch((e) => {
-                message.error(e?.msg || "文件获取失败失败");
-              });
-          },
-        });
-      };
-
-      return [delteUser, changeUserStatus, updateThen, exportSearchUser];
-    }, []);
+    return [delteUser, updateThen];
+  }, []);
 
   const columns = useColumns(
-    changeUserStatus,
     setUserId,
     setIsModalVisible,
     delteUser,
@@ -99,7 +56,6 @@ export default ({ deptId, deptTreeData }: IProps) => {
     <>
       <Update
         isModalVisible={isModalVisible}
-        deptTreeData={deptTreeData}
         setIsModalVisible={updateThen}
         userId={userId}
         dictNormalDisable={dictNormalDisable}
@@ -111,11 +67,10 @@ export default ({ deptId, deptTreeData }: IProps) => {
             disabled: record.admin, // Column configuration not to be checked
           }),
         }}
-        params={{ deptId }}
         actionRef={ref}
         formRef={formRef}
         columns={columns}
-        rowKey={"userId"}
+        rowKey={'userId'}
         pagination={{
           showSizeChanger: true,
           showQuickJumper: true,
@@ -149,8 +104,8 @@ export default ({ deptId, deptTreeData }: IProps) => {
           density: false,
         }}
         search={{ defaultCollapsed: false }}
-        defaultSize="small"
-        dateFormatter="string"
+        defaultSize='small'
+        dateFormatter='string'
         tableAlertRender={({
           selectedRowKeys,
           selectedRows,
@@ -172,13 +127,13 @@ export default ({ deptId, deptTreeData }: IProps) => {
         }) => (
           <Space size={6}>
             <PermissionButton
-              permissions={["system:user:remove"]}
-              type="primary"
-              size="small"
+              permissions={['system:user:remove']}
+              type='primary'
+              size='small'
               danger
               disabled={!Boolean(selectedRowKeys.length)}
               onClick={() => {
-                delteUser(selectedRowKeys.join(","));
+                delteUser(selectedRowKeys.join(','));
               }}
             >
               批量删除
@@ -187,9 +142,9 @@ export default ({ deptId, deptTreeData }: IProps) => {
         )}
         toolBarRender={() => [
           <PermissionButton
-            permissions={["system:user:add"]}
-            type="primary"
-            size="small"
+            permissions={['system:user:add']}
+            type='primary'
+            size='small'
             onClick={() => {
               setUserId(undefined);
               setIsModalVisible(true);

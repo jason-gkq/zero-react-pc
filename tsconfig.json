@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "node",
     "lib": ["dom", "dom.iterable", "esnext", "es6"],
     "experimentalDecorators": true,
@@ -24,8 +24,8 @@
       "@/src/*": ["src/*"],
       "@/zero": ["node_modules/@szero/pc"],
       "@/common": ["src/common"],
-      "@/common/*": ["src/common/*"]
-    }
+      "@/common/*": ["src/common/*"],
+    },
   },
-  "include": ["src"]
+  "include": ["src"],
 }

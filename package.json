@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "main": "./src/pages/index/index.tsx",
+  "type": "module",
   "scripts": {
     "start": "szero-scripts start env=local",
     "build": "szero-scripts build env=prod",
@@ -72,9 +73,10 @@
     "husky": ">=8.0.3",
     "lint-staged": ">=13.2.0",
     "prettier": "^3.0.2",
-    "szero-scripts": "1.1.0"
+    "szero-scripts": "2.0.3"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,less,json,css,md}": "prettier --write --ignore-unknown"
-  }
+  },
+  "packageManager": "yarn@3.6.4"
 }

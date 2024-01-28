@@ -1,8 +1,15 @@
-const { ModuleFederationPlugin } = require('webpack').container;
+// const { ModuleFederationPlugin } = require('webpack').container;
 // const deps = require('../package.json').dependencies;
-const deps = require('../node_modules/@szero/pc/package.json').dependencies;
+// const deps = require('../node_modules/@szero/pc/package.json').dependencies;
+// import { ModuleFederationPlugin } from 'webpack/container';
+// import { ModuleFederationPlugin } from 'webpack';
 
-module.exports.defineConfig = () => ({
+import { default as pkg } from '../node_modules/@szero/pc/package.json' assert { type: 'json' };
+import wbk from 'webpack';
+const { ModuleFederationPlugin } = wbk.container;
+const { dependencies: deps } = pkg;
+
+const defineConfig = () => ({
   appId: '100',
   appName: 'admin',
   cachePrefix: 'admin_',
@@ -14,6 +21,12 @@ module.exports.defineConfig = () => ({
   layout: {
     title: '管理中台',
     index: '/index/index',
+  },
+  REQUEST: {
+    BASE: {
+      baseURL: 'http://rap2api.taobao.org/app/mock/302222/',
+      successCode: 200,
+    },
   },
   webpackConfig: {
     publicUrlOrPath: '/admin/',
@@ -154,3 +167,4 @@ module.exports.defineConfig = () => ({
     },
   ],
 });
+export { defineConfig };

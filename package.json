@@ -9,6 +9,7 @@
     "start": "szero-scripts start env=local",
     "startv": "szero-vite start env=local",
     "build": "szero-scripts build env=prod",
+    "buildv": "szero-vite build env=prod",
     "build:test": "szero-scripts build env=test",
     "build:uat": "szero-scripts build env=uat",
     "build:prod": "szero-scripts build env=prod",

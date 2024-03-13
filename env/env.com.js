@@ -3,7 +3,8 @@
 // const deps = require('../node_modules/@szero/pc/package.json').dependencies;
 // import { ModuleFederationPlugin } from 'webpack/container';
 // import { ModuleFederationPlugin } from 'webpack';
-
+// import { routes } from './routes.js';
+// -----------------------
 import { default as pkg } from '../node_modules/@szero/pc/package.json' assert { type: 'json' };
 import wbk from 'webpack';
 const { ModuleFederationPlugin } = wbk.container;
@@ -26,6 +27,14 @@ const defineConfig = () => ({
     BASE: {
       baseURL: 'http://rap2api.taobao.org/app/mock/302222/',
       successCode: 200,
+    },
+  },
+  viteConfig: {
+    base: '/admin/',
+    server: {
+      host: 'localhost',
+      port: 3300,
+      // preTransformRequests: false,
     },
   },
   webpackConfig: {

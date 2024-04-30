@@ -11,6 +11,12 @@ module.exports.defineConfig = () => ({
     title: '管理中台',
     index: '/index/index',
   },
+  REQUEST: {
+    BASE: {
+      baseURL: "http://rap2api.taobao.org/app/mock/302222/",
+      successCode: 200,
+    },
+  },
   webpackConfig: {
     publicUrlOrPath: '/admin/',
     devServer: {

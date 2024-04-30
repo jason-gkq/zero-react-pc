@@ -1,6 +1,6 @@
+import federation from '@originjs/vite-plugin-federation';
 import { default as pkg } from '../node_modules/@szero/pc/package.json' assert { type: 'json' };
 import wbk from 'webpack';
-import federation from '@originjs/vite-plugin-federation';
 const { ModuleFederationPlugin } = wbk.container;
 const { dependencies: deps } = pkg;
 import { routes } from './routes.js';

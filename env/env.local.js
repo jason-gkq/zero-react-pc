@@ -1,5 +1,3 @@
-const defineConfig = () => ({
+export const defineConfig = () => ({
   ENV: 'local',
 });
-
-export { defineConfig };

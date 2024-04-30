@@ -1,39 +1,62 @@
-import React, { useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-components';
+import React, { useEffect, useState } from 'react';
 import {
   ICProps,
   createPage,
   rootStore,
-  navigate,
   useEnv,
   history,
   IRouteMenuItem,
 } from '@/zero';
-import { Button } from 'antd';
+import { Empty } from 'antd';
 import { onMount, PluginComponent } from '@szero/plugin-remote';
-import { toJS } from 'mobx';
+import { runInAction, toJS } from 'mobx';
+// import { useParams } from 'react-router-dom';
 
-export default createPage({ pageId: '1000' }, ({ route, params }: ICProps) => {
+const {
+  ENV,
+  appName,
+  cachePrefix,
+  REQUEST,
+  route: configRoute,
+  plugins,
+} = useEnv(); //route: configRoute
+
+export default createPage({ pageId: '1000' }, ({ route }: ICProps) => {
+  // const { pluginId } = useParams();
+  // const system = plugins[pluginId];
   const routeArr = route.split('/').filter(Boolean);
   const pluginId = routeArr[1];
+  const system = plugins[pluginId];
   // @ts-ignore
-  const [system, setSystem] = React.useState({
-    url: 'http://localhost:9000',
-    scope: `extension_${pluginId}`,
-    module: './index.module',
-  });
+  // const [system, setSystem] = useState({
+  //   url: 'http://10.84.230.10/doms-plugins/doms-customer/',
+  //   scope: `extension_${pluginId}`,
+  //   module: './index.module',
+  //   // url: 'http://localhost:8001',
+  //   // scope: `extension_ydcrm`,
+  //   // module: './index.module',
+  // });
+  console.log(system, pluginId);
+
   useEffect(() => {
-    const { ENV, appName, cachePrefix, REQUEST, route: configRoute } = useEnv(); //route: configRoute
     const { user, roles, permissions, routes } = toJS(rootStore.appStore);
+
     const pluginRoutes = routes[0].children.find(
       (i: IRouteMenuItem) => i.path == pluginId,
     );
+
+    const setProLayout = (flag: boolean) => {
+      runInAction(() => {
+        rootStore.appStore.layout.pure = flag;
+      });
+    };
+
     onMount({
       system,
       mountProps: {
         env: { ENV, appName, cachePrefix, REQUEST, configRoute },
         history,
-        appStoreProps: { user, roles, permissions },
+        appStoreProps: { user, roles, permissions, setProLayout },
         user,
         roles,
         permissions,
@@ -42,11 +65,5 @@ export default createPage({ pageId: '1000' }, ({ route, params }: ICProps) => {
     });
   }, [system]);
 
-  return (
-    <PageContainer pageHeaderRender={false}>
-      <Button onClick={() => navigate.goTo('/news/user')}>go</Button>
-      <Button onClick={() => navigate.goTo('/news/roles')}>come</Button>
-      <PluginComponent system={system} />
-    </PageContainer>
-  );
+  return <> {system ? <PluginComponent system={system} /> : <Empty />}</>;
 });

@@ -143,9 +143,7 @@ export class AppStore {
     /**
      * 设置http拦截器
      */
-    initHttpClient(env.REQUEST, async () => {
-      return this.logout();
-    });
+    initHttpClient(env.REQUEST);
     makeAutoObservable(this);
   }
   /* 静默授权获取凭证code */

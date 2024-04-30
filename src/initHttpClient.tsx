@@ -1,10 +1,9 @@
-import { cloneDeep, net, useToken } from '@/zero';
+import { cloneDeep, navigate, net, useEnv, useToken } from '@/zero';
 
 const { getToken, removeToken } = useToken();
 
 export default (
   REQUEST: Record<string, { baseURL: string; successCode: string }>,
-  cb: () => Promise<any>,
 ) => {
   net.interceptors.request.use((config) => {
     const token = getToken();
@@ -16,8 +15,6 @@ export default (
         'Content-Type': 'application/json;charset=utf-8',
       });
     }
-    console.log('plugin, rrrrr');
-
     const { url } = config;
     if (
       String(url).startsWith('http://') ||
@@ -51,21 +48,17 @@ export default (
     if (code === Number(successCode)) {
       return Promise.resolve(resp);
     }
-    if ([401].includes(code)) {
-      /**
-       * 正常流程中接口返回需要登录则直接进入登录页面，由登录页面统一处理登录逻辑
-       */
-      return cb().then(() => {
-        return Promise.reject({
-          ...resp,
-          data: { msg: data.msg || '用户未登录', code },
-        });
-      });
+    const { needLoginCode } = useEnv();
+    if (needLoginCode == Number(code)) {
+      removeToken();
+      sessionStorage.clearAll();
+      navigate.redirect(`/login`);
     }
     const cloneResp = cloneDeep(resp || {});
     let result = {
       msg: data.msg || data.desc || '服务器内部错误',
       code,
+      ...data,
     };
     cloneResp['data'] = result;
     return Promise.reject(cloneResp);

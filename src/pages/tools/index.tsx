@@ -59,7 +59,7 @@ export default () => {
   const { id } = useParams();
   const idKey = id ? MD5(id).toString() : undefined;
 
-  const [state, setState] = useMergeState({
+  const [state, setState] = useMergeState<any>({
     userId: user?.userId,
     response: null,
     pagePassword: '',

@@ -39,7 +39,7 @@ export default NiceModal.create(
     const [form] = Form.useForm();
     const modal = useNiceModal(MODAL_ID);
     const { routes } = useEnv();
-    const [state, setState] = useMergeState({
+    const [state, setState] = useMergeState<any>({
       parentId: modalInfo.parentId,
       menuTreeData: [],
       componentList: [],
